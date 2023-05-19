@@ -1,7 +1,7 @@
 # SolarEnergyMegaprojects
 
 ## Executive Summary
-Power can be produced sustainably and reliably by coupling solar power with energy storage, but the combined cost is currently high enough to discourage rapid market-forces-driven adoption. Two mega-project scale advanced concepts exist that aim to be more economical: Space-Based Solar and Near-Space Solar.
+Power can be produced sustainably and reliably by coupling solar power with energy storage, but the combined cost is currently high enough to discourage rapid market-forces-driven adoption. Two megaproject-scale advanced concepts exist that aim to be more economical: Space-Based Solar and Near-Space Solar.
 
 Space-Based Solar (SBS), located in geosynchronous orbit, has the best access to the Sun and needs minimal energy storage. Given the current state-of-the art, SBS is hundreds of times more expensive that Terrestrial Solar because: solar panels are less efficient and degrade faster in space, the power loss in the microwave transmission link is significant, space launch requirements lead to high capital costs and environmental impact, and the approach of beaming power to the Earth has significant environmental and regulatory challenges.
 
