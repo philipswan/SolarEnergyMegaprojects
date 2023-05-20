@@ -1,0 +1,35 @@
+.solar-charts .outputs {
+  margin: 12px;
+  background: #0078d7;
+  color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.solar-charts .row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.solar-charts .chart {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
+
+.solar-charts .table {
+  width: 40%;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.solar-charts .numOutput {
+  color: lime;
+}
