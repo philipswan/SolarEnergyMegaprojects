@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Editable Table and Sankey Diagram</title>
+  <title>Space-Based Solar Cost Analysis</title>
   <!-- Load the Google Charts API and the jQuery library -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -42,9 +42,11 @@
           ['RF to AC (Receiver Antenna Efficiency)', 0.5, 0.5, '', 0],
           ['AC to DC (Power Rectifier Efficiency)', 0.5, 0.5, '', 0],
           ['RF Energy Density Safety Limit', 200, 200, 'W/m2', 0],
-          ['Battery Depth of Discharge Factor', 0.8, 0.8, '', 0],
+          ['Battery Voltage Management Factor', 0.95, 0.95, '', 0],
+          ['Battery Depth Of Discharge Factor', 0.8, 0.8, '', 0],
           ['Battery Round Trip Efficiency', 0.8, 0.8, '', 0],
           ['DC to AC (Receiver Power Inverter Efficiency)', 0.9, 0.9, '', 0],
+          ['Horizontal Power Transmisison Factor', 1, 1, 'USD/m', 0], // default to zero loss
         ]);
 
         initTable('lossesTable', lossesTableData);
@@ -166,9 +168,12 @@
         var rxAntennaEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
         var rxPowerRectifierEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
         var rfEnergyDensitySafetyLimit = parseFloat(tableData.getValue(row, 2)); row++;
+        var energyStorageVoltageManagementFactor = parseFloat(tableData.getValue(row, 2)); row++;
         var energyStorageDepthOfDischargeFactor = parseFloat(tableData.getValue(row, 2)); row++;
         var energyStorageRoundTripEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
         var rxPowerInverterEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
+        var horizontalPowerTransmissionFactor = parseFloat(tableData.getValue(row, 2)); row++;
+
 
         var rxPowerInverterOutputPower = baseloadPowerDeliveredToGrid;
         var rxPowerInverterInputPower = rxPowerInverterOutputPower / rxPowerInverterEfficiency;
@@ -179,7 +184,8 @@
         var timeInEarthsShadowInSeconds = 24 * 3600 * earthsDiameter / geoCircumference;
         var energyStorageCapacityNeeded = baseloadPowerDeliveredToGrid * timeInEarthsShadowInSeconds / energyStorageDepthOfDischargeFactor; // GJ
         var energyStorageRechargeTime = 24 * 3600 - timeInEarthsShadowInSeconds; // s
-        var energyStorageRechargePower = energyStorageCapacityNeeded * energyStorageDepthOfDischargeFactor / energyStorageRoundTripEfficiency / energyStorageRechargeTime; // GJ
+        var energyStorageRechargePower = energyStorageCapacityNeeded * energyStorageDepthOfDischargeFactor / energyStorageRoundTripEfficiency / energyStorageRechargeTime / energyStorageVoltageManagementFactor; // GJ
+        var energyLostInVoltageManagement = energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor);
 
         var rxPowerRectifierOutputPower = rxPowerInverterInputPower + energyStorageRechargePower;
         var rxAntennaOutputPower = rxPowerRectifierOutputPower / rxPowerRectifierEfficiency;
@@ -248,21 +254,28 @@
         // Auto-impement percent improvement using the appropriate trend curve
 
         // Define the sankey chart options
-        const chartHeight = 600;
+        const chartWidth = 700;
+        const chartHeight = 700;
         const sf = 1.25;
         const sf2 = 3;
         var options = {
+          plotOptions: {
+              series: {
+                animation: false,
+              },
+            },
           title: {
             text: 'Space Solar Power Losses'
           },
           chart: {
-            // inverted: true, // top down vertical option, would be visually similar to sun rays travelling down to earth?
-            height: chartHeight * sf,
+            inverted: true,
+            height: chartHeight,
+            width: chartWidth * sf,
             spacingRight: 30,
             spacingLeft: 30,
             spacingTop: 30,
             spacingBottom: 30,
-            zoomType: 'y',
+            zoomType: 'y'
           },
           series: [{
             keys: ['from', 'to', 'weight', 'outgoing'],
@@ -282,8 +295,9 @@
               ['RFAC Power at Rx Antenna Output', 'DC Power at Rectifier Output', rxPowerRectifierOutputPower],
               ['DC Power at Inverter Input', 'Heating of Earth', rxPowerInverterInputPower - rxPowerInverterOutputPower],
               ['DC Power at Inverter Input', 'AC Power at Inverter Output', rxPowerInverterOutputPower, true],
-              ['DC Power at Rectifier Output', 'DC Power at Inverter Input', rxPowerInverterInputPower],
+              ['DC Power at Rectifier Output', 'Heating of Earth', energyLostInVoltageManagement],
               ['DC Power at Rectifier Output', 'Energy Storage Recharge', energyStorageRechargePower],
+              ['DC Power at Rectifier Output', 'DC Power at Inverter Input', rxPowerInverterInputPower],
             ],
             type: 'sankey',
             nodeWidth: 30,
@@ -302,37 +316,37 @@
               id: 'DC Electrical Power',
               column: 1,
               name: 'DC Electrical Power',
-              offsetVertical: chartHeight / 2 - chartHeight * dcElectricalPower / (incidentSolarPower * sf) / 2 + 1 * sf2,
+              offset: chartHeight / 2 - chartHeight * dcElectricalPower / (incidentSolarPower * sf) / 2 + 1 * sf2,
             }, {
               id: 'RFAC Power To Tx Antennas',
               column: 2,
               name: 'RFAC Power To Tx Antennas',
-              offsetVertical: chartHeight / 2 - chartHeight * rfPowerIntoTxAntennas / (incidentSolarPower * sf) / 2 + 2 * sf2,
+              offset: chartHeight / 2 - chartHeight * rfPowerIntoTxAntennas / (incidentSolarPower * sf) / 2 + 2 * sf2,
             }, {
               id: 'RF Power Emitted as Microwaves',
               column: 3,
               name: 'RF Power Emitted as Microwaves',
-              offsetVertical: chartHeight / 2 - chartHeight * rfPowerEmitted / (incidentSolarPower * sf) / 2 + 3 * sf2,
+              offset: chartHeight / 2 - chartHeight * rfPowerEmitted / (incidentSolarPower * sf) / 2 + 3 * sf2,
             }, {
               id: 'RF Power at Rx Antennas',
               column: 4,
               name: 'RF Power at Rx Antennas',
-              offsetVertical: chartHeight / 2 - chartHeight * incidentRfPower / (incidentSolarPower * sf) / 2 + 4 * sf2,
+              offset: chartHeight / 2 - chartHeight * incidentRfPower / (incidentSolarPower * sf) / 2 + 4 * sf2,
             }, {
               id: 'RFAC Power at Rx Antenna Output',
               column: 5,
               name: 'RFAC Power at Rx Antenna Output',
-              offsetVertical: chartHeight / 2 - chartHeight * rxAntennaOutputPower / (incidentSolarPower * sf) / 2 + 5 * sf2,
+              offset: chartHeight / 2 - chartHeight * rxAntennaOutputPower / (incidentSolarPower * sf) / 2 + 5 * sf2,
             }, {
               id: 'DC Power at Rectifier Output',
               column: 6,
               name: 'DC Power at Rectifier Output',
-              offsetVertical: chartHeight / 2 // - chartHeight * rxPowerRectifierOutputPower/(incidentSolarPower*sf) + 6*sf2,
+              offset: chartHeight / 2 + 15 // - chartHeight * rxPowerRectifierOutputPower/(incidentSolarPower*sf) + 6*sf2,
             }, {
               id: 'DC Power at Inverter Input',
               column: 7,
               name: 'DC Power at Inverter Input',
-              offsetVertical: chartHeight / 2 //- chartHeight * rxPowerInverterInputPower/(incidentSolarPower*sf) + 7*sf2,
+              offset: chartHeight / 2 + 20 //- chartHeight * rxPowerInverterInputPower/(incidentSolarPower*sf) + 7*sf2,
             }, {
               id: 'Reflected Energy',
               column: 8,
@@ -461,7 +475,10 @@
         var options = {
           plotOptions: {
             sankey: {
-
+              //...
+            },
+            series: {
+              animation: false,
             },
           },
           title: {
@@ -526,9 +543,10 @@
         drawCostsSankey(costsTableData, lossesOutputData);
 
         // quick and dirty display of the cost values you have in the console
-        document.getElementById('costsOutput').innerHTML = 'Capital Cost: ' + '<b style="color:blue">' + Math.round(costsOutput['capitalCost'] / 1e7)/1e2 + '</b>' + ' B USD' + "<br>" +
-          'Cost of Energy: ' + '<b style="color:blue">' + Math.round(costsOutput['costOfEnergy']*10000)/10000 + '</b>' + ' USD/kWh' + "<br>" +
-          'Relative Cost: ' + '<b style="color:blue">' + Math.round(costsOutput['relativeCost']*100)/100 + '</b>' + ' times the current wholesale price of electricity in the US ($0.05/kWh)' + "<br>";
+        document.getElementById('overallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
+        document.getElementById('capitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7)/1e2;
+        document.getElementById('costOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy']*10000)/10000;
+        document.getElementById('relativeCost').innerHTML = Math.round(costsOutput['relativeCost']*100)/100;
       }
 
       // Create the editable losses table
@@ -541,16 +559,65 @@
     }
 
   </script>
+    <style>
+      body {
+        margin: 0px;
+        font-family: sans-serif;
+      }
+  
+      .outputs {
+        margin: 12px;
+        background: #0078d7;
+        color: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        font-size: 24px;
+        line-height: 36px;
+      }
+  
+      .row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+      }
+  
+      .chart {
+        width: 60%;
+        display: flex;
+        justify-content: center;
+      }
+  
+      .table {
+        width: 40%;
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  
 </head>
 
 <body>
-  <div id="lossesTable"></div>
-  <div id="lossesSankey"></div>
-  <div id="costsTable"></div>
-  <div id="costsSankey"></div>
-  <div id="costsOutput"></div>
-  <br>
-  <div id="output"></div>
+  <div class="row">
+    <div class="chart" id="lossesSankey"></div>
+    <div class="table" id="lossesTable"></div>
+  </div>
+  <div class="outputs">
+    <div id="costsOutput">
+        Overall System Efficiency: <b id="overallSystemEfficiency" style="color:lime"></b>%<br>
+        Capital Cost: <b id="capitalCost" style="color:lime"></b> B USD<br>
+        Cost Of Energy: <b id="costOfEnergy" style="color:lime"></b> USD/kWh<br>
+        Relative Cost: <b id="relativeCost" style="color:lime"></b> times the current wholesale price of electricity in the US ($0.05/kWh)<br>
+    </div>
+    <div id="output"></div> 
+  </div>
+  <div class="row">
+    <div class="chart" id="costsSankey"></div>
+    <div class="table" id="costsTable"></div>
+  </div>
 </body>
 
 </html>

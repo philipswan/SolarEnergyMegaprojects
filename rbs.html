@@ -223,8 +223,8 @@
         var energyLostInVoltageManagement = energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)
 
         var dcElectricalPower = (powerInverterInputPower + energyStorageRechargePower + energyLostInVoltageManagement);
-        var windSpeed = 28 // m/s
-        var ringAltitude = 32000 // m
+        var windSpeed = avgWindSpeedInMps // m/s
+        var ringAltitude = siteAltitudeInMeters // m
         //var airDensity = 0.0132 // kg/m3
         var airDensity = airDensityAtAltitude(ringAltitude) // kg/m3
         
@@ -238,7 +238,7 @@
           return airDensityAtAltitude
         }
 
-        var Cd = 0.25  // Average Coefficient of Drag (assumes solar panels are actively oriented to maximize dcElectricalPower for given wind conditions)
+        var Cd = avgCoefficientOfDrag  // Average Coefficient of Drag (assumes solar panels are actively oriented to maximize dcElectricalPower for given wind conditions)
         var solarPanelEfficiency = solarPanelEfficiencyAtRefTemp * (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
 
         var solarPanelArrayArea = dcElectricalPower*1e9 / (solarPanelEfficiency * (1 - atmosphereAttenuation) * (1 - dirtAndDebrisAttenuation) * averageSolarIrradiance - 0.5 * Cd * windSpeed**3 * airDensity)
@@ -289,10 +289,16 @@
         const sf = 1.25;
         const sf2 = 3;
         var options = {
+          plotOptions: {
+            series: {
+              animation: false,
+            },
+          },
           title: {
             text: 'Ring-Based Solar Power Losses'
           },
           chart: {
+            animation: false,
             inverted: true,
             height: chartHeight,
             width: chartWidth * sf,
@@ -457,6 +463,9 @@
           plotOptions: {
             sankey: {
               // curveFactor: 0,
+            },
+            series: {
+              animation: false,
             },
           },
           title: {

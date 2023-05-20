@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Terrestrial Solar Cost Analysis</title>
+  <title>Ring-Based Solar Cost Analysis</title>
   <!-- Load the Google Charts API and the jQuery library -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -16,24 +16,6 @@
     // Load the Google Charts API
     google.charts.load('current', { 'packages': ['table'] });
     google.charts.setOnLoadCallback(initilizePage);
-
-
-    // Allen's notes:  
-    // 4/27/23 - first draft, appears to be working pending a math check. 
-
-    // I added an "Average Daylight Hours" option to the losses chart to reflect solar site variables like weather, latitude, etc.
-    // 
-    // I didnt bother renaming most variables which might be misleading so disregard any references to "rx", "satellite" etc.
-    // While i commented out most portions of code that needed to be cut, i did also have to make some inline deletions,
-    // so beware that uncommenting the stuff i cut will not necessarily restore it to accurate Space Based Solar.
-    // 
-    // A couple of things i noticed: the math that was given to me does not factor the portion of energy reflected into the cost, though 
-    // it does show it in the diagram. As the reflected portion increases, the heating of the panel proportionately decreases. I guess this 
-    // might be correct for all i know about solar panels but thought it was worth mention.
-    // Second, the battery depth of discharge factor makes such a minute impact on the cost that i'm not sure why it's in the chart,
-    // though you may have your own reasons for having it there.
-    // 
-    // I also removed jQuery as it doesnt look like you're using it
 
     function initilizePage() {
 
@@ -55,17 +37,16 @@
           ['Solar Panel Cell Efficiency At Ref Temp', 0.2, 0.2, '', 0],
           ['Reference Temperature', 25, 25, '°C', 0],
           ['Solar Panel Temperature Efficiency Factor', 0.0045, 0.0045, '1/°C', 0],
-          ['Solar Panel Operating Temperature', 30, 30, '°C', 0],
+          ['Solar Panel Operating Temperature', -40, -40, '°C', 0],  
           ['Solar Absorptivity', 0.96, 0.96, '', 0],
-          ['Latitude of Installation Site', 39.742043, 39.742043, 'degrees', 0], // defaults to Denver, roughly in the middle of the US?
-          ['Horizon-to-Horizon Angle', 170, 170, 'degrees', 0], // Very site dependant
-          ['Atmosphere Attenuation', 0.2, 0.2, '', 0],
-          ['Dirt and Debris Attenuation', 0.1, 0.1, '', 0],
-          ['Battery Voltage Management Factor', 0.95, 0.95, '', 0],
-          ['Battery Depth Of Discharge Factor', 0.8, 0.8, '', 0],
-          ['Battery Round Trip Efficiency', 0.8, 0.8, '', 0],
-          ['DC to AC (Power Inverter Efficiency)', 0.9, 0.9, '', 0],
+          ['Latitude of Ring', 0, 0, 'degrees', 0], // defaults to equator
+          ['Horizon-to-Horizon Angle', 200, 200, 'degrees', 0], // made up numbers from here down
+          ['Atmospheric Attenuation', 0.01, 0.01, '', 0],
+          ['Dirt and Debris Attenuation', 0.001, 0.001, '', 0],
+          ['Energy Storage Round Trip Efficiency', 0.8, 0.8, '', 0],
+          ['Vertical Power Transmisison Factor', .9, .9, 'USD/m', 0],
           ['Horizontal Power Transmisison Factor', 1, 1, 'USD/m', 0], // default to zero loss
+          ['DC to AC (Power Inverter Efficiency)', 0.9, 0.9, '', 0],
         ]);
 
         initTable('lossesTable', lossesTableData);
@@ -80,10 +61,15 @@
         costsTableData.addColumn('number', '% Improvement');
         costsTableData.addRows([
           ['Cost of Solar Panels', 300, 300, 'USD/m2', 0],
+          ['Mass of Solar Panels', 0.28, 0.28, "kg/m2", 0],
           ['Cost of Supporting Structure', 15, 15, 'USD/m2', 0],
-          ['Cost of Li-Ion Battery Storage', 217, 217, 'USD/kWh', 0],
-          ['Cost Factor for Battery Management Systems', 0.2, 0.2, '', 0],
-          ['Cost of Capital', 0.05, 0.05, '', 0],
+          ['Mass of Supporting Structure', .14, .14, 'kg/m2', 0],
+          ['Cost of Solar Actuators', 10, 10, 'USD/m2', 0], // made up
+          ['Mass of Solar Actuators', .05, .05, 'kg/m2', 0], // made up
+          ['Cost of Static Load', 113, 113, 'USD/kg', 0],
+          ['Cost for Station-Keeping', 100, 100, 'Watts/m2', 0], // made up number
+          ['Cost of Kinetic Storage', 100, 100, 'USD/kWh', 0], // made up
+          ['Cost of Capital', 0.05, 0.05, 'interest rate', 0],
           ['Life of Project', 30, 30, 'Years', 0],
         ]);
         initTable('costsTable', costsTableData);
@@ -137,6 +123,7 @@
             document.getElementById('output').innerHTML = 'Value successfully changed.';
             tableData.setCell(rowIndex, 2, value, formatValue.formatValue(value));
 
+
             drawPage()
 
             // drawTable(tableID, tableData, outputData);
@@ -171,14 +158,13 @@
         var horizonToHorizonAngleDegrees = parseFloat(tableData.getValue(row, 2)); row++;
         var atmosphereAttenuation = parseFloat(tableData.getValue(row, 2)); row++;
         var dirtAndDebrisAttenuation = parseFloat(tableData.getValue(row, 2)); row++;
-        var energyStorageVoltageManagementFactor = parseFloat(tableData.getValue(row, 2)); row++;
-        var energyStorageDepthOfDischargeFactor = parseFloat(tableData.getValue(row, 2)); row++;
         var energyStorageRoundTripEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
-        var rxPowerInverterEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
+        var verticalPowerTransmissionFactor = parseFloat(tableData.getValue(row, 2)); row++;
         var horizontalPowerTransmissionFactor = parseFloat(tableData.getValue(row, 2)); row++;
+        var rxPowerInverterEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
 
-
-        var powerInverterOutputPower = baseloadPowerDeliveredToGrid;
+        var verticalPowerTransmissionLoss = baseloadPowerDeliveredToGrid * (1 - verticalPowerTransmissionFactor);
+        var powerInverterOutputPower = baseloadPowerDeliveredToGrid + verticalPowerTransmissionLoss;
         var powerInverterInputPower = powerInverterOutputPower / rxPowerInverterEfficiency;
 
         // chatGPT function 
@@ -217,12 +203,11 @@
         var minDaylightHours = getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees);
 
         var timeInDarknessInSeconds = (24 - minDaylightHours) * secondsInHour;
-        var energyStorageCapacityNeeded = baseloadPowerDeliveredToGrid * timeInDarknessInSeconds / energyStorageDepthOfDischargeFactor; // GJ
+        var energyStorageCapacityNeeded = baseloadPowerDeliveredToGrid * timeInDarknessInSeconds; // GJ
         var energyStorageRechargeTime = 24 * 3600 - timeInDarknessInSeconds; // s
-        var energyStorageRechargePower = energyStorageCapacityNeeded * energyStorageDepthOfDischargeFactor / energyStorageRoundTripEfficiency / energyStorageRechargeTime / energyStorageVoltageManagementFactor; // GJ
-        var energyLostInVoltageManagement = energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)
+        var energyStorageRechargePower = energyStorageCapacityNeeded / energyStorageRoundTripEfficiency / energyStorageRechargeTime; // GJ
 
-        var dcElectricalPower = (powerInverterInputPower + energyStorageRechargePower + energyLostInVoltageManagement);
+        var dcElectricalPower = (powerInverterInputPower + energyStorageRechargePower);
         var solarPanelEfficiency = solarPanelEfficiencyAtRefTemp * (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
         var absorbedSolarPower = dcElectricalPower / solarPanelEfficiency;
         var incidentSolarPower = absorbedSolarPower / solarPanelAbsorptivity;
@@ -235,6 +220,8 @@
         var overallSystemEfficiency = baseloadPowerDeliveredToGrid / unattenuatedSolarPower;
         var solarPanelArrayArea = unattenuatedSolarPower * 1e9 / averageSolarIrradiance
         var solarPanelArrayDiameter = Math.sqrt(solarPanelArrayArea / Math.PI) * 2
+
+        
 
         lossesOutputData['baseloadPowerDeliveredToGrid'] = baseloadPowerDeliveredToGrid
         lossesOutputData['solarPanelArrayArea'] = solarPanelArrayArea
@@ -261,23 +248,15 @@
         // Auto-impement percent improvement using the appropriate trend curve
 
         // Define the sankey chart options
-        const chartWidth = 700;
-        const chartHeight = 700;
+        const chartHeight = 500;
         const sf = 1.25;
         const sf2 = 3;
         var options = {
-          plotOptions: {
-              series: {
-                animation: false,
-              },
-            },
           title: {
-            text: 'Terrestrial Solar Power Losses'
+            text: 'Ring-Based Solar Power Losses'
           },
           chart: {
-            inverted: true,
-            height: chartHeight,
-            width: chartWidth * sf,
+            height: chartHeight * sf,
             spacingRight: 30,
             spacingLeft: 30,
             spacingTop: 30,
@@ -285,7 +264,7 @@
             zoomType: 'y'
           },
           series: [{
-            keys: ['from', 'to', 'weight'],
+            keys: ['from', 'to', 'weight', 'outgoing', 'color'],
             data: [
               ['Unattenuated Solar Power', 'Atmosphere Attenuation', atmosphereAttenuatedSolarPower],
               ['Unattenuated Solar Power', 'Dirt and Debris Attenuation', dirtAndDebrisAttenuatedSolarPower],
@@ -295,11 +274,12 @@
               ['Incident Solar Power', 'Reflected Energy', reflectedSolarPower],
               ['Incident Solar Power', 'Lost as Heat', incidentSolarPower - reflectedSolarPower - dcElectricalPower],
               ['Incident Solar Power', 'DC Electrical Power', dcElectricalPower],
-              ['DC Electrical Power', 'Lost as Heat', energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)],
               ['DC Electrical Power', 'Energy Storage Recharge', energyStorageRechargePower],
               ['DC Electrical Power', 'DC Power at Inverter Input', powerInverterInputPower],
               ['DC Power at Inverter Input', 'Lost as Heat', powerInverterInputPower - powerInverterOutputPower],
               ['DC Power at Inverter Input', 'AC Power at Inverter Output', powerInverterOutputPower],
+              ['AC Power at Inverter Output', 'Lost as Heat', verticalPowerTransmissionLoss],
+              ['AC Power at Inverter Output', 'Delivered to Grid', baseloadPowerDeliveredToGrid, true, 'red'],
             ],
             type: 'sankey',
             nodeWidth: 30,
@@ -307,10 +287,10 @@
             minLinkWidth: 2,  // Warning - may generate a misleading plot!
             nodes: [
             {
-              id: 'Unattenuated Solar Power',
-              column: 0,
-              name: 'Unattenuated Solar Power',
-            }, {
+            //   id: 'Unattenuated Solar Power',
+            //   column: 0,
+            //   name: 'Unattenuated Solar Power',
+            // }, {
               id: 'Atmospheric Attenuation',
               column: 1,
               name: 'Atmosphere Attenuation',
@@ -329,32 +309,27 @@
               id: 'DC Electrical Power',
               column: 2,
               name: 'DC Electrical Power',
-              offset: chartWidth / 2 - 5,
+              offsetVertical: chartHeight / 2 - chartHeight * dcElectricalPower / (incidentSolarPower * sf) / 2 + 1 * sf2,
             }, {
               id: 'DC Power at Inverter Input',
               column: 3,
               name: 'DC Power at Inverter Input',
-              offset: chartHeight / 2 + 30 //chartWidth * powerInverterInputPower/(incidentSolarPower*sf) + 7*sf2,
+              offsetVertical: chartHeight / 2 - 15 //- chartHeight * powerInverterInputPower/(incidentSolarPower*sf) + 7*sf2,
             }, {
               id: 'Reflected Energy',
-              column: 4,
-              name: 'Reflected Energy',
+              column: 5,
             }, {
-              id: 'Heating of Panel',
-              column: 4,
-              name: 'Heating of Panel',
+              id: 'Lost as Heat',
+              column: 5,
             }, {
-              id: 'Heating of Earth',
-              column: 4,
-              name: 'Heating of Earth',
-            }, {
+              id: 'Energy Storage Recharge',
+              column: 5,
+            } , {
               id: 'AC Power at Inverter Output',
               column: 4,
               name: 'AC Power at Inverter Output',
-            }, {
-              id: 'Energy Storage Recharge',
-              column: 4,
-              name: 'Energy Storage Recharge',
+              offsetVertical: chartHeight / 2 - 15,
+              color: 'pink',
             }]
           }]
         };
@@ -368,25 +343,41 @@
         // Get the values from the editable table
         let row = 0
         var unitCostOfSolarPanels = parseFloat(tableData.getValue(row, 2)); row++;
+        var unitMassOfSolarPanels = parseFloat(tableData.getValue(row, 2)); row++;
         var unitCostOfSupportingStructure = parseFloat(tableData.getValue(row, 2)); row++;
-        var unitCostOfLiIonBatteryStorage = parseFloat(tableData.getValue(row, 2)); row++;
-        var costFactorforBatteryManagementSystems = parseFloat(tableData.getValue(row, 2)); row++;
+        var unitMassOfSupportingStructure = parseFloat(tableData.getValue(row, 2)); row++;
+        var unitCostofSolarActuators = parseFloat(tableData.getValue(row, 2)); row++;
+        var unitMassOfSolarActuators = parseFloat(tableData.getValue(row, 2)); row++;
+        var unitCostOfStaticLoad = parseFloat(tableData.getValue(row, 2)); row++;
+        var costOfStationKeeping = parseFloat(tableData.getValue(row, 2)); row++;
+        var costOfKineticEnergyStorage = parseFloat(tableData.getValue(row, 2)); row++;
         var costOfCapital = parseFloat(tableData.getValue(row, 2)); row++;
         var lifeofProject = parseFloat(tableData.getValue(row, 2)); row++;
 
         // Tally up component costs
         var costOfSolarPanelArray = unitCostOfSolarPanels * lossesOutputData['solarPanelArrayArea'];
         var costOfSolarPanelSupportingStructure = unitCostOfSupportingStructure * lossesOutputData['solarPanelArrayArea'];
-        var unitCostOfLiIonBatteryStorageInUSDPerGJ = unitCostOfLiIonBatteryStorage * 1000000 / 3600;
-        var costOfEnergyStorage = unitCostOfLiIonBatteryStorageInUSDPerGJ * lossesOutputData['energyStorageCapacityNeeded'] * (1 + costFactorforBatteryManagementSystems);
-        var totalSatelliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelSupportingStructure;
+        var costOfSolarActuators = unitCostofSolarActuators * lossesOutputData['solarPanelArrayArea'];
+        var totalSatteliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelSupportingStructure + costOfSolarActuators;
 
-        var totalComponentsCost = totalSatelliteComponentsCost + costOfEnergyStorage;
-        var satelliteCapitalCost = totalSatelliteComponentsCost;
-        var totalCapitalCost = totalComponentsCost; // etc.
+        // energy storage costs
+        var unitCostOfKineticEnergyStorageinGJ = costOfKineticEnergyStorage * 1000000 / 3600;
+        var costOfEnergyStorage = unitCostOfKineticEnergyStorageinGJ * lossesOutputData['energyStorageCapacityNeeded'];
+
+        // mass calc for static load
+        var massOfSolarPanelArray = unitMassOfSolarPanels * lossesOutputData['solarPanelArrayArea'];
+        var massOfSolarActuators = unitMassOfSolarActuators * lossesOutputData['solarPanelArrayArea'];
+        var massOfSolarPanelSupportingStructure = unitMassOfSupportingStructure * lossesOutputData['solarPanelArrayArea'];
+        var totalMassSupported = massOfSolarPanelArray + massOfSolarPanelSupportingStructure + massOfSolarActuators;
+        var costOfStaticLoad = totalMassSupported * unitCostOfStaticLoad;
+
+
+        // var totalComponentsCost = totalSatteliteComponentsCost + costOfEnergyStorage + costOfStaticLoad;
+        var satelliteCapitalCost = totalSatteliteComponentsCost;
+        var totalCapitalCost = totalSatteliteComponentsCost  + costOfEnergyStorage + costOfStaticLoad; // etc.
 
         var yearlyCapitalCost = totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject / ((1 + costOfCapital) ** lifeofProject - 1)
-        console.log(totalSatelliteComponentsCost/1e9, costOfEnergyStorage/1e9, yearlyCapitalCost/1e9);
+        console.log(totalSatteliteComponentsCost/1e9, costOfEnergyStorage/1e9, yearlyCapitalCost/1e9);
         // Other Costs not accounted for yet...
         // var costOfOperations = parseFloat(tableData.getValue(row, 2)); row++;
         // var costOfInsurance = parseFloat(tableData.getValue(row, 2)); row++;
@@ -413,12 +404,9 @@
             sankey: {
               // curveFactor: 0,
             },
-            series: {
-              animation: false,
-            },
           },
           title: {
-            text: 'Terrestrial Solar Power Costs'
+            text: 'Ring-Based Solar Power Costs'
           },
           chart: {
             height: chartHeight * sf,
@@ -433,9 +421,11 @@
             data: [
               ['Solar Panels', 'Solar Assembly', costOfSolarPanelArray],
               ['Support Structure', 'Solar Assembly', costOfSolarPanelSupportingStructure],
-              ['Solar Assembly', 'Installation Capital Cost', totalSatelliteComponentsCost],
+              ['Solar Actuators', 'Solar Assembly', costOfSolarActuators],
+              ['Solar Assembly', 'Installation Capital Cost', totalSatteliteComponentsCost],
+              ['Static Load Costs', 'Installation Capital Cost', costOfStaticLoad],
               ['Energy Storage', 'Installation Capital Cost', costOfEnergyStorage],
-              ['Installation Capital Cost', 'Total Capital Costs', satelliteCapitalCost + costOfEnergyStorage],
+              ['Installation Capital Cost', 'Total Capital Costs', satelliteCapitalCost + costOfEnergyStorage + costOfStaticLoad],
             ],
             type: 'sankey',
             nodeWidth: 30,
@@ -465,10 +455,9 @@
         drawCostsSankey(costsTableData, lossesOutputData);
 
         // quick and dirty display of the cost values you have in the console
-        document.getElementById('overallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
-        document.getElementById('capitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7)/1e2;
-        document.getElementById('costOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy']*10000)/10000;
-        document.getElementById('relativeCost').innerHTML = Math.round(costsOutput['relativeCost']*100)/100;
+        document.getElementById('costsOutput').innerHTML = 'Capital Cost: ' + '<b style="color:blue">' + Math.round(costsOutput['capitalCost'] / 1e7)/1e2 + '</b>' + ' B USD' + "<br>" +
+          'Cost Of Energy: ' + '<b style="color:blue">' + Math.round(costsOutput['costOfEnergy']*10000)/10000 + '</b>' + ' USD/kWh' + "<br>" +
+          'Relative Cost: ' + '<b style="color:blue">' + Math.round(costsOutput['relativeCost']*100)/100 + '</b>' + ' times the current wholesale price of electricity in the US ($0.05/kWh)' + "<br>";
       }
 
       // Create the editable losses table
@@ -481,65 +470,16 @@
     }
 
   </script>
-    <style>
-      body {
-        margin: 0px;
-        font-family: sans-serif;
-      }
-  
-      .outputs {
-        margin: 12px;
-        background: #0078d7;
-        color: #fff;
-        padding: 24px;
-        border-radius: 12px;
-        font-size: 24px;
-        line-height: 36px;
-      }
-  
-      .row {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #ddd;
-      }
-  
-      .chart {
-        width: 60%;
-        display: flex;
-        justify-content: center;
-      }
-  
-      .table {
-        width: 40%;
-        padding: 40px;
-        display: flex;
-        justify-content: center;
-      }
-    </style>
-  
 </head>
 
 <body>
-  <div class="row">
-    <div class="chart" id="lossesSankey"></div>
-    <div class="table" id="lossesTable"></div>
-  </div>
-  <div class="outputs">
-    <div id="costsOutput">
-        Overall System Efficiency: <b id="overallSystemEfficiency" style="color:lime"></b>%<br>
-        Capital Cost: <b id="capitalCost" style="color:lime"></b> B USD<br>
-        Cost Of Energy: <b id="costOfEnergy" style="color:lime"></b> USD/kWh<br>
-        Relative Cost: <b id="relativeCost" style="color:lime"></b> times the current wholesale price of electricity in the US ($0.05/kWh)<br>
-    </div>
-    <div id="output"></div> 
-  </div>
-  <div class="row">
-    <div class="chart" id="costsSankey"></div>
-    <div class="table" id="costsTable"></div>
-  </div>
+  <div id="lossesTable"></div>
+  <div id="lossesSankey"></div>
+  <div id="costsTable"></div>
+  <div id="costsSankey"></div>
+  <div id="costsOutput"></div>
+  <br>
+  <div id="output"></div>
 </body>
 
 </html>
