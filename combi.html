@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Solar Cost Analysis</title>
+    <!-- Load the Google Charts API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- load highcharts -->
+    <script src="js/highcharts.js"></script>
+    <script src="js/sankey.js"></script>
+    <!-- load our files -->
+    <script src="js/ts.js"></script>
+    <script src="js/sbs.js"></script>
+    <script src="js/rbs.js"></script>
+    <link rel='stylesheet' href="css/solar-comparison-styles.css" />
+</head>
+
+<body>
+    <div class='solar-charts'>
+        
+        <!-- TS section -->
+        <div class="row">
+            <div class="chart" id="TSlossesSankey"></div>
+            <div class="table" id="TSlossesTable"></div>
+        </div>
+        <div class="outputs">
+            <div id="TScostsOutput">
+                Overall System Efficiency: <b id="TSoverallSystemEfficiency" class="numOutput"></b>%<br>
+                Capital Cost: <b id="TScapitalCost" class="numOutput"></b> B USD<br>
+                Cost Of Energy: <b id="TScostOfEnergy" class="numOutput"></b> USD/kWh<br>
+                Relative Cost: <b id="TSrelativeCost" class="numOutput"></b> times the current wholesale price of
+                electricity in
+                the US ($0.05/kWh)<br>
+            </div>
+            <div id="output"></div>
+        </div>
+        <div class="row">
+            <div class="chart" id="TScostsSankey"></div>
+            <div class="table" id="TScostsTable"></div>
+        </div>
+
+        <!-- SBS section -->
+        <div class="row">
+            <div class="chart" id="SBSlossesSankey"></div>
+            <div class="table" id="SBSlossesTable"></div>
+        </div>
+        <div class="outputs">
+            <div id="SBScostsOutput">
+                Overall System Efficiency: <b id="SBSoverallSystemEfficiency" class="numOutput"></b>%<br>
+                Capital Cost: <b id="SBScapitalCost" class="numOutput"></b> B USD<br>
+                Cost Of Energy: <b id="SBScostOfEnergy" class="numOutput"></b> USD/kWh<br>
+                Relative Cost: <b id="SBSrelativeCost" class="numOutput"></b> times the current wholesale price of
+                electricity in
+                the US ($0.05/kWh)<br>
+            </div>
+            <div id="output"></div>
+        </div>
+        <div class="row">
+            <div class="chart" id="SBScostsSankey"></div>
+            <div class="table" id="SBScostsTable"></div>
+        </div>
+
+        <!-- rbs section -->
+        <div class="row">
+            <div class="chart" id="RBSlossesSankey"></div>
+            <div class="table" id="RBSlossesTable"></div>
+        </div>
+        <div class="outputs">
+            <div id="RBScostsOutput">
+                Overall System Efficiency: <b id="RBSoverallSystemEfficiency" class="numOutput"></b>%<br>
+                Capital Cost: <b id="RBScapitalCost" class="numOutput"></b> B USD<br>
+                Cost Of Energy: <b id="RBScostOfEnergy" class="numOutput"></b> USD/kWh<br>
+                Relative Cost: <b id="RBSrelativeCost" class="numOutput"></b> times the current wholesale price of
+                electricity in
+                the US ($0.05/kWh)<br>
+            </div>
+            <div id="output"></div>
+        </div>
+        <div class="row">
+            <div class="chart" id="RBScostsSankey"></div>
+            <div class="table" id="RBScostsTable"></div>
+        </div>
+
+    </div>
+</body>
+
+</html>

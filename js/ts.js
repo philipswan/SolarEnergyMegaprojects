@@ -53,7 +53,7 @@ function initilizePage() {
       ['Horizontal Power Transmisison Factor', 1, 1, 'USD/m', 0], // default to zero loss
     ]);
 
-    initTable('lossesTable', lossesTableData);
+    initTable('TSlossesTable', lossesTableData);
   }
 
   function initCostsTableData(costsTableData) {
@@ -71,7 +71,7 @@ function initilizePage() {
       ['Cost of Capital', 0.05, 0.05, '', 0],
       ['Life of Project', 30, 30, 'Years', 0],
     ]);
-    initTable('costsTable', costsTableData);
+    initTable('TScostsTable', costsTableData);
   }
 
   function initTable(tableID, tableData) {
@@ -345,7 +345,7 @@ function initilizePage() {
     };
 
     // Create the chart
-    Highcharts.chart('lossesSankey', options);
+    Highcharts.chart('TSlossesSankey', options);
 
   }
 
@@ -434,7 +434,7 @@ function initilizePage() {
     };
 
     // Create the chart
-    Highcharts.chart('costsSankey', options);
+    Highcharts.chart('TScostsSankey', options);
 
   }
 
@@ -450,10 +450,10 @@ function initilizePage() {
     drawCostsSankey(costsTableData, lossesOutputData);
 
     // quick and dirty display of the cost values you have in the console
-    document.getElementById('overallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
-    document.getElementById('capitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7)/1e2;
-    document.getElementById('costOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy']*10000)/10000;
-    document.getElementById('relativeCost').innerHTML = Math.round(costsOutput['relativeCost']*100)/100;
+    document.getElementById('TSoverallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
+    document.getElementById('TScapitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7)/1e2;
+    document.getElementById('TScostOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy']*10000)/10000;
+    document.getElementById('TSrelativeCost').innerHTML = Math.round(costsOutput['relativeCost']*100)/100;
   }
 
   // Create the editable losses table
