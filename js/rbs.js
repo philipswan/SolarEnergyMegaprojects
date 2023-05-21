@@ -29,7 +29,7 @@ function initilizePage() {
       ['Average Coefficient of Drag', 0.25, 0.25, '', 0],
       ['Average Wind Speed', 28, 28, 'm/s', 0],
       ['Atmospheric Attenuation', 0.01, 0.01, '', 0],
-      ['Dirt and Debris Attenuation', 0.001, 0.001, '', 0],
+      ['Dirt and Debris Attenuation', 0.01, 0.01, '', 0],
       ['Energy Storage Round Trip Efficiency', 0.8, 0.8, '', 0], // made up
       ['Energy Storage Voltage Management Factor', 0.95, 0.95, '', 0],
       ['Vertical Power Transmisison Factor', .9, .9, 'USD/m', 0],
@@ -166,25 +166,6 @@ function initilizePage() {
     }
 
     var horizonToHorizonAngleDegrees = h2hAngle(siteAltitudeInMeters);
-    // chatGPT function 
-    // function getMinimumDaylightHours(latitude) {
-    //   // Convert latitude to radians
-    //   const latRad = latitude * Math.PI / 180;
-    //   // Calculate the day of the year of the winter solstice
-    //   const dec21 = new Date(new Date().getFullYear(), 11, 21);
-    //   const solsticeMonth = latitude > 0 ? 11 : 5; // December or June
-    //   const solsticeDate = new Date(new Date().getFullYear(), solsticeMonth, 21);
-    //   const dayOfYear = Math.floor((solsticeDate - new Date(solsticeDate.getFullYear(), 0, 0)) / 86400000);
-    //   // Calculate the solar declination angle for the winter solstice
-    //   const solarDeclination = latitude > 0 ? -23.44 : 23.44;
-    //   const solarDeclinationRad = solarDeclination * Math.PI / 180;
-    //   // Calculate the hour angle of the sun at solar noon on the winter solstice
-    //   const hourAngle = Math.acos(-Math.tan(latRad) * Math.tan(solarDeclinationRad));
-    //   // Calculate the length of the day on the winter solstice in hours
-    //   const dayLength = 24 * hourAngle / Math.PI;
-
-    //   return dayLength;
-    // }
 
     function getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees) {
       // Convert latitude to radians
@@ -238,7 +219,11 @@ function initilizePage() {
     var incidentSolarPower = absorbedSolarPower / solarPanelAbsorptivity;
     var reflectedSolarPower = incidentSolarPower * (1 - solarPanelAbsorptivity);
 
-    var unattenuatedSolarPower = incidentSolarPower / (1 - atmosphereAttenuation) / (1 - dirtAndDebrisAttenuation);
+    var solarPowerNearPanel = incidentSolarPower / (1 - dirtAndDebrisAttenuation);
+    var solarPowerLostToDirtAndDebris = solarPowerNearPanel * dirtAndDebrisAttenuation;
+    var unattenuatedSolarPower = solarPowerNearPanel / (1 - atmosphereAttenuation);
+    var solarPowerLostToAtmosphere = unattenuatedSolarPower * atmosphereAttenuation;
+
     var atmosphereAttenuatedSolarPower = unattenuatedSolarPower * atmosphereAttenuation;
     var dirtAndDebrisAttenuatedSolarPower = unattenuatedSolarPower * dirtAndDebrisAttenuation;
 
@@ -296,22 +281,21 @@ function initilizePage() {
       series: [{
         keys: ['from', 'to', 'weight', 'outgoing', 'color'],
         data: [
-          ['Unattenuated Solar Power', 'Atmosphere Attenuation', atmosphereAttenuatedSolarPower],
-          ['Unattenuated Solar Power', 'Dirt and Debris Attenuation', dirtAndDebrisAttenuatedSolarPower],
-          ['Unattenuated Solar Power', 'Incident Solar Power', incidentSolarPower],
-          ['Atmosphere Attenuation', 'Reflected Energy', atmosphereAttenuatedSolarPower],
-          ['Dirt and Debris Attenuation', 'Reflected Energy', dirtAndDebrisAttenuatedSolarPower],
+          ['Unattenuated Solar Power', 'Atmosphere Loss', atmosphereAttenuatedSolarPower],
+          ['Unattenuated Solar Power', 'Solar Power Near Panel', solarPowerNearPanel],
+          ['Solar Power Near Panel', 'Dirt and Debris Loss', solarPowerLostToDirtAndDebris],
+          ['Solar Power Near Panel', 'Incident Solar Power', incidentSolarPower],
           ['Incident Solar Power', 'Reflected Energy', reflectedSolarPower],
-          ['Incident Solar Power', 'Lost as Heat', incidentSolarPower - reflectedSolarPower - dcPowerFromPanel],
+          ['Incident Solar Power', 'Lost as Heat 1', incidentSolarPower - reflectedSolarPower - dcPowerFromPanel],
           ['Incident Solar Power', 'DC Power From Panel', dcPowerFromPanel],
           ['DC Power From Panel', 'Station-Keeping Power', dcStationKeepingPower],
           ['DC Power From Panel', 'DC Electrical Power', dcElectricalPower],
-          ['DC Electrical Power', 'Lost as Heat', energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)],
+          ['DC Electrical Power', 'Lost as Heat 2', energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)],
           ['DC Electrical Power', 'Energy Storage Recharge', energyStorageRechargePower],
           ['DC Electrical Power', 'DC Power at Inverter Input', powerInverterInputPower],
-          ['DC Power at Inverter Input', 'Lost as Heat', powerInverterInputPower - powerInverterOutputPower],
+          ['DC Power at Inverter Input', 'Lost as Heat 3', powerInverterInputPower - powerInverterOutputPower],
           ['DC Power at Inverter Input', 'AC Power at Inverter Output', powerInverterOutputPower],
-          ['AC Power at Inverter Output', 'Lost as Heat', verticalPowerTransmissionLoss],
+          ['AC Power at Inverter Output', 'Lost as Heat 4', verticalPowerTransmissionLoss],
           ['AC Power at Inverter Output', 'Delivered to Grid', baseloadPowerDeliveredToGrid, true, 'red'],
         ],
         type: 'sankey',
@@ -326,56 +310,81 @@ function initilizePage() {
             name: 'Unattenuated Solar Power',
             // color: 'orange',
           }, {
-            id: 'Atmospheric Attenuation',
+            id: 'Atmosphere Loss',
             column: 1,
-            name: 'Atmosphere Attenuation',
-            offset: 100,
+            name: 'Atmosphere Loss',
+            //offset: 100,
+          }, {
+            id: 'Solar Power Near Panel',
+            column: 1,
+            name: 'Solar Power Near Panel',
+            //offset: 100,
           }, {
             id: 'Dirt and Debris Attenuation',
-            column: 1,
+            column: 2,
             name: 'Dirt and Debris Attenuation',
             // offset: chartWidth / 2 - chartWidth * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
           }, {
             id: 'Incident Solar Power',
-            column: 1,
+            column: 2,
             name: 'Incident Solar Power',
             // color: 'gold',
             // offset: chartWidth / 2 - chartWidth * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
           }, {
-            id: 'DC Power From Panel',
-            column: 2,
-            name: 'DC Power From Panel',
-            offset: chartWidth / 2 - 45,
-            // color: 'dodgerblue',
-          }, {
-            id: 'DC Electrical Power',
-            column: 3,
-            name: 'DC Electrical Power',
-            offset: chartWidth / 2 - 45,
-            // color: 'dodgerblue',
-          }, {
-            id: 'DC Power at Inverter Input',
-            column: 4,
-            name: 'DC Power at Inverter Input',
-            offset: chartWidth / 2,
-            // color: 'darkturquoise',
-          }, {
-            id: 'AC Power at Inverter Output',
-            column: 5,
-            offset: chartWidth / 2,
-            // color: 'aquamarine',
-          }, {
             id: 'Reflected Energy',
-            column: 6,
+            column: 3,
           }, {
-            id: 'Lost as Heat',
-            column: 6,
+            id: 'Lost as Heat 1',
+            column: 3,
+            name: 'Lost as Heat',
+          }, {
+            id: 'DC Power From Panel',
+            column: 3,
+            name: 'DC Power From Panel',
+            //offset: chartWidth / 2 - 45,
+            // color: 'dodgerblue',
           }, {
             id: 'Station-Keeping Power',
-            column: 6,
+            column: 4,
+            name: 'Station-Keeping Power',
+          }, {
+            id: 'DC Electrical Power',
+            column: 4,
+            name: 'DC Electrical Power',
+            offset: chartWidth / 4,
+            // color: 'dodgerblue',
+          }, {
+            id: 'Lost as Heat 2',
+            column: 5,
+            name: 'Lost as Heat',
+            offset: -chartWidth / 8,
           }, {
             id: 'Energy Storage Recharge',
+            column: 5,
+          }, {
+            id: 'DC Power at Inverter Input',
+            column: 5,
+            name: 'DC Power at Inverter Input',
+            offset: chartWidth / 4,
+            // color: 'darkturquoise',
+          }, {
+            id: 'Lost as Heat 3',
             column: 6,
+            name: 'Lost as Heat',
+          }, {
+            id: 'AC Power at Inverter Output',
+            column: 6,
+            offset: chartWidth / 4,
+            // color: 'aquamarine',
+          }, {
+            id: 'Lost as Heat 4',
+            column: 7,
+            name: 'Lost as Heat',
+          }, {
+            id: 'Delivered to Grid',
+            column: 7,
+            name: 'Delivered to Grid',
+            offset: chartWidth / 4,
           }]
       }]
     };

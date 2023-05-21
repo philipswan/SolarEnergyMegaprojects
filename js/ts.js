@@ -166,26 +166,6 @@ function initilizePage() {
     var powerInverterOutputPower = baseloadPowerDeliveredToGrid;
     var powerInverterInputPower = powerInverterOutputPower / rxPowerInverterEfficiency;
 
-    // chatGPT function 
-    // function getMinimumDaylightHours(latitude) {
-    //   // Convert latitude to radians
-    //   const latRad = latitude * Math.PI / 180;
-    //   // Calculate the day of the year of the winter solstice
-    //   const dec21 = new Date(new Date().getFullYear(), 11, 21);
-    //   const solsticeMonth = latitude > 0 ? 11 : 5; // December or June
-    //   const solsticeDate = new Date(new Date().getFullYear(), solsticeMonth, 21);
-    //   const dayOfYear = Math.floor((solsticeDate - new Date(solsticeDate.getFullYear(), 0, 0)) / 86400000);
-    //   // Calculate the solar declination angle for the winter solstice
-    //   const solarDeclination = latitude > 0 ? -23.44 : 23.44;
-    //   const solarDeclinationRad = solarDeclination * Math.PI / 180;
-    //   // Calculate the hour angle of the sun at solar noon on the winter solstice
-    //   const hourAngle = Math.acos(-Math.tan(latRad) * Math.tan(solarDeclinationRad));
-    //   // Calculate the length of the day on the winter solstice in hours
-    //   const dayLength = 24 * hourAngle / Math.PI;
-
-    //   return dayLength;
-    // }
-
     function getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees) {
       // Convert latitude to radians
       console.log('siteLatitudeInDegrees', siteLatitudeInDegrees)
