@@ -213,9 +213,10 @@ function initilizePage() {
     var incidentSolarPower = absorbedSolarPower / solarPanelAbsorptivity;
     var reflectedSolarPower = incidentSolarPower * (1 - solarPanelAbsorptivity);
 
-    var unattenuatedSolarPower = incidentSolarPower / (1 - atmosphereAttenuation) / (1 - dirtAndDebrisAttenuation);
-    var atmosphereAttenuatedSolarPower = unattenuatedSolarPower * atmosphereAttenuation;
-    var dirtAndDebrisAttenuatedSolarPower = unattenuatedSolarPower * dirtAndDebrisAttenuation;
+    var solarPowerNearPanel = incidentSolarPower / (1 - dirtAndDebrisAttenuation);
+    var solarPowerLostToDirtAndDebris = solarPowerNearPanel * dirtAndDebrisAttenuation;
+    var unattenuatedSolarPower = solarPowerNearPanel / (1 - atmosphereAttenuation);
+    var solarPowerLostToAtmosphere = unattenuatedSolarPower * atmosphereAttenuation;
 
     var overallSystemEfficiency = baseloadPowerDeliveredToGrid / unattenuatedSolarPower;
     var solarPanelArrayArea = unattenuatedSolarPower * 1e9 / averageSolarIrradiance
@@ -272,74 +273,85 @@ function initilizePage() {
       series: [{
         keys: ['from', 'to', 'weight'],
         data: [
-          ['Unattenuated Solar Power', 'Atmosphere Attenuation', atmosphereAttenuatedSolarPower],
-          ['Unattenuated Solar Power', 'Dirt and Debris Attenuation', dirtAndDebrisAttenuatedSolarPower],
-          ['Atmosphere Attenuation', 'Reflected Energy', atmosphereAttenuatedSolarPower],
-          ['Dirt and Debris Attenuation', 'Reflected Energy', dirtAndDebrisAttenuatedSolarPower],
-          ['Unattenuated Solar Power', 'Incident Solar Power', incidentSolarPower],
+          ['Unattenuated Solar Power', 'Atmosphere Loss', solarPowerLostToAtmosphere],
+          ['Unattenuated Solar Power', 'Solar Power Near Panel', solarPowerNearPanel],
+          ['Solar Power Near Panel', 'Dirt and Debris Loss', solarPowerLostToDirtAndDebris],
+          ['Solar Power Near Panel', 'Incident Solar Power', incidentSolarPower],
           ['Incident Solar Power', 'Reflected Energy', reflectedSolarPower],
-          ['Incident Solar Power', 'Lost as Heat', incidentSolarPower - reflectedSolarPower - dcElectricalPower],
+          ['Incident Solar Power', 'Lost as Heat 1', incidentSolarPower - reflectedSolarPower - dcElectricalPower],
           ['Incident Solar Power', 'DC Electrical Power', dcElectricalPower],
-          ['DC Electrical Power', 'Lost as Heat', energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)],
+          ['DC Electrical Power', 'Lost as Heat 2', energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)],
           ['DC Electrical Power', 'Energy Storage Recharge', energyStorageRechargePower],
           ['DC Electrical Power', 'DC Power at Inverter Input', powerInverterInputPower],
-          ['DC Power at Inverter Input', 'Lost as Heat', powerInverterInputPower - powerInverterOutputPower],
+          ['DC Power at Inverter Input', 'Lost as Heat 3', powerInverterInputPower - powerInverterOutputPower],
           ['DC Power at Inverter Input', 'AC Power at Inverter Output', powerInverterOutputPower],
         ],
         type: 'sankey',
         nodeWidth: 30,
         nodePadding: 20,
-        minLinkWidth: 2,  // Warning - may generate a misleading plot!
+        minLinkWidth: 1,  // Warning - may generate a misleading plot!
+        borderRadius: 0,
         nodes: [
         {
           id: 'Unattenuated Solar Power',
           column: 0,
           name: 'Unattenuated Solar Power',
         }, {
-          id: 'Atmospheric Attenuation',
+          id: 'Atmosphere Loss',
           column: 1,
-          name: 'Atmosphere Attenuation',
-          //offsetVertical: chartHeight / 2 - chartHeight * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
+          name: 'Atmosphere Loss',
         }, {
-          id: 'Dirt and Debris Attenuation',
+          id: 'Solar Power Near Panel',
           column: 1,
-          name: 'Dirt and Debris Attenuation',
-          //offsetVertical: chartHeight / 2 - chartHeight * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
+          name: 'Solar Power Near Panel',
+          //offset: chartHeight / 2 - chartHeight * (solarPowerNearPanel + solarPowerLostToAtmosphere) / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
+        }, {
+          id: 'Dirt and Debris Loss',
+          column: 2,
+          name: 'Dirt and Debris Loss',
         }, {
           id: 'Incident Solar Power',
-          column: 1,
-          name: 'Incident Solar Power',
-          //offsetVertical: chartHeight / 2 - chartHeight * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
-        }, {
-          id: 'DC Electrical Power',
           column: 2,
-          name: 'DC Electrical Power',
-          offset: chartWidth / 2 - 5,
-        }, {
-          id: 'DC Power at Inverter Input',
-          column: 3,
-          name: 'DC Power at Inverter Input',
-          offset: chartHeight / 2 + 30 //chartWidth * powerInverterInputPower/(incidentSolarPower*sf) + 7*sf2,
+          name: 'Incident Solar Power',
+          //offset: chartHeight / 2 - chartHeight * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
         }, {
           id: 'Reflected Energy',
-          column: 4,
+          column: 3,
           name: 'Reflected Energy',
         }, {
-          id: 'Heating of Panel',
-          column: 4,
-          name: 'Heating of Panel',
+          id: 'Lost as Heat 1',
+          column: 3,
+          name: 'Lost as Heat',
+          //offset: chartHeight / 8
         }, {
-          id: 'Heating of Earth',
-          column: 4,
-          name: 'Heating of Earth',
+          id: 'DC Electrical Power',
+          column: 3,
+          name: 'DC Electrical Power',
+          //offset: chartHeight / 3
+          //offset: chartHeight / 2 - chartHeight * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
         }, {
-          id: 'AC Power at Inverter Output',
+          id: 'Lost as Heat 2',
           column: 4,
-          name: 'AC Power at Inverter Output',
+          name: 'Lost as Heat',
         }, {
           id: 'Energy Storage Recharge',
           column: 4,
           name: 'Energy Storage Recharge',
+          offset: chartHeight / 8
+        }, {
+          id: 'DC Power at Inverter Input',
+          column: 4,
+          name: 'DC Power at Inverter Input',
+          offset: chartHeight / 2 - chartHeight * dcElectricalPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
+        }, {
+          id: 'Lost as Heat 3',
+          column: 5,
+          name: 'Lost as Heat',
+        }, {
+          id: 'AC Power at Inverter Output',
+          column: 5,
+          name: 'AC Power at Inverter Output',
+          offset: chartHeight / 2 - chartHeight * powerInverterOutputPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
         }]
       }]
     };
@@ -425,7 +437,8 @@ function initilizePage() {
         type: 'sankey',
         nodeWidth: 30,
         nodePadding: 20,
-        minLinkWidth: 3,  // Warning - may generate a misleading plot!
+        minLinkWidth: 1,  // Warning - may generate a misleading plot!
+        borderRadius: 0,
         nodes: [{
           id: 'Solar Assembly',
           offsetVertical: -70,
