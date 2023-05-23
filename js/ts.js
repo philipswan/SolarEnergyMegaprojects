@@ -9,8 +9,9 @@ let lossesTableRowData = [
     aspirationalValue: 2,
     unit: "GW",
     percentImprovement: 0,
-    popoverText: "According to the Solarsat.org FAQ, the microwave power link needs to be above 5GW to be efficient. The FAQ also estimates that a city of 1 million people needs approximately 2 GW of power. This number can be selected.",
-    source: "https://solarsat.org/faq.htm",
+    popoverText:
+      "According to the Solarsat.org FAQ, the microwave power link needs to be above 5GW to be efficient. The FAQ also estimates that a city of 1 million people needs approximately 2 GW of power. This number can be selected.",
+    sources: ["https://solarsat.org/faq.htm", "https://google.com"],
   },
   {
     label: "Average Solar Irradiance",
@@ -18,8 +19,9 @@ let lossesTableRowData = [
     aspirationalValue: 1361,
     unit: "W/m2",
     percentImprovement: 0,
-    popoverText: "Ranges from 1321 to 1414 throughout the year. It might be more appropriate to use the min or max solar irradiance depending on what time of year the worst-case load/efficiency will occur (i.e. summer or winter).",
-    source: "https://en.wikipedia.org/wiki/Solar_irradiance",
+    popoverText:
+      "Ranges from 1321 to 1414 throughout the year. It might be more appropriate to use the min or max solar irradiance depending on what time of year the worst-case load/efficiency will occur (i.e. summer or winter).",
+    sources: ["https://en.wikipedia.org/wiki/Solar_irradiance"],
   },
   {
     label: "Solar Panel Cell Efficiency At Ref Temp",
@@ -27,8 +29,9 @@ let lossesTableRowData = [
     aspirationalValue: 0.2,
     unit: "",
     percentImprovement: 0,
-    popoverText: "The National Renewable Energy Laboratory provides efficiencies of many research cells. This value is not intended to be the highest value on that chart. This value is the efficiency, at a “reference temperature”, of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).",
-    source: "https://www.nrel.gov/pv/cell-efficiency.html",
+    popoverText:
+      "The National Renewable Energy Laboratory provides efficiencies of many research cells. This value is not intended to be the highest value on that chart. This value is the efficiency, at a “reference temperature”, of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).",
+    sources: ["https://www.nrel.gov/pv/cell-efficiency.html"],
   },
   {
     label: "Reference Temperature",
@@ -37,7 +40,7 @@ let lossesTableRowData = [
     unit: "°C",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Solar Panel Temperature Efficiency Factor",
@@ -46,7 +49,7 @@ let lossesTableRowData = [
     unit: "1/°C",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Solar Panel Operating Temperature",
@@ -55,7 +58,7 @@ let lossesTableRowData = [
     unit: "°C",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Solar Absorptivity",
@@ -64,7 +67,7 @@ let lossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Latitude of Installation Site",
@@ -73,7 +76,7 @@ let lossesTableRowData = [
     unit: "degrees",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Horizon-to-Horizon Angle",
@@ -82,7 +85,7 @@ let lossesTableRowData = [
     unit: "degrees",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Atmosphere Attenuation",
@@ -90,8 +93,11 @@ let lossesTableRowData = [
     aspirationalValue: 0.2,
     unit: "",
     percentImprovement: 0,
-    popoverText: "\"Atmospheric conditions can reduce direct beam radiation by 10% on clear, dry days and by 100% during thick, cloudy days.\"",
-    source: "https://www.energy.gov/eere/solar/solar-radiation-basics#:~:text=The%20sum%20of%20the%20diffuse,%25%20during%20thick%2C%20cloudy%20days",
+    popoverText:
+      '"Atmospheric conditions can reduce direct beam radiation by 10% on clear, dry days and by 100% during thick, cloudy days."',
+    sources: [
+      "https://www.energy.gov/eere/solar/solar-radiation-basics#:~:text=The%20sum%20of%20the%20diffuse,%25%20during%20thick%2C%20cloudy%20days",
+    ],
   },
   {
     label: "Dirt and Debris Attenuation",
@@ -100,7 +106,7 @@ let lossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Battery Voltage Management Factor",
@@ -109,7 +115,7 @@ let lossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Battery Depth Of Discharge Factor",
@@ -118,7 +124,7 @@ let lossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Battery Round Trip Efficiency",
@@ -127,7 +133,7 @@ let lossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "DC to AC (Power Inverter Efficiency)",
@@ -136,7 +142,7 @@ let lossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
   {
     label: "Horizontal Power Transmisison Factor",
@@ -145,21 +151,35 @@ let lossesTableRowData = [
     unit: "USD/m",
     percentImprovement: 0,
     popoverText: "",
-    source: "",
+    sources: [""],
   },
 ];
 
 lossesTableRowData = lossesTableRowData.map((item) => {
-  return [
-    `${item.label}<a href="${item.source}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source</a><div class="popover"><div class="popover-inner">${item.popoverText} <a href="${item.source}" target="_blank" rel="noopener noreferrer">View Source</a></div></div>`,
-    item.stateOfTheArtValue,
-    item.aspirationalValue,
-    item.unit,
-    item.percentImprovement,
-  ];
+  if (item.sources != [""]) {
+    let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
+      return (acc += `<a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
+        idx + 1
+      }</a><br />`);
+    }, "");
+
+    let linksHTML = item.sources.reduce((acc, item, idx) => {
+      return (acc += `<a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a><br />`);
+    }, "");
+
+    return [
+      `${item.label} ${mobileLinksHTML} <div class="popover"><div class="popover-inner">${item.popoverText} ${linksHTML}</div></div>`,
+      item.stateOfTheArtValue,
+      item.aspirationalValue,
+      item.unit,
+      item.percentImprovement,
+    ];
+  } else {
+    return [item.label, item.stateOfTheArtValue, item.aspirationalValue, item.unit, item.percentImprovement];
+  }
 });
 
-console.log(lossesTableRowData);
+// console.log(lossesTableRowData);
 
 // <a href="https://www.eia.gov/tools/faqs/faq.php?id=427&t=3" class="mobile-link">View Source</a>
 // <div class="popover"><div class="popover-inner">
@@ -210,9 +230,7 @@ function initilizePage() {
       allowHtml: true, // Allow HTML in the cells to make them editable
     };
 
-    var table = new google.visualization.Table(
-      document.getElementById(tableID)
-    );
+    var table = new google.visualization.Table(document.getElementById(tableID));
     table.draw(tableData, tableOptions);
 
     google.visualization.events.addListener(table, "select", selectHandler);
@@ -249,8 +267,7 @@ function initilizePage() {
       var value = parseFloat(sender.target.innerHTML);
       if (!isNaN(value)) {
         sender.target.innerHTML = formatValue.formatValue(value);
-        document.getElementById("output").innerHTML =
-          "Value successfully changed.";
+        document.getElementById("output").innerHTML = "Value successfully changed.";
         tableData.setCell(rowIndex, 2, value, formatValue.formatValue(value));
 
         drawPage();
@@ -264,8 +281,7 @@ function initilizePage() {
         //   drawCostsSankey(tableData, outputData);
         // }
       } else {
-        document.getElementById("output").innerHTML =
-          "Error: Value not a number.";
+        document.getElementById("output").innerHTML = "Error: Value not a number.";
       }
       sender.target.contentEditable = false;
       sender.target.removeEventListener("blur", checkValue);
@@ -284,9 +300,7 @@ function initilizePage() {
     row++;
     var referenceTemperature = parseFloat(tableData.getValue(row, 2));
     row++;
-    var solarPanelTemperatureEfficiencyFactor = parseFloat(
-      tableData.getValue(row, 2)
-    );
+    var solarPanelTemperatureEfficiencyFactor = parseFloat(tableData.getValue(row, 2));
     row++;
     var operatingTemperature = parseFloat(tableData.getValue(row, 2));
     row++;
@@ -300,28 +314,19 @@ function initilizePage() {
     row++;
     var dirtAndDebrisAttenuation = parseFloat(tableData.getValue(row, 2));
     row++;
-    var energyStorageVoltageManagementFactor = parseFloat(
-      tableData.getValue(row, 2)
-    );
+    var energyStorageVoltageManagementFactor = parseFloat(tableData.getValue(row, 2));
     row++;
-    var energyStorageDepthOfDischargeFactor = parseFloat(
-      tableData.getValue(row, 2)
-    );
+    var energyStorageDepthOfDischargeFactor = parseFloat(tableData.getValue(row, 2));
     row++;
-    var energyStorageRoundTripEfficiency = parseFloat(
-      tableData.getValue(row, 2)
-    );
+    var energyStorageRoundTripEfficiency = parseFloat(tableData.getValue(row, 2));
     row++;
     var rxPowerInverterEfficiency = parseFloat(tableData.getValue(row, 2));
     row++;
-    var horizontalPowerTransmissionFactor = parseFloat(
-      tableData.getValue(row, 2)
-    );
+    var horizontalPowerTransmissionFactor = parseFloat(tableData.getValue(row, 2));
     row++;
 
     var powerInverterOutputPower = baseloadPowerDeliveredToGrid;
-    var powerInverterInputPower =
-      powerInverterOutputPower / rxPowerInverterEfficiency;
+    var powerInverterInputPower = powerInverterOutputPower / rxPowerInverterEfficiency;
 
     // chatGPT function
     // function getMinimumDaylightHours(latitude) {
@@ -343,77 +348,53 @@ function initilizePage() {
     //   return dayLength;
     // }
 
-    function getMinimumDaylightHours(
-      siteLatitudeInDegrees,
-      horizonToHorizonAngleDegrees
-    ) {
+    function getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees) {
       // Convert latitude to radians
       console.log("siteLatitudeInDegrees", siteLatitudeInDegrees);
       const latitude = (siteLatitudeInDegrees * Math.PI) / 180;
       const sunHalfAngle = ((0.5 / 2) * Math.PI) / 180;
-      const nightDayBoundryAngle =
-        ((90 - horizonToHorizonAngleDegrees / 2) * Math.PI) / 180;
+      const nightDayBoundryAngle = ((90 - horizonToHorizonAngleDegrees / 2) * Math.PI) / 180;
       const earthsTiltAnglePlus90Degrees = (-(90 + 23.44) * Math.PI) / 180;
       const xOverR =
-        (Math.sin(latitude) * Math.cos(earthsTiltAnglePlus90Degrees) -
-          Math.sin(nightDayBoundryAngle - sunHalfAngle)) /
+        (Math.sin(latitude) * Math.cos(earthsTiltAnglePlus90Degrees) - Math.sin(nightDayBoundryAngle - sunHalfAngle)) /
         (Math.sin(earthsTiltAnglePlus90Degrees) * Math.cos(latitude));
       const lengthOfDay = (24 * Math.acos(xOverR)) / Math.PI;
       console.log(xOverR, Math.acos(xOverR), "lengthOfDay", lengthOfDay);
       return lengthOfDay;
     }
 
-    var minDaylightHours = getMinimumDaylightHours(
-      siteLatitudeInDegrees,
-      horizonToHorizonAngleDegrees
-    );
+    var minDaylightHours = getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees);
 
     var timeInDarknessInSeconds = (24 - minDaylightHours) * secondsInHour;
     var energyStorageCapacityNeeded =
-      (baseloadPowerDeliveredToGrid * timeInDarknessInSeconds) /
-      energyStorageDepthOfDischargeFactor; // GJ
+      (baseloadPowerDeliveredToGrid * timeInDarknessInSeconds) / energyStorageDepthOfDischargeFactor; // GJ
     var energyStorageRechargeTime = 24 * 3600 - timeInDarknessInSeconds; // s
     var energyStorageRechargePower =
       (energyStorageCapacityNeeded * energyStorageDepthOfDischargeFactor) /
       energyStorageRoundTripEfficiency /
       energyStorageRechargeTime /
       energyStorageVoltageManagementFactor; // GJ
-    var energyLostInVoltageManagement =
-      energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor);
+    var energyLostInVoltageManagement = energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor);
 
-    var dcElectricalPower =
-      powerInverterInputPower +
-      energyStorageRechargePower +
-      energyLostInVoltageManagement;
+    var dcElectricalPower = powerInverterInputPower + energyStorageRechargePower + energyLostInVoltageManagement;
     var solarPanelEfficiency =
       solarPanelEfficiencyAtRefTemp *
-      (1 +
-        solarPanelTemperatureEfficiencyFactor *
-          (referenceTemperature - operatingTemperature));
+      (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
     var absorbedSolarPower = dcElectricalPower / solarPanelEfficiency;
     var incidentSolarPower = absorbedSolarPower / solarPanelAbsorptivity;
     var reflectedSolarPower = incidentSolarPower * (1 - solarPanelAbsorptivity);
 
-    var unattenuatedSolarPower =
-      incidentSolarPower /
-      (1 - atmosphereAttenuation) /
-      (1 - dirtAndDebrisAttenuation);
-    var atmosphereAttenuatedSolarPower =
-      unattenuatedSolarPower * atmosphereAttenuation;
-    var dirtAndDebrisAttenuatedSolarPower =
-      unattenuatedSolarPower * dirtAndDebrisAttenuation;
+    var unattenuatedSolarPower = incidentSolarPower / (1 - atmosphereAttenuation) / (1 - dirtAndDebrisAttenuation);
+    var atmosphereAttenuatedSolarPower = unattenuatedSolarPower * atmosphereAttenuation;
+    var dirtAndDebrisAttenuatedSolarPower = unattenuatedSolarPower * dirtAndDebrisAttenuation;
 
-    var overallSystemEfficiency =
-      baseloadPowerDeliveredToGrid / unattenuatedSolarPower;
-    var solarPanelArrayArea =
-      (unattenuatedSolarPower * 1e9) / averageSolarIrradiance;
+    var overallSystemEfficiency = baseloadPowerDeliveredToGrid / unattenuatedSolarPower;
+    var solarPanelArrayArea = (unattenuatedSolarPower * 1e9) / averageSolarIrradiance;
     var solarPanelArrayDiameter = Math.sqrt(solarPanelArrayArea / Math.PI) * 2;
 
-    lossesOutputData["baseloadPowerDeliveredToGrid"] =
-      baseloadPowerDeliveredToGrid;
+    lossesOutputData["baseloadPowerDeliveredToGrid"] = baseloadPowerDeliveredToGrid;
     lossesOutputData["solarPanelArrayArea"] = solarPanelArrayArea;
-    lossesOutputData["energyStorageCapacityNeeded"] =
-      energyStorageCapacityNeeded;
+    lossesOutputData["energyStorageCapacityNeeded"] = energyStorageCapacityNeeded;
     lossesOutputData["overallSystemEfficiency"] = overallSystemEfficiency;
 
     // ToDo
@@ -463,64 +444,23 @@ function initilizePage() {
         {
           keys: ["from", "to", "weight"],
           data: [
-            [
-              "Unattenuated Solar Power",
-              "Atmosphere Attenuation",
-              atmosphereAttenuatedSolarPower,
-            ],
-            [
-              "Unattenuated Solar Power",
-              "Dirt and Debris Attenuation",
-              dirtAndDebrisAttenuatedSolarPower,
-            ],
-            [
-              "Atmosphere Attenuation",
-              "Reflected Energy",
-              atmosphereAttenuatedSolarPower,
-            ],
-            [
-              "Dirt and Debris Attenuation",
-              "Reflected Energy",
-              dirtAndDebrisAttenuatedSolarPower,
-            ],
-            [
-              "Unattenuated Solar Power",
-              "Incident Solar Power",
-              incidentSolarPower,
-            ],
+            ["Unattenuated Solar Power", "Atmosphere Attenuation", atmosphereAttenuatedSolarPower],
+            ["Unattenuated Solar Power", "Dirt and Debris Attenuation", dirtAndDebrisAttenuatedSolarPower],
+            ["Atmosphere Attenuation", "Reflected Energy", atmosphereAttenuatedSolarPower],
+            ["Dirt and Debris Attenuation", "Reflected Energy", dirtAndDebrisAttenuatedSolarPower],
+            ["Unattenuated Solar Power", "Incident Solar Power", incidentSolarPower],
             ["Incident Solar Power", "Reflected Energy", reflectedSolarPower],
-            [
-              "Incident Solar Power",
-              "Lost as Heat",
-              incidentSolarPower - reflectedSolarPower - dcElectricalPower,
-            ],
+            ["Incident Solar Power", "Lost as Heat", incidentSolarPower - reflectedSolarPower - dcElectricalPower],
             ["Incident Solar Power", "DC Electrical Power", dcElectricalPower],
             [
               "DC Electrical Power",
               "Lost as Heat",
-              energyStorageRechargePower *
-                (1 - energyStorageVoltageManagementFactor),
+              energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor),
             ],
-            [
-              "DC Electrical Power",
-              "Energy Storage Recharge",
-              energyStorageRechargePower,
-            ],
-            [
-              "DC Electrical Power",
-              "DC Power at Inverter Input",
-              powerInverterInputPower,
-            ],
-            [
-              "DC Power at Inverter Input",
-              "Lost as Heat",
-              powerInverterInputPower - powerInverterOutputPower,
-            ],
-            [
-              "DC Power at Inverter Input",
-              "AC Power at Inverter Output",
-              powerInverterOutputPower,
-            ],
+            ["DC Electrical Power", "Energy Storage Recharge", energyStorageRechargePower],
+            ["DC Electrical Power", "DC Power at Inverter Input", powerInverterInputPower],
+            ["DC Power at Inverter Input", "Lost as Heat", powerInverterInputPower - powerInverterOutputPower],
+            ["DC Power at Inverter Input", "AC Power at Inverter Output", powerInverterOutputPower],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -605,9 +545,7 @@ function initilizePage() {
     row++;
     var unitCostOfLiIonBatteryStorage = parseFloat(tableData.getValue(row, 2));
     row++;
-    var costFactorforBatteryManagementSystems = parseFloat(
-      tableData.getValue(row, 2)
-    );
+    var costFactorforBatteryManagementSystems = parseFloat(tableData.getValue(row, 2));
     row++;
     var costOfCapital = parseFloat(tableData.getValue(row, 2));
     row++;
@@ -615,34 +553,23 @@ function initilizePage() {
     row++;
 
     // Tally up component costs
-    var costOfSolarPanelArray =
-      unitCostOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
-    var costOfSolarPanelSupportingStructure =
-      unitCostOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
-    var unitCostOfLiIonBatteryStorageInUSDPerGJ =
-      (unitCostOfLiIonBatteryStorage * 1000000) / 3600;
+    var costOfSolarPanelArray = unitCostOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
+    var costOfSolarPanelSupportingStructure = unitCostOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
+    var unitCostOfLiIonBatteryStorageInUSDPerGJ = (unitCostOfLiIonBatteryStorage * 1000000) / 3600;
     var costOfEnergyStorage =
       unitCostOfLiIonBatteryStorageInUSDPerGJ *
       lossesOutputData["energyStorageCapacityNeeded"] *
       (1 + costFactorforBatteryManagementSystems);
-    var totalSatelliteComponentsCost =
-      costOfSolarPanelArray + costOfSolarPanelSupportingStructure;
+    var totalSatelliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelSupportingStructure;
 
-    var totalComponentsCost =
-      totalSatelliteComponentsCost + costOfEnergyStorage;
+    var totalComponentsCost = totalSatelliteComponentsCost + costOfEnergyStorage;
     var satelliteCapitalCost = totalSatelliteComponentsCost;
     var totalCapitalCost = totalComponentsCost; // etc.
 
     var yearlyCapitalCost =
-      (totalCapitalCost *
-        costOfCapital *
-        (1 + costOfCapital) ** lifeofProject) /
+      (totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject) /
       ((1 + costOfCapital) ** lifeofProject - 1);
-    console.log(
-      totalSatelliteComponentsCost / 1e9,
-      costOfEnergyStorage / 1e9,
-      yearlyCapitalCost / 1e9
-    );
+    console.log(totalSatelliteComponentsCost / 1e9, costOfEnergyStorage / 1e9, yearlyCapitalCost / 1e9);
     // Other Costs not accounted for yet...
     // var costOfOperations = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfInsurance = parseFloat(tableData.getValue(row, 2)); row++;
@@ -650,13 +577,9 @@ function initilizePage() {
 
     var yearlyCosts = yearlyCapitalCost; // etc.
     var energyDeliveredToGridEachYearInGJ =
-      lossesOutputData["baseloadPowerDeliveredToGrid"] *
-      hoursInYear *
-      secondsInHour; // GJoules
-    var energyDeliveredToGridEachYearInKiloWattHours =
-      (energyDeliveredToGridEachYearInGJ * 1000000) / secondsInHour;
-    var costOfEnergy =
-      yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours;
+      lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
+    var energyDeliveredToGridEachYearInKiloWattHours = (energyDeliveredToGridEachYearInGJ * 1000000) / secondsInHour;
+    var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours;
     console.log("capitalCost", Math.round(totalCapitalCost / 1e9), "B USD");
     console.log("costOfEnergy", costOfEnergy, "USD/kWh");
     console.log(
@@ -698,26 +621,10 @@ function initilizePage() {
           keys: ["from", "to", "weight"],
           data: [
             ["Solar Panels", "Solar Assembly", costOfSolarPanelArray],
-            [
-              "Support Structure",
-              "Solar Assembly",
-              costOfSolarPanelSupportingStructure,
-            ],
-            [
-              "Solar Assembly",
-              "Installation Capital Cost",
-              totalSatelliteComponentsCost,
-            ],
-            [
-              "Energy Storage",
-              "Installation Capital Cost",
-              costOfEnergyStorage,
-            ],
-            [
-              "Installation Capital Cost",
-              "Total Capital Costs",
-              satelliteCapitalCost + costOfEnergyStorage,
-            ],
+            ["Support Structure", "Solar Assembly", costOfSolarPanelSupportingStructure],
+            ["Solar Assembly", "Installation Capital Cost", totalSatelliteComponentsCost],
+            ["Energy Storage", "Installation Capital Cost", costOfEnergyStorage],
+            ["Installation Capital Cost", "Total Capital Costs", satelliteCapitalCost + costOfEnergyStorage],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -751,12 +658,9 @@ function initilizePage() {
     document.getElementById("TSoverallSystemEfficiency").innerHTML = (
       lossesOutputData["overallSystemEfficiency"] * 100
     ).toFixed(2);
-    document.getElementById("TScapitalCost").innerHTML =
-      Math.round(costsOutput["capitalCost"] / 1e7) / 1e2;
-    document.getElementById("TScostOfEnergy").innerHTML =
-      Math.round(costsOutput["costOfEnergy"] * 10000) / 10000;
-    document.getElementById("TSrelativeCost").innerHTML =
-      Math.round(costsOutput["relativeCost"] * 100) / 100;
+    document.getElementById("TScapitalCost").innerHTML = Math.round(costsOutput["capitalCost"] / 1e7) / 1e2;
+    document.getElementById("TScostOfEnergy").innerHTML = Math.round(costsOutput["costOfEnergy"] * 10000) / 10000;
+    document.getElementById("TSrelativeCost").innerHTML = Math.round(costsOutput["relativeCost"] * 100) / 100;
   }
 
   // Create the editable losses table
