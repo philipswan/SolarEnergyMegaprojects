@@ -270,23 +270,23 @@ function initilizePage() {
         keys: ['from', 'to', 'weight', 'outgoing'],
         data: [
           ['Incident Solar Power', 'Reflected Energy', reflectedSolarPower],
-          ['Incident Solar Power', 'Heating of Satellite', incidentSolarPower - reflectedSolarPower - dcElectricalPower],
+          ['Incident Solar Power', 'Heating of Satellite 1', incidentSolarPower - reflectedSolarPower - dcElectricalPower],
           ['Incident Solar Power', 'DC Electrical Power', dcElectricalPower],
-          ['DC Electrical Power', 'Heating of Satellite', dcElectricalPower - rfPowerIntoTxAntennas],
+          ['DC Electrical Power', 'Heating of Satellite 2', dcElectricalPower - rfPowerIntoTxAntennas],
           ['DC Electrical Power', 'RFAC Power To Tx Antennas', rfPowerIntoTxAntennas],
-          ['RFAC Power To Tx Antennas', 'Heating of Satellite', rfPowerIntoTxAntennas - rfPowerEmitted],
+          ['RFAC Power To Tx Antennas', 'Heating of Satellite 3', rfPowerIntoTxAntennas - rfPowerEmitted],
           ['RFAC Power To Tx Antennas', 'RF Power Emitted as Microwaves', rfPowerEmitted],
-          ['RF Power Emitted as Microwaves', 'Heating of Earth', rfPowerEmitted - incidentRfPower],
+          ['RF Power Emitted as Microwaves', 'Heating of Earth 1', rfPowerEmitted - incidentRfPower],
           ['RF Power Emitted as Microwaves', 'RF Power at Rx Antennas', incidentRfPower],
-          ['RF Power at Rx Antennas', 'Heating of Earth', incidentRfPower - rxAntennaOutputPower],
+          ['RF Power at Rx Antennas', 'Heating of Earth 2', incidentRfPower - rxAntennaOutputPower],
           ['RF Power at Rx Antennas', 'RFAC Power at Rx Antenna Output', rxAntennaOutputPower],
-          ['RFAC Power at Rx Antenna Output', 'Heating of Earth', rxAntennaOutputPower - rxPowerRectifierOutputPower],
+          ['RFAC Power at Rx Antenna Output', 'Heating of Earth 3', rxAntennaOutputPower - rxPowerRectifierOutputPower],
           ['RFAC Power at Rx Antenna Output', 'DC Power at Rectifier Output', rxPowerRectifierOutputPower],
-          ['DC Power at Inverter Input', 'Heating of Earth', rxPowerInverterInputPower - rxPowerInverterOutputPower],
-          ['DC Power at Inverter Input', 'AC Power at Inverter Output', rxPowerInverterOutputPower, true],
-          ['DC Power at Rectifier Output', 'Heating of Earth', energyLostInVoltageManagement],
-          ['DC Power at Rectifier Output', 'Energy Storage Recharge', energyStorageRechargePower],
-          ['DC Power at Rectifier Output', 'DC Power at Inverter Input', rxPowerInverterInputPower],
+          ['DC Power at Rectifier Output', 'Heating of Earth 4', rxPowerRectifierOutputPower - rxPowerInverterOutputPower],
+          ['DC Power at Rectifier Output', 'AC Power at Inverter Output', rxPowerInverterOutputPower, true],
+          ['AC Power at Inverter Output', 'Heating of Earth 5', energyLostInVoltageManagement],
+          ['AC Power at Inverter Output', 'Energy Storage Recharge', energyStorageRechargePower],
+          ['AC Power at Inverter Output', 'AC Power to Grid', baseloadPowerDeliveredToGrid],
         ],
         type: 'sankey',
         nodeWidth: 30,
@@ -302,60 +302,86 @@ function initilizePage() {
           column: 0,
           name: 'Incident Solar Power',
         }, {
+          id: 'Reflected Energy',
+          column: 1,
+          name: 'Reflected Energy',
+        }, {
+          id: 'Heating of Satellite 1',
+          column: 1,
+          name: 'Heating of Satellite',
+        }, {
           id: 'DC Electrical Power',
           column: 1,
           name: 'DC Electrical Power',
-          offset: chartHeight / 2 - chartHeight * dcElectricalPower / (incidentSolarPower * sf) / 2 + 1 * sf2,
+          //offset: chartHeight / 2 - chartHeight * dcElectricalPower / (incidentSolarPower * sf) / 2 + 1 * sf2,
+        }, {
+          id: 'Heating of Satellite 2',
+          column: 2,
+          name: 'Heating of Satellite',
         }, {
           id: 'RFAC Power To Tx Antennas',
           column: 2,
           name: 'RFAC Power To Tx Antennas',
           offset: chartHeight / 2 - chartHeight * rfPowerIntoTxAntennas / (incidentSolarPower * sf) / 2 + 2 * sf2,
         }, {
+          id: 'Heating of Satellite 3',
+          column: 3,
+          name: 'Heating of Satellite',
+        }, {
           id: 'RF Power Emitted as Microwaves',
           column: 3,
           name: 'RF Power Emitted as Microwaves',
           offset: chartHeight / 2 - chartHeight * rfPowerEmitted / (incidentSolarPower * sf) / 2 + 3 * sf2,
+        }, {
+          id: 'Heating of Earth 1',
+          column: 4,
+          name: 'Heating of Earth',
         }, {
           id: 'RF Power at Rx Antennas',
           column: 4,
           name: 'RF Power at Rx Antennas',
           offset: chartHeight / 2 - chartHeight * incidentRfPower / (incidentSolarPower * sf) / 2 + 4 * sf2,
         }, {
+          id: 'Heating of Earth 2',
+          column: 5,
+          name: 'Heating of Earth',
+        }, {
           id: 'RFAC Power at Rx Antenna Output',
           column: 5,
           name: 'RFAC Power at Rx Antenna Output',
           offset: chartHeight / 2 - chartHeight * rxAntennaOutputPower / (incidentSolarPower * sf) / 2 + 5 * sf2,
+        }, {
+          id: 'Heating of Earth 3',
+          column: 6,
+          name: 'Heating of Earth',
         }, {
           id: 'DC Power at Rectifier Output',
           column: 6,
           name: 'DC Power at Rectifier Output',
           offset: chartHeight / 2 + 15 // - chartHeight * rxPowerRectifierOutputPower/(incidentSolarPower*sf) + 6*sf2,
         }, {
-          id: 'DC Power at Inverter Input',
+          id: 'Heating of Earth 4',
           column: 7,
-          name: 'DC Power at Inverter Input',
-          offset: chartHeight / 2 + 20 //- chartHeight * rxPowerInverterInputPower/(incidentSolarPower*sf) + 7*sf2,
-        }, {
-          id: 'Reflected Energy',
-          column: 8,
-          name: 'Reflected Energy',
-        }, {
-          id: 'Heating of Satellite',
-          column: 8,
-          name: 'Heating of Satellite',
-        }, {
-          id: 'Heating of Earth',
-          column: 8,
           name: 'Heating of Earth',
         }, {
           id: 'AC Power at Inverter Output',
-          column: 8,
+          column: 7,
           name: 'AC Power at Inverter Output',
+          offset: chartHeight / 2 + 20 //- chartHeight * rxPowerInverterInputPower/(incidentSolarPower*sf) + 7*sf2,
+        }, {
+          id: 'Heating of Earth 5',
+          column: 8,
+          name: 'Heating of Earth',
         }, {
           id: 'Energy Storage Recharge',
           column: 8,
           name: 'Energy Storage Recharge',
+          offset: chartHeight / 4
+        }, {
+          id: 'AC Power to Grid',
+          column: 8,
+          name: 'AC Power to Grid',
+          offset: chartHeight / 2
         }]
       }]
     };
