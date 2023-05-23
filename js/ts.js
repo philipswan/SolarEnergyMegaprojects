@@ -156,7 +156,7 @@ let lossesTableRowData = [
 ];
 
 lossesTableRowData = lossesTableRowData.map((item) => {
-  if (item.sources != [""]) {
+  if (item.sources[0] != "") {
     let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
       return (acc += `<a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
         idx + 1
