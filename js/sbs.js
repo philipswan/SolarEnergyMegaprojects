@@ -336,17 +336,19 @@ function formatRowData(data) {
   return data.map((item) => {
     if (item.sources[0] != "") {
       let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
-        return (acc += `<a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
+        return (acc += `<div><a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
           idx + 1
-        }</a><br />`);
+        }</a></div>`);
       }, "");
 
       let linksHTML = item.sources.reduce((acc, item, idx) => {
-        return (acc += `<a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a><br />`);
+        return (acc += `<div><a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${
+          idx + 1
+        }</a></div>`);
       }, "");
 
       return [
-        `${item.label} ${mobileLinksHTML} <div class="popover"><div class="popover-inner">${item.popoverText}<br>${linksHTML}</div></div>`,
+        `${item.label} ${mobileLinksHTML} <div class="popover"><div class="popover-inner">${item.popoverText}<div>${linksHTML}</div></div></div>`,
         item.stateOfTheArtValue,
         item.aspirationalValue,
         item.unit,
@@ -618,7 +620,7 @@ function initilizePage() {
         spacingLeft: 30,
         spacingTop: 30,
         spacingBottom: 30,
-        zoomType: "y",
+        // zoomType: "y",
       },
       series: [
         {
