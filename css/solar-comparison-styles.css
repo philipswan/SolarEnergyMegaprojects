@@ -81,3 +81,8 @@
     display: none;
   }
 }
+
+.elementor-shortcode br,
+.elementor-shortcode p {
+  display: none !important;
+}
