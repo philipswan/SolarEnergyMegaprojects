@@ -168,14 +168,12 @@ function initilizePage() {
 
     function getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees) {
       // Convert latitude to radians
-      console.log('siteLatitudeInDegrees', siteLatitudeInDegrees)
       const latitude = siteLatitudeInDegrees * Math.PI / 180;
       const sunHalfAngle = 0.5 / 2* Math.PI / 180;
       const nightDayBoundryAngle = (90 - horizonToHorizonAngleDegrees / 2) * Math.PI / 180;
       const earthsTiltAnglePlus90Degrees = -(90 + 23.44) * Math.PI / 180;
       const xOverR = (Math.sin(latitude)*Math.cos(earthsTiltAnglePlus90Degrees)-Math.sin(nightDayBoundryAngle-sunHalfAngle)) / (Math.sin(earthsTiltAnglePlus90Degrees)*Math.cos(latitude))
       const lengthOfDay = 24 * Math.acos(xOverR) / Math.PI;
-      console.log(xOverR, Math.acos(xOverR), 'lengthOfDay', lengthOfDay)
       return lengthOfDay;
     }
 
@@ -264,12 +262,13 @@ function initilizePage() {
           ['DC Electrical Power', 'Energy Storage Recharge', energyStorageRechargePower],
           ['DC Electrical Power', 'DC Power at Inverter Input', powerInverterInputPower],
           ['DC Power at Inverter Input', 'Lost as Heat 3', powerInverterInputPower - powerInverterOutputPower],
-          ['DC Power at Inverter Input', 'AC Power at Inverter Output', powerInverterOutputPower],
+          ['DC Power at Inverter Input', 'AC Power to Grid', powerInverterOutputPower],
         ],
         type: 'sankey',
         nodeWidth: 30,
-        nodePadding: 20,
+        nodePadding: 120,
         minLinkWidth: 1,  // Warning - may generate a misleading plot!
+        nodeAlignment: 2,
         borderRadius: 0,
         nodes: [
         {
@@ -284,7 +283,6 @@ function initilizePage() {
           id: 'Solar Power Near Panel',
           column: 1,
           name: 'Solar Power Near Panel',
-          //offset: chartHeight / 2 - chartHeight * (solarPowerNearPanel + solarPowerLostToAtmosphere) / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
         }, {
           id: 'Dirt and Debris Loss',
           column: 2,
@@ -293,7 +291,6 @@ function initilizePage() {
           id: 'Incident Solar Power',
           column: 2,
           name: 'Incident Solar Power',
-          //offset: chartHeight / 2 - chartHeight * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
         }, {
           id: 'Reflected Energy',
           column: 3,
@@ -302,13 +299,10 @@ function initilizePage() {
           id: 'Lost as Heat 1',
           column: 3,
           name: 'Lost as Heat',
-          //offset: chartHeight / 8
         }, {
           id: 'DC Electrical Power',
           column: 3,
-          name: 'DC Electrical Power',
-          //offset: chartHeight / 3
-          //offset: chartHeight / 2 - chartHeight * incidentSolarPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
+          name: 'DC From Panel',
         }, {
           id: 'Lost as Heat 2',
           column: 4,
@@ -317,21 +311,18 @@ function initilizePage() {
           id: 'Energy Storage Recharge',
           column: 4,
           name: 'Energy Storage Recharge',
-          offset: chartHeight / 8
         }, {
           id: 'DC Power at Inverter Input',
           column: 4,
-          name: 'DC Power at Inverter Input',
-          offset: chartHeight / 2 - chartHeight * dcElectricalPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
+          name: 'To Inverter',
         }, {
           id: 'Lost as Heat 3',
           column: 5,
           name: 'Lost as Heat',
         }, {
-          id: 'AC Power at Inverter Output',
+          id: 'AC Power to Grid',
           column: 5,
-          name: 'AC Power at Inverter Output',
-          offset: chartHeight / 2 - chartHeight * powerInverterOutputPower / (unattenuatedSolarPower * sf) / 2 + 1 * sf2,
+          name: 'AC to Grid',
         }]
       }]
     };
@@ -363,7 +354,7 @@ function initilizePage() {
     var totalCapitalCost = totalComponentsCost; // etc.
 
     var yearlyCapitalCost = totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject / ((1 + costOfCapital) ** lifeofProject - 1)
-    console.log(totalSatelliteComponentsCost/1e9, costOfEnergyStorage/1e9, yearlyCapitalCost/1e9);
+    //console.log(totalSatelliteComponentsCost/1e9, costOfEnergyStorage/1e9, yearlyCapitalCost/1e9);
     // Other Costs not accounted for yet...
     // var costOfOperations = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfInsurance = parseFloat(tableData.getValue(row, 2)); row++;
@@ -373,9 +364,9 @@ function initilizePage() {
     var energyDeliveredToGridEachYearInGJ = lossesOutputData['baseloadPowerDeliveredToGrid'] * hoursInYear * secondsInHour // GJoules
     var energyDeliveredToGridEachYearInKiloWattHours = energyDeliveredToGridEachYearInGJ * 1000000 / secondsInHour
     var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours
-    console.log('capitalCost', Math.round(totalCapitalCost / 1e9), 'B USD')
-    console.log('costOfEnergy', costOfEnergy, 'USD/kWh')
-    console.log('Relative Cost', Math.round(costOfEnergy / 0.05 * 100) / 100, 'times the current wholesale price of electricity in the US ($0.05/kWh)')
+    //console.log('capitalCost', Math.round(totalCapitalCost / 1e9), 'B USD')
+    //console.log('costOfEnergy', costOfEnergy, 'USD/kWh')
+    //console.log('Relative Cost', Math.round(costOfEnergy / 0.05 * 100) / 100, 'times the current wholesale price of electricity in the US ($0.05/kWh)')
 
     costsOutput['capitalCost'] = totalCapitalCost;
     costsOutput['costOfEnergy'] = costOfEnergy;

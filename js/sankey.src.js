@@ -1051,7 +1051,18 @@
                         height += nodeHeight;
                         return height;
                     }, 0);
-                    return ((series.chart.plotSizeY || 0) - height) / 2;
+                    const sel = series.options.nodeAlignment || 1;
+                    switch (sel) {
+                    case 0: // top aligned, or left aligned if inverted
+                        return 0;
+                        break;
+                    case 1: default: // Centered
+                        return ((series.chart.plotSizeY || 0) - height) / 2;
+                        break;
+                    case 2: // bottom aligned, or right aligned if inverted
+                        return ((series.chart.plotSizeY || 0) - height);
+                        break;
+                    }
                 }
                 /**
                  * Get the left position of the column in pixels
@@ -1118,9 +1129,8 @@
                     for (let i = 0; i < column.length; i++) {
                         const sum = column[i].getSum();
                         const height = Math.max(sum * factor, series.options.minLinkWidth || 0);
-                        const directionOffset = node.options[series.chart.inverted ?
-                            'offsetHorizontal' :
-                            'offsetVertical'], optionOffset = node.options.offset || 0;
+                        const directionOffset = node.options[series.chart.inverted ? 'offsetHorizontal' : 'offsetVertical'];
+                        const optionOffset = node.options.offset || 0;
                         if (sum) {
                             totalNodeOffset = height + nodePadding;
                         }
@@ -1131,8 +1141,7 @@
                         if (column[i] === node) {
                             return {
                                 relativeTop: offset + (defined(directionOffset) ?
-                                    // directionOffset is a percent
-                                    // of the node height
+                                    // directionOffset is a percentage of the node height
                                     relativeLength(directionOffset, height) :
                                     relativeLength(optionOffset, totalNodeOffset))
                             };
@@ -1565,9 +1574,7 @@
                 // Find out how much space is needed. Base it on the translation
                 // factor of the most spaceous column.
                 this.translationFactor = nodeColumns.reduce((translationFactor, column) => Math.min(translationFactor, column.sankeyColumn.getTranslationFactor(series)), Infinity);
-                this.colDistance =
-                    (chart.plotSizeX - nodeWidth -
-                        options.borderWidth) / Math.max(1, nodeColumns.length - 1);
+                this.colDistance = (chart.plotSizeX - nodeWidth - options.borderWidth) / Math.max(1, nodeColumns.length - 1);
                 // Calculate level options used in sankey and organization
                 series.mapOptionsToLevel = getLevelOptions({
                     // NOTE: if support for allowTraversingTree is added, then from
@@ -1725,12 +1732,20 @@
              * @private
              */
             translateNode(node, column) {
-                const translationFactor = this.translationFactor, chart = this.chart, options = this.options, { borderRadius, borderWidth = 0 } = options, sum = node.getSum(), nodeHeight = Math.max(Math.round(sum * translationFactor), this.options.minLinkWidth), nodeWidth = Math.round(this.nodeWidth), crisp = Math.round(borderWidth) % 2 / 2, nodeOffset = column.sankeyColumn.offset(node, translationFactor), fromNodeTop = Math.floor(pick(nodeOffset.absoluteTop, (column.sankeyColumn.top(translationFactor) +
-                    nodeOffset.relativeTop))) + crisp, left = Math.floor(this.colDistance * node.column +
-                    borderWidth / 2) + relativeLength(node.options.offsetHorizontal || 0, nodeWidth) +
-                    crisp, nodeLeft = chart.inverted ?
-                    chart.plotSizeX - left :
-                    left;
+                const translationFactor = this.translationFactor
+                const chart = this.chart
+                const options = this.options
+                const { borderRadius, borderWidth = 0 } = options
+                const sum = node.getSum()
+                const nodeHeight = Math.max(Math.round(sum * translationFactor), this.options.minLinkWidth)
+                const nodeWidth = Math.round(this.nodeWidth)
+                const crisp = Math.round(borderWidth) % 2 / 2
+                const nodeOffset = column.sankeyColumn.offset(node, translationFactor)
+                const fromNodeTop = Math.floor(
+                    pick(nodeOffset.absoluteTop, (column.sankeyColumn.top(translationFactor) + nodeOffset.relativeTop))
+                    ) + crisp
+                const left = Math.floor(this.colDistance * node.column + borderWidth / 2) + relativeLength(node.options.offsetHorizontal || 0, nodeWidth) + crisp
+                const nodeLeft = chart.inverted ? chart.plotSizeX - left : left;
                 node.sum = sum;
                 // If node sum is 0, don't render the rect #12453
                 if (sum) {
@@ -1738,7 +1753,10 @@
                     node.shapeType = 'roundedRect';
                     node.nodeX = nodeLeft;
                     node.nodeY = fromNodeTop;
-                    let x = nodeLeft, y = fromNodeTop, width = node.options.width || options.width || nodeWidth, height = node.options.height || options.height || nodeHeight;
+                    let x = nodeLeft;
+                    let y = fromNodeTop;
+                    let width = node.options.width || options.width || nodeWidth;
+                    let height = node.options.height || options.height || nodeHeight;
                     const r = relativeLength((typeof borderRadius === 'object' ?
                         borderRadius.radius :
                         borderRadius || 0), width);
