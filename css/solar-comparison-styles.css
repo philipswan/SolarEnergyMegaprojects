@@ -84,9 +84,22 @@
 }
 
 .elementor-shortcode br,
-.elementor-shortcode p {
+.elementor-shortcode p:empty,
+.elementor-widget-html br,
+.elementor-widget-html p:empty {
   display: none !important;
 }
+
+.wc-field-submit p:not(:empty) {
+  display: flex !important;
+}
+
+/* .elementor-shortcode .ql-editor br,
+.elementor-shortcode .ql-editor p,
+.elementor-shortcode .wpd-comment-text br,
+.elementor-shortcode .wpd-comment-text p {
+  display: block !important;
+} */
 
 .outputs-new-inner {
   display: flex;
@@ -97,7 +110,7 @@
   padding: 24px;
   padding-left: 72px;
   padding-right: 72px;
-  margin: 24px;
+  padding-bottom: 0px;
   margin-bottom: 0px;
   border: 1px solid #0078d7;
   border-radius: 6px;
