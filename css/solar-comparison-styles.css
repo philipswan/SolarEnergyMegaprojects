@@ -31,7 +31,7 @@
   justify-content: center;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 960px) {
   .solar-charts .row {
     flex-direction: column;
     width: 100%;
@@ -85,4 +85,56 @@
 .elementor-shortcode br,
 .elementor-shortcode p {
   display: none !important;
+}
+
+.outputs-new-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
+  font-family: sans-serif;
+  padding: 24px;
+  padding-left: 72px;
+  padding-right: 72px;
+  margin: 24px;
+  margin-bottom: 0px;
+  border: 1px solid #0078d7;
+  border-radius: 6px;
+  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.2);
+}
+
+.output-item {
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-bottom: 24px;
+}
+
+.unit {
+  font-size: 24px;
+  font-weight: bold;
+  color: #008cff;
+}
+
+.outputs-top {
+  display: flex;
+}
+
+.big-number {
+  font-size: 72px;
+  letter-spacing: -1px;
+  line-height: 72px;
+  color: #0078d7;
+}
+
+@media screen and (max-width: 960px) {
+  .outputs-new-inner {
+    flex-direction: column;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .output-item {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
