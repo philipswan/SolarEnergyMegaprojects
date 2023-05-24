@@ -390,7 +390,12 @@ function initilizePage() {
     };
 
     var table = new google.visualization.Table(document.getElementById(tableID));
-    table.draw(tableData, tableOptions);
+
+    // code to hide the currently unused '% improvement' column
+    var view = new google.visualization.DataView(tableData);
+    view.hideColumns([4]); // here you set the columns you want to hide
+
+    table.draw(view, tableOptions); // change 'view' back to 'tableData' to revert to displaying all columns
 
     google.visualization.events.addListener(table, "select", selectHandler);
 
