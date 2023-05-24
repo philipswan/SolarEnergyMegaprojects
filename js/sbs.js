@@ -34,7 +34,7 @@ const SBSlossesTableRowData = [
     label: "Reference Temperature",
     stateOfTheArtValue: 25,
     aspirationalValue: 25,
-    unit: "°C",
+    unit: "&deg;C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -43,7 +43,7 @@ const SBSlossesTableRowData = [
     label: "Solar Panel Temperature Efficiency Factor",
     stateOfTheArtValue: 0.0045,
     aspirationalValue: 0.0045,
-    unit: "1/°C",
+    unit: "1/&deg;C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -352,6 +352,14 @@ function formatRowData(data) {
         item.unit,
         item.percentImprovement,
       ];
+    } else if (item.popoverText != "") {
+      return [
+        `${item.label} <div class="popover"><div class="popover-inner">${item.popoverText}</div></div>`,
+        item.stateOfTheArtValue,
+        item.aspirationalValue,
+        item.unit,
+        item.percentImprovement,
+      ];
     } else {
       return [item.label, item.stateOfTheArtValue, item.aspirationalValue, item.unit, item.percentImprovement];
     }
@@ -612,116 +620,150 @@ function initilizePage() {
         spacingBottom: 30,
         zoomType: "y",
       },
-      series: [{
-        keys: ['from', 'to', 'weight', 'outgoing'],
-        data: [
-          ['Incident Solar Power', 'Reflected Energy', reflectedSolarPower],
-          ['Incident Solar Power', 'Heating of Satellite 1', incidentSolarPower - reflectedSolarPower - dcElectricalPower],
-          ['Incident Solar Power', 'DC Electrical Power', dcElectricalPower],
-          ['DC Electrical Power', 'Heating of Satellite 2', dcElectricalPower - rfPowerIntoTxAntennas],
-          ['DC Electrical Power', 'RFAC Power To Tx Antennas', rfPowerIntoTxAntennas],
-          ['RFAC Power To Tx Antennas', 'Heating of Satellite 3', rfPowerIntoTxAntennas - rfPowerEmitted],
-          ['RFAC Power To Tx Antennas', 'RF Power Emitted as Microwaves', rfPowerEmitted],
-          ['RF Power Emitted as Microwaves', 'Heating of Earth 1', rfPowerEmitted - incidentRfPower],
-          ['RF Power Emitted as Microwaves', 'RF Power at Rx Antennas', incidentRfPower],
-          ['RF Power at Rx Antennas', 'Heating of Earth 2', incidentRfPower - rxAntennaOutputPower],
-          ['RF Power at Rx Antennas', 'RFAC Power at Rx Antenna Output', rxAntennaOutputPower],
-          ['RFAC Power at Rx Antenna Output', 'Heating of Earth 3', rxAntennaOutputPower - rxPowerRectifierOutputPower],
-          ['RFAC Power at Rx Antenna Output', 'DC Power at Rectifier Output', rxPowerRectifierOutputPower],
-          ['DC Power at Rectifier Output', 'Heating of Earth 4', rxPowerRectifierOutputPower - rxPowerInverterOutputPower],
-          ['DC Power at Rectifier Output', 'AC Power at Inverter Output', rxPowerInverterOutputPower],
-          ['AC Power at Inverter Output', 'Heating of Earth 5', energyLostInVoltageManagement],
-          ['AC Power at Inverter Output', 'Energy Storage Recharge', energyStorageRechargePower],
-          ['AC Power at Inverter Output', 'AC Power to Grid', baseloadPowerDeliveredToGrid],
-        ],
-        type: 'sankey',
-        nodeWidth: 30,
-        nodePadding: 140,
-        minLinkWidth: 1,  // Warning - may generate a misleading plot!
-        nodeAlignment: 2,
-        borderRadius: 0,
-        layoutAlgorithm: {
-          type: 'sequential',
-          direction: 'right'
+      series: [
+        {
+          keys: ["from", "to", "weight", "outgoing"],
+          data: [
+            ["Incident Solar Power", "Reflected Energy", reflectedSolarPower],
+            [
+              "Incident Solar Power",
+              "Heating of Satellite 1",
+              incidentSolarPower - reflectedSolarPower - dcElectricalPower,
+            ],
+            ["Incident Solar Power", "DC Electrical Power", dcElectricalPower],
+            ["DC Electrical Power", "Heating of Satellite 2", dcElectricalPower - rfPowerIntoTxAntennas],
+            ["DC Electrical Power", "RFAC Power To Tx Antennas", rfPowerIntoTxAntennas],
+            ["RFAC Power To Tx Antennas", "Heating of Satellite 3", rfPowerIntoTxAntennas - rfPowerEmitted],
+            ["RFAC Power To Tx Antennas", "RF Power Emitted as Microwaves", rfPowerEmitted],
+            ["RF Power Emitted as Microwaves", "Heating of Earth 1", rfPowerEmitted - incidentRfPower],
+            ["RF Power Emitted as Microwaves", "RF Power at Rx Antennas", incidentRfPower],
+            ["RF Power at Rx Antennas", "Heating of Earth 2", incidentRfPower - rxAntennaOutputPower],
+            ["RF Power at Rx Antennas", "RFAC Power at Rx Antenna Output", rxAntennaOutputPower],
+            [
+              "RFAC Power at Rx Antenna Output",
+              "Heating of Earth 3",
+              rxAntennaOutputPower - rxPowerRectifierOutputPower,
+            ],
+            ["RFAC Power at Rx Antenna Output", "DC Power at Rectifier Output", rxPowerRectifierOutputPower],
+            [
+              "DC Power at Rectifier Output",
+              "Heating of Earth 4",
+              rxPowerRectifierOutputPower - rxPowerInverterOutputPower,
+            ],
+            ["DC Power at Rectifier Output", "AC Power at Inverter Output", rxPowerInverterOutputPower],
+            ["AC Power at Inverter Output", "Heating of Earth 5", energyLostInVoltageManagement],
+            ["AC Power at Inverter Output", "Energy Storage Recharge", energyStorageRechargePower],
+            ["AC Power at Inverter Output", "AC Power to Grid", baseloadPowerDeliveredToGrid],
+          ],
+          type: "sankey",
+          nodeWidth: 30,
+          nodePadding: 140,
+          minLinkWidth: 1, // Warning - may generate a misleading plot!
+          nodeAlignment: 2,
+          borderRadius: 0,
+          layoutAlgorithm: {
+            type: "sequential",
+            direction: "right",
+          },
+          nodes: [
+            {
+              id: "Incident Solar Power",
+              column: 0,
+              name: "Incident Solar Power",
+            },
+            {
+              id: "Reflected Energy",
+              column: 1,
+              name: "Reflected Energy",
+            },
+            {
+              id: "Heating of Satellite 1",
+              column: 1,
+              name: "Heating of Satellite",
+            },
+            {
+              id: "DC Electrical Power",
+              column: 1,
+              name: "DC Electrical Power",
+            },
+            {
+              id: "Heating of Satellite 2",
+              column: 2,
+              name: "Heating of Satellite",
+            },
+            {
+              id: "RFAC Power To Tx Antennas",
+              column: 2,
+              name: "RFAC To Tx Antennas",
+            },
+            {
+              id: "Heating of Satellite 3",
+              column: 3,
+              name: "Heating of Satellite",
+            },
+            {
+              id: "RF Power Emitted as Microwaves",
+              column: 3,
+              name: "Microwaves Out",
+            },
+            {
+              id: "Heating of Earth 1",
+              column: 4,
+              name: "Heat",
+            },
+            {
+              id: "RF Power at Rx Antennas",
+              column: 4,
+              name: "Microwaves In",
+            },
+            {
+              id: "Heating of Earth 2",
+              column: 5,
+              name: "Heat",
+            },
+            {
+              id: "RFAC Power at Rx Antenna Output",
+              column: 5,
+              name: "RFAC from Rx Antenna",
+            },
+            {
+              id: "Heating of Earth 3",
+              column: 6,
+              name: "Heat",
+            },
+            {
+              id: "DC Power at Rectifier Output",
+              column: 6,
+              name: "DC from Rectifier",
+            },
+            {
+              id: "Heating of Earth 4",
+              column: 7,
+              name: "Heat",
+            },
+            {
+              id: "AC Power at Inverter Output",
+              column: 7,
+              name: "AC from Inverter",
+            },
+            {
+              id: "Heating of Earth 5",
+              column: 8,
+              name: "Heat",
+            },
+            {
+              id: "Energy Storage Recharge",
+              column: 8,
+              name: "Energy Storage Recharge",
+            },
+            {
+              id: "AC Power to Grid",
+              column: 8,
+              name: "To Grid",
+            },
+          ],
         },
-        nodes: [{
-          id: 'Incident Solar Power',
-          column: 0,
-          name: 'Incident Solar Power',
-        }, {
-          id: 'Reflected Energy',
-          column: 1,
-          name: 'Reflected Energy',
-        }, {
-          id: 'Heating of Satellite 1',
-          column: 1,
-          name: 'Heating of Satellite',
-        }, {
-          id: 'DC Electrical Power',
-          column: 1,
-          name: 'DC Electrical Power',
-        }, {
-          id: 'Heating of Satellite 2',
-          column: 2,
-          name: 'Heating of Satellite',
-        }, {
-          id: 'RFAC Power To Tx Antennas',
-          column: 2,
-          name: 'RFAC To Tx Antennas',
-        }, {
-          id: 'Heating of Satellite 3',
-          column: 3,
-          name: 'Heating of Satellite',
-        }, {
-          id: 'RF Power Emitted as Microwaves',
-          column: 3,
-          name: 'Microwaves Out',
-        }, {
-          id: 'Heating of Earth 1',
-          column: 4,
-          name: 'Heat',
-        }, {
-          id: 'RF Power at Rx Antennas',
-          column: 4,
-          name: 'Microwaves In',
-        }, {
-          id: 'Heating of Earth 2',
-          column: 5,
-          name: 'Heat',
-        }, {
-          id: 'RFAC Power at Rx Antenna Output',
-          column: 5,
-          name: 'RFAC from Rx Antenna',
-        }, {
-          id: 'Heating of Earth 3',
-          column: 6,
-          name: 'Heat',
-        }, {
-          id: 'DC Power at Rectifier Output',
-          column: 6,
-          name: 'DC from Rectifier',
-        }, {
-          id: 'Heating of Earth 4',
-          column: 7,
-          name: 'Heat',
-        }, {
-          id: 'AC Power at Inverter Output',
-          column: 7,
-          name: 'AC from Inverter',
-        }, {
-          id: 'Heating of Earth 5',
-          column: 8,
-          name: 'Heat',
-        }, {
-          id: 'Energy Storage Recharge',
-          column: 8,
-          name: 'Energy Storage Recharge',
-        }, {
-          id: 'AC Power to Grid',
-          column: 8,
-          name: 'To Grid',
-        }]
-      }]
+      ],
     };
 
     // Create the chart
@@ -839,12 +881,13 @@ function initilizePage() {
     // var costOfInsurance = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfMaintenance = parseFloat(tableData.getValue(row, 2)); row++;
 
-    var yearlyCosts = yearlyCapitalCost // etc.
-    var hoursInYear = 8760
-    var secondsInHour = 3600
-    var energyDeliveredToGridEachYearInGJ = lossesOutputData['baseloadPowerDeliveredToGrid'] * hoursInYear * secondsInHour // GJoules
-    var energyDeliveredToGridEachYearInKiloWattsHours = energyDeliveredToGridEachYearInGJ * 1000000 / secondsInHour
-    var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattsHours
+    var yearlyCosts = yearlyCapitalCost; // etc.
+    var hoursInYear = 8760;
+    var secondsInHour = 3600;
+    var energyDeliveredToGridEachYearInGJ =
+      lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
+    var energyDeliveredToGridEachYearInKiloWattsHours = (energyDeliveredToGridEachYearInGJ * 1000000) / secondsInHour;
+    var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattsHours;
     //console.log('capitalCost', Math.round(totalCapitalCost / 1e9), 'B USD')
     //console.log('costOfEnergy', costOfEnergy, 'USD/kWh')
     //console.log('Relative Cost', Math.round(costOfEnergy / 0.05 * 100) / 100, 'times the current wholesale price of electricity in the US ($0.05/kWh)')
