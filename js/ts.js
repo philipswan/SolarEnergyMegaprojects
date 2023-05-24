@@ -468,7 +468,7 @@ function initilizePage() {
       chart: {
         inverted: true,
         height: chartHeight,
-        width: chartWidth * sf,
+        // width: chartWidth * sf,
         spacingRight: 30,
         spacingLeft: 30,
         spacingTop: 30,
