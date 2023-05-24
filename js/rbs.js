@@ -1,21 +1,303 @@
 // Load the Google Charts API
-google.charts.load('current', { 'packages': ['table'] });
+google.charts.load("current", { packages: ["table"] });
 google.charts.setOnLoadCallback(initilizePage);
 
-function initilizePage() {
+const RBSlossesTableRowData = [
+  {
+    label: "Baseload Power Delivered To Grid",
+    stateOfTheArtValue: 2,
+    aspirationalValue: 2,
+    unit: "GW",
+    percentImprovement: 0,
+    popoverText: "sample test a;sldkjf",
+    sources: ["site.site", "assadf.com"],
+  },
+  {
+    label: "Average Solar Irradiance",
+    stateOfTheArtValue: 1361,
+    aspirationalValue: 1361,
+    unit: "W/m2",
+    percentImprovement: 0,
+    popoverText: "Ranges from 1321 to 1414 throughout the year",
+    sources: [""],
+  },
+  {
+    label: "Solar Panel Cell Efficiency At Ref Temp",
+    stateOfTheArtValue: 0.2,
+    aspirationalValue: 0.2,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Reference Temperature",
+    stateOfTheArtValue: 25,
+    aspirationalValue: 25,
+    unit: "°C",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Solar Panel Temperature Efficiency Factor",
+    stateOfTheArtValue: 0.0045,
+    aspirationalValue: 0.0045,
+    unit: "1/°C",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Solar Panel Operating Temperature",
+    stateOfTheArtValue: -40,
+    aspirationalValue: -40,
+    unit: "°C",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Solar Absorptivity",
+    stateOfTheArtValue: 0.96,
+    aspirationalValue: 0.96,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Latitude of Ring",
+    stateOfTheArtValue: 0,
+    aspirationalValue: 0,
+    unit: "degrees",
+    percentImprovement: 0,
+    popoverText: "Defaults to equator",
+    sources: [""],
+  },
+  {
+    label: "Ring Altitude",
+    stateOfTheArtValue: 32000,
+    aspirationalValue: 32000,
+    unit: "meters",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Average Coefficient of Drag",
+    stateOfTheArtValue: 0.25,
+    aspirationalValue: 0.25,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Average Wind Speed",
+    stateOfTheArtValue: 28,
+    aspirationalValue: 28,
+    unit: "m/s",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Atmospheric Attenuation",
+    stateOfTheArtValue: 0.01,
+    aspirationalValue: 0.01,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Dirt and Debris Attenuation",
+    stateOfTheArtValue: 0.01,
+    aspirationalValue: 0.01,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Energy Storage Round Trip Efficiency",
+    stateOfTheArtValue: 0.8,
+    aspirationalValue: 0.8,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "Made up",
+    sources: [""],
+  },
+  {
+    label: "Energy Storage Voltage Management Factor",
+    stateOfTheArtValue: 0.95,
+    aspirationalValue: 0.95,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Vertical Power Transmisison Factor",
+    stateOfTheArtValue: 0.9,
+    aspirationalValue: 0.9,
+    unit: "USD/m",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Horizontal Power Transmisison Factor",
+    stateOfTheArtValue: 1,
+    aspirationalValue: 1,
+    unit: "USD/m",
+    percentImprovement: 0,
+    popoverText: "Default to zero loss",
+    sources: [""],
+  },
+  {
+    label: "DC to AC (Power Inverter Efficiency)",
+    stateOfTheArtValue: 0.9,
+    aspirationalValue: 0.9,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+];
 
+const RBScostsTableRowData = [
+  {
+    label: "Cost of Solar Panels",
+    stateOfTheArtValue: 300,
+    aspirationalValue: 300,
+    unit: "USD/m2",
+    percentImprovement: 0,
+    popoverText: "costs sample test",
+    sources: ["a;sldkjf.com", "as;lfkj.com"],
+  },
+  {
+    label: "Mass of Solar Panels",
+    stateOfTheArtValue: 0.28,
+    aspirationalValue: 0.28,
+    unit: "kg/m2",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Cost of Supporting Structure",
+    stateOfTheArtValue: 15,
+    aspirationalValue: 15,
+    unit: "USD/m2",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Mass of Supporting Structure",
+    stateOfTheArtValue: 0.14,
+    aspirationalValue: 0.14,
+    unit: "kg/m2",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Cost of Solar Actuators",
+    stateOfTheArtValue: 0.5,
+    aspirationalValue: 0.5,
+    unit: "percent of panel cost",
+    percentImprovement: 0,
+    popoverText: "Made up",
+    sources: [""],
+  },
+  {
+    label: "Mass of Solar Actuators",
+    stateOfTheArtValue: 0.05,
+    aspirationalValue: 0.05,
+    unit: "kg/m2",
+    percentImprovement: 0,
+    popoverText: "Made up",
+    sources: [""],
+  },
+  {
+    label: "Cost of Static Load",
+    stateOfTheArtValue: 113,
+    aspirationalValue: 113,
+    unit: "USD/kg",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Cost of Kinetic Storage",
+    stateOfTheArtValue: 100,
+    aspirationalValue: 100,
+    unit: "USD/kWh",
+    percentImprovement: 0,
+    popoverText: "Made up",
+    sources: [""],
+  },
+  {
+    label: "Cost of Capital",
+    stateOfTheArtValue: 0.05,
+    aspirationalValue: 0.05,
+    unit: "interest rate",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Life of Project",
+    stateOfTheArtValue: 30,
+    aspirationalValue: 30,
+    unit: "Years",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+];
+
+function formatRowData(data) {
+  return data.map((item) => {
+    if (item.sources[0] != "") {
+      let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
+        return (acc += `<a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
+          idx + 1
+        }</a><br />`);
+      }, "");
+
+      let linksHTML = item.sources.reduce((acc, item, idx) => {
+        return (acc += `<a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a><br />`);
+      }, "");
+
+      return [
+        `${item.label} ${mobileLinksHTML} <div class="popover"><div class="popover-inner">${item.popoverText}<br>${linksHTML}</div></div>`,
+        item.stateOfTheArtValue,
+        item.aspirationalValue,
+        item.unit,
+        item.percentImprovement,
+      ];
+    } else {
+      return [item.label, item.stateOfTheArtValue, item.aspirationalValue, item.unit, item.percentImprovement];
+    }
+  });
+}
+
+function initilizePage() {
   // moved these to be 'global' vars
   var hoursInYear = 8760;
   var secondsInHour = 3600;
 
   function initLossesTableData(lossesTableData) {
-
     // Define the data for the editable table
-    lossesTableData.addColumn('string', 'Label');
-    lossesTableData.addColumn('number', 'State-of-The-Art Value');
-    lossesTableData.addColumn('number', 'Aspirational Value');
-    lossesTableData.addColumn('string', 'Unit');
-    lossesTableData.addColumn('number', '% Improvement');
+    lossesTableData.addColumn("string", "Label");
+    lossesTableData.addColumn("number", "State-of-The-Art Value");
+    lossesTableData.addColumn("number", "Aspirational Value");
+    lossesTableData.addColumn("string", "Unit");
+    lossesTableData.addColumn("number", "% Improvement");
     lossesTableData.addRows([
       ['Baseload Power Delivered To Grid', 2, 2, 'GW', 0],
       ['Average Solar Irradiance', 1361, 1361, "W/m2", 0],  // Ranges from 1321 to 1414 throughout the year
@@ -38,63 +320,56 @@ function initilizePage() {
       //['Horizontal Power Transmisison Efficiency', 1, 1, 'USD/m', 0], // default to zero loss
     ]);
 
-    initTable('lossesTable', lossesTableData);
+    initTable("RBSlossesTable", lossesTableData);
   }
 
   function initCostsTableData(costsTableData) {
     // Define the data for the editable table
-    costsTableData.addColumn('string', 'Label');
-    costsTableData.addColumn('number', 'State-of-The-Art Value');
-    costsTableData.addColumn('number', 'Aspirational Value');
-    costsTableData.addColumn('string', 'Unit');
-    costsTableData.addColumn('number', '% Improvement');
-    costsTableData.addRows([
-      ['Cost of Solar Panels', 300, 300, 'USD/m2', 0],
-      ['Mass of Solar Panels', 0.28, 0.28, "kg/m2", 0],
-      ['Cost of Supporting Structure', 15, 15, 'USD/m2', 0],
-      ['Mass of Supporting Structure', .14, .14, 'kg/m2', 0],
-      ['Cost of Solar Actuators', .50, .50, 'percent of panel cost', 0], // made up
-      ['Mass of Solar Actuators', .05, .05, 'kg/m2', 0], // made up
-      ['Cost of Static Load', 113, 113, 'USD/kg', 0],
-      ['Cost of Kinetic Storage', 100, 100, 'USD/kWh', 0], // made up
-      ['Cost of Capital', 0.05, 0.05, 'interest rate', 0],
-      ['Life of Project', 30, 30, 'Years', 0],
-    ]);
-    initTable('costsTable', costsTableData);
+    costsTableData.addColumn("string", "Label");
+    costsTableData.addColumn("number", "State-of-The-Art Value");
+    costsTableData.addColumn("number", "Aspirational Value");
+    costsTableData.addColumn("string", "Unit");
+    costsTableData.addColumn("number", "% Improvement");
+    costsTableData.addRows(formatRowData(RBScostsTableRowData));
+    initTable("RBScostsTable", costsTableData);
   }
 
   function initTable(tableID, tableData) {
     // Define options for the editable table
     var tableOptions = {
       showRowNumber: false,
-      allowHtml: true // Allow HTML in the cells to make them editable
+      allowHtml: true, // Allow HTML in the cells to make them editable
     };
 
     var table = new google.visualization.Table(document.getElementById(tableID));
-    table.draw(tableData, tableOptions);
 
-    google.visualization.events.addListener(table, 'select', selectHandler);
+    // code to hide the currently unused '% improvement' column
+    var view = new google.visualization.DataView(tableData);
+    view.hideColumns([4]); // here you set the columns you want to hide
+
+    table.draw(view, tableOptions); // change 'view' back to 'tableData' to revert to displaying all columns
+
+    google.visualization.events.addListener(table, "select", selectHandler);
 
     var formatValue = new google.visualization.NumberFormat({
-      pattern: '#,###.###'
+      pattern: "#,###.###",
     });
 
     function selectHandler() {
       var selection = table.getSelection();
-      if (selection.length === 0)
-        return;
+      if (selection.length === 0) return;
 
       var cell = event.target; //get selected cell
       row = selection[0].row;
       col = cell.cellIndex;
       if (cell.cellIndex === 2) {
         cell.contentEditable = true;
-        cell.addEventListener('blur', checkValue);
+        cell.addEventListener("blur", checkValue);
       }
 
       // enter confirms new value
-      cell.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
+      cell.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
           event.preventDefault(); // prevent default behavior of adding a newline
           cell.blur(); // blur the selected cell
         }
@@ -108,11 +383,10 @@ function initilizePage() {
       var value = parseFloat(sender.target.innerHTML);
       if (!isNaN(value)) {
         sender.target.innerHTML = formatValue.formatValue(value);
-        document.getElementById('output').innerHTML = 'Value successfully changed.';
+        document.getElementById("output").innerHTML = "Value successfully changed.";
         tableData.setCell(rowIndex, 2, value, formatValue.formatValue(value));
 
-
-        drawPage()
+        drawPage();
 
         // drawTable(tableID, tableData, outputData);
         // //console.log(tableID, tableData)
@@ -122,12 +396,11 @@ function initilizePage() {
         // else if (tableID === 'costsTable') {
         //   drawCostsSankey(tableData, outputData);
         // }
-      }
-      else {
-        document.getElementById('output').innerHTML = 'Error: Value not a number.';
+      } else {
+        document.getElementById("output").innerHTML = "Error: Value not a number.";
       }
       sender.target.contentEditable = false;
-      sender.target.removeEventListener('blur', checkValue);
+      sender.target.removeEventListener("blur", checkValue);
     }
   }
 
@@ -213,16 +486,16 @@ function initilizePage() {
     var windSpeed = avgWindSpeedInMps // m/s
     var ringAltitude = siteAltitudeInMeters // m
     //var airDensity = 0.0132 // kg/m3
-    var airDensity = airDensityAtAltitude(ringAltitude) // kg/m3
+    var airDensity = airDensityAtAltitude(ringAltitude); // kg/m3
 
     function airDensityAtAltitude(a) {
-      const c_4 = -3.957854E-19
-      const c_3 = 6.657616E-14
-      const c_2 = -3.47217E-09
-      const c_1 = -8.61651E-05
-      const c_0 = 2.16977E-01
-      const airDensityAtAltitude = Math.exp(c_4 * a ** 4 + c_3 * a ** 3 + c_2 * a ** 2 + c_1 * a + c_0)
-      return airDensityAtAltitude
+      const c_4 = -3.957854e-19;
+      const c_3 = 6.657616e-14;
+      const c_2 = -3.47217e-9;
+      const c_1 = -8.61651e-5;
+      const c_0 = 2.16977e-1;
+      const airDensityAtAltitude = Math.exp(c_4 * a ** 4 + c_3 * a ** 3 + c_2 * a ** 2 + c_1 * a + c_0);
+      return airDensityAtAltitude;
     }
 
     var Cd = avgCoefficientOfDrag  // Average Coefficient of Drag (assumes solar panels are actively oriented to maximize powerToLinearMotor for given wind conditions)
@@ -247,10 +520,10 @@ function initilizePage() {
 
     var overallSystemEfficiency = baseloadPowerDeliveredToGrid / unattenuatedSolarPower;
 
-    lossesOutputData['baseloadPowerDeliveredToGrid'] = baseloadPowerDeliveredToGrid
-    lossesOutputData['solarPanelArrayArea'] = solarPanelArrayArea
-    lossesOutputData['energyStorageCapacityNeeded'] = energyStorageCapacityNeeded
-    lossesOutputData['overallSystemEfficiency'] = overallSystemEfficiency
+    lossesOutputData["baseloadPowerDeliveredToGrid"] = baseloadPowerDeliveredToGrid;
+    lossesOutputData["solarPanelArrayArea"] = solarPanelArrayArea;
+    lossesOutputData["energyStorageCapacityNeeded"] = energyStorageCapacityNeeded;
+    lossesOutputData["overallSystemEfficiency"] = overallSystemEfficiency;
 
     // ToDo
     // Losses
@@ -283,7 +556,7 @@ function initilizePage() {
         },
       },
       title: {
-        text: 'Ring-Based Solar Power Losses'
+        text: "Ring-Based Solar Power Losses",
       },
       chart: {
         animation: false,
@@ -294,7 +567,7 @@ function initilizePage() {
         spacingLeft: 30,
         spacingTop: 30,
         spacingBottom: 30,
-        zoomType: 'y'
+        zoomType: "y",
       },
       series: [{
         keys: ['from', 'to', 'weight', 'outgoing', 'color'],
@@ -429,41 +702,50 @@ function initilizePage() {
     };
 
     // Create the chart
-    Highcharts.chart('lossesSankey', options);
-
+    Highcharts.chart("RBSlossesSankey", options);
   }
 
   function drawCostsSankey(tableData, lossesOutputData) {
     // Get the values from the editable table
-    let row = 0
-    var unitCostOfSolarPanels = parseFloat(tableData.getValue(row, 2)); row++;
-    var unitMassOfSolarPanels = parseFloat(tableData.getValue(row, 2)); row++;
-    var unitCostOfSupportingStructure = parseFloat(tableData.getValue(row, 2)); row++;
-    var unitMassOfSupportingStructure = parseFloat(tableData.getValue(row, 2)); row++;
-    var unitCostofSolarActuators = parseFloat(tableData.getValue(row, 2)); row++;
-    var unitMassOfSolarActuators = parseFloat(tableData.getValue(row, 2)); row++;
-    var unitCostOfStaticLoad = parseFloat(tableData.getValue(row, 2)); row++;
-    var costOfKineticEnergyStorage = parseFloat(tableData.getValue(row, 2)); row++;
-    var costOfCapital = parseFloat(tableData.getValue(row, 2)); row++;
-    var lifeofProject = parseFloat(tableData.getValue(row, 2)); row++;
+    let row = 0;
+    var unitCostOfSolarPanels = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var unitMassOfSolarPanels = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var unitCostOfSupportingStructure = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var unitMassOfSupportingStructure = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var unitCostofSolarActuators = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var unitMassOfSolarActuators = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var unitCostOfStaticLoad = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var costOfKineticEnergyStorage = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var costOfCapital = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var lifeofProject = parseFloat(tableData.getValue(row, 2));
+    row++;
 
     // Tally up component costs
-    var costOfSolarPanelArray = unitCostOfSolarPanels * lossesOutputData['solarPanelArrayArea'];
-    var costOfSolarPanelSupportingStructure = unitCostOfSupportingStructure * lossesOutputData['solarPanelArrayArea'];
+    var costOfSolarPanelArray = unitCostOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
+    var costOfSolarPanelSupportingStructure = unitCostOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
     var costOfSolarActuators = costOfSolarPanelArray * unitCostofSolarActuators;
-    var totalSatteliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelSupportingStructure + costOfSolarActuators;
+    var totalSatteliteComponentsCost =
+      costOfSolarPanelArray + costOfSolarPanelSupportingStructure + costOfSolarActuators;
 
     // energy storage costs
-    var unitCostOfKineticEnergyStorageinGJ = costOfKineticEnergyStorage * 1000000 / 3600;
-    var costOfEnergyStorage = unitCostOfKineticEnergyStorageinGJ * lossesOutputData['energyStorageCapacityNeeded'];
+    var unitCostOfKineticEnergyStorageinGJ = (costOfKineticEnergyStorage * 1000000) / 3600;
+    var costOfEnergyStorage = unitCostOfKineticEnergyStorageinGJ * lossesOutputData["energyStorageCapacityNeeded"];
 
     // mass calc for static load
-    var massOfSolarPanelArray = unitMassOfSolarPanels * lossesOutputData['solarPanelArrayArea'];
-    var massOfSolarActuators = unitMassOfSolarActuators * lossesOutputData['solarPanelArrayArea'];
-    var massOfSolarPanelSupportingStructure = unitMassOfSupportingStructure * lossesOutputData['solarPanelArrayArea'];
+    var massOfSolarPanelArray = unitMassOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
+    var massOfSolarActuators = unitMassOfSolarActuators * lossesOutputData["solarPanelArrayArea"];
+    var massOfSolarPanelSupportingStructure = unitMassOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
     var totalMassSupported = massOfSolarPanelArray + massOfSolarPanelSupportingStructure + massOfSolarActuators;
     var costOfStaticLoad = totalMassSupported * unitCostOfStaticLoad;
-
 
     // var totalComponentsCost = totalSatteliteComponentsCost + costOfEnergyStorage + costOfStaticLoad;
     var satelliteCapitalCost = totalSatteliteComponentsCost;
@@ -484,9 +766,9 @@ function initilizePage() {
     //console.log('costOfEnergy', costOfEnergy, 'USD/kWh')
     //console.log('Relative Cost', Math.round(costOfEnergy / 0.05 * 100) / 100, 'times the current wholesale price of electricity in the US ($0.05/kWh)')
 
-    costsOutput['capitalCost'] = totalCapitalCost;
-    costsOutput['costOfEnergy'] = costOfEnergy;
-    costsOutput['relativeCost'] = costOfEnergy / 0.05;
+    costsOutput["capitalCost"] = totalCapitalCost;
+    costsOutput["costOfEnergy"] = costOfEnergy;
+    costsOutput["relativeCost"] = costOfEnergy / 0.05;
 
     // Define the sankey chart options
     const chartHeight = 300;
@@ -502,7 +784,7 @@ function initilizePage() {
         },
       },
       title: {
-        text: 'Ring-Based Solar Power Costs'
+        text: "Ring-Based Solar Power Costs",
       },
       chart: {
         height: chartHeight * sf,
@@ -510,51 +792,59 @@ function initilizePage() {
         spacingLeft: 30,
         spacingTop: 30,
         spacingBottom: 30,
-        zoomType: 'y'
+        zoomType: "y",
       },
-      series: [{
-        keys: ['from', 'to', 'weight'],
-        data: [
-          ['Solar Panels', 'Solar Assembly', costOfSolarPanelArray],
-          ['Support Structure', 'Solar Assembly', costOfSolarPanelSupportingStructure],
-          ['Solar Actuators', 'Solar Assembly', costOfSolarActuators],
-          ['Solar Assembly', 'Installation Capital Cost', totalSatteliteComponentsCost],
-          ['Static Load Costs', 'Installation Capital Cost', costOfStaticLoad],
-          ['Energy Storage', 'Installation Capital Cost', costOfEnergyStorage],
-          ['Installation Capital Cost', 'Total Capital Costs', satelliteCapitalCost + costOfEnergyStorage + costOfStaticLoad],
-        ],
-        type: 'sankey',
-        nodeWidth: 30,
-        nodePadding: 20,
-        minLinkWidth: 3,  // Warning - may generate a misleading plot!
-        nodes: [{
-          id: 'Solar Assembly',
-          offsetVertical: -70,
-        }]
-      }]
+      series: [
+        {
+          keys: ["from", "to", "weight"],
+          data: [
+            ["Solar Panels", "Solar Assembly", costOfSolarPanelArray],
+            ["Support Structure", "Solar Assembly", costOfSolarPanelSupportingStructure],
+            ["Solar Actuators", "Solar Assembly", costOfSolarActuators],
+            ["Solar Assembly", "Installation Capital Cost", totalSatteliteComponentsCost],
+            ["Static Load Costs", "Installation Capital Cost", costOfStaticLoad],
+            ["Energy Storage", "Installation Capital Cost", costOfEnergyStorage],
+            [
+              "Installation Capital Cost",
+              "Total Capital Costs",
+              satelliteCapitalCost + costOfEnergyStorage + costOfStaticLoad,
+            ],
+          ],
+          type: "sankey",
+          nodeWidth: 30,
+          nodePadding: 20,
+          minLinkWidth: 3, // Warning - may generate a misleading plot!
+          nodes: [
+            {
+              id: "Solar Assembly",
+              offsetVertical: -70,
+            },
+          ],
+        },
+      ],
     };
 
     // Create the chart
-    Highcharts.chart('costsSankey', options);
-
+    Highcharts.chart("RBScostsSankey", options);
   }
 
   const lossesTableData = new google.visualization.DataTable();
   const lossesOutputData = {};
   const costsTableData = new google.visualization.DataTable();
-  var costsOutput = {}
+  var costsOutput = {};
 
   function drawPage() {
-
     // Draw the Sankey diagrams
     drawLossesSankey(lossesTableData, lossesOutputData);
     drawCostsSankey(costsTableData, lossesOutputData);
 
     // quick and dirty display of the cost values you have in the console
-    document.getElementById('overallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
-    document.getElementById('capitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7) / 1e2;
-    document.getElementById('costOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy'] * 10000) / 10000;
-    document.getElementById('relativeCost').innerHTML = Math.round(costsOutput['relativeCost'] * 100) / 100;
+    document.getElementById("RBSoverallSystemEfficiency").innerHTML = (
+      lossesOutputData["overallSystemEfficiency"] * 100
+    ).toFixed(2);
+    document.getElementById("RBScapitalCost").innerHTML = Math.round(costsOutput["capitalCost"] / 1e7) / 1e2;
+    document.getElementById("RBScostOfEnergy").innerHTML = Math.round(costsOutput["costOfEnergy"] * 10000) / 10000;
+    document.getElementById("RBSrelativeCost").innerHTML = Math.round(costsOutput["relativeCost"] * 100) / 100;
   }
 
   // Create the editable losses table
@@ -563,5 +853,4 @@ function initilizePage() {
   initCostsTableData(costsTableData);
 
   drawPage();
-
 }

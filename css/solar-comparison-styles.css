@@ -10,6 +10,7 @@
 
 .solar-charts .row {
   display: flex;
+  /* flex-direction: row-reverse; */
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
@@ -30,6 +31,58 @@
   justify-content: center;
 }
 
+@media screen and (max-width: 600px) {
+  .solar-charts .row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .solar-charts .chart,
+  .solar-charts .table {
+    width: 100%;
+  }
+}
+
 .solar-charts .numOutput {
   color: lime;
+}
+
+.google-visualization-table > div {
+  overflow: visible !important;
+}
+
+.google-visualization-table-table tr {
+  position: relative;
+}
+
+.popover {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  z-index: 99;
+  display: none;
+  padding-right: 12px;
+}
+
+.popover-inner {
+  background: #fff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  padding: 10px;
+  width: 200px;
+}
+
+@media (hover: hover) {
+  .google-visualization-table-table tr:hover .popover {
+    display: block;
+  }
+
+  .mobile-link {
+    display: none;
+  }
+}
+
+.elementor-shortcode br,
+.elementor-shortcode p {
+  display: none !important;
 }
