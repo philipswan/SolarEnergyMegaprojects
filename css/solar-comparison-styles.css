@@ -1,6 +1,6 @@
 .solar-charts .outputs {
   margin: 12px;
-  background: #0078d7;
+  background: #28006d;
   color: #fff;
   padding: 24px;
   border-radius: 12px;
@@ -22,7 +22,7 @@
   width: 60%;
   display: flex;
   justify-content: center;
-  margin-top: 72px;
+  margin-top: 36px;
 }
 
 .solar-charts .table {
@@ -113,7 +113,7 @@
 .unit {
   font-size: 24px;
   font-weight: bold;
-  color: #008cff;
+  color: #014176;
 }
 
 .outputs-top {

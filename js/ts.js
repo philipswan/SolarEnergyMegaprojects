@@ -232,6 +232,14 @@ function formatRowData(data) {
         item.unit,
         item.percentImprovement,
       ];
+    } else if (item.popoverText != "") {
+      return [
+        `${item.label} <div class="popover"><div class="popover-inner">${item.popoverText}</div></div>`,
+        item.stateOfTheArtValue,
+        item.aspirationalValue,
+        item.unit,
+        item.percentImprovement,
+      ];
     } else {
       return [item.label, item.stateOfTheArtValue, item.aspirationalValue, item.unit, item.percentImprovement];
     }
@@ -378,12 +386,14 @@ function initilizePage() {
 
     function getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees) {
       // Convert latitude to radians
-      const latitude = siteLatitudeInDegrees * Math.PI / 180;
-      const sunHalfAngle = 0.5 / 2* Math.PI / 180;
-      const nightDayBoundryAngle = (90 - horizonToHorizonAngleDegrees / 2) * Math.PI / 180;
-      const earthsTiltAnglePlus90Degrees = -(90 + 23.44) * Math.PI / 180;
-      const xOverR = (Math.sin(latitude)*Math.cos(earthsTiltAnglePlus90Degrees)-Math.sin(nightDayBoundryAngle-sunHalfAngle)) / (Math.sin(earthsTiltAnglePlus90Degrees)*Math.cos(latitude))
-      const lengthOfDay = 24 * Math.acos(xOverR) / Math.PI;
+      const latitude = (siteLatitudeInDegrees * Math.PI) / 180;
+      const sunHalfAngle = ((0.5 / 2) * Math.PI) / 180;
+      const nightDayBoundryAngle = ((90 - horizonToHorizonAngleDegrees / 2) * Math.PI) / 180;
+      const earthsTiltAnglePlus90Degrees = (-(90 + 23.44) * Math.PI) / 180;
+      const xOverR =
+        (Math.sin(latitude) * Math.cos(earthsTiltAnglePlus90Degrees) - Math.sin(nightDayBoundryAngle - sunHalfAngle)) /
+        (Math.sin(earthsTiltAnglePlus90Degrees) * Math.cos(latitude));
+      const lengthOfDay = (24 * Math.acos(xOverR)) / Math.PI;
       return lengthOfDay;
     }
 
@@ -465,83 +475,102 @@ function initilizePage() {
         spacingBottom: 30,
         zoomType: "y",
       },
-      series: [{
-        keys: ['from', 'to', 'weight'],
-        data: [
-          ['Unattenuated Solar Power', 'Atmosphere Loss', solarPowerLostToAtmosphere],
-          ['Unattenuated Solar Power', 'Solar Power Near Panel', solarPowerNearPanel],
-          ['Solar Power Near Panel', 'Dirt and Debris Loss', solarPowerLostToDirtAndDebris],
-          ['Solar Power Near Panel', 'Incident Solar Power', incidentSolarPower],
-          ['Incident Solar Power', 'Reflected Energy', reflectedSolarPower],
-          ['Incident Solar Power', 'Lost as Heat 1', incidentSolarPower - reflectedSolarPower - dcElectricalPower],
-          ['Incident Solar Power', 'DC Electrical Power', dcElectricalPower],
-          ['DC Electrical Power', 'Lost as Heat 2', energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor)],
-          ['DC Electrical Power', 'Energy Storage Recharge', energyStorageRechargePower],
-          ['DC Electrical Power', 'DC Power at Inverter Input', powerInverterInputPower],
-          ['DC Power at Inverter Input', 'Lost as Heat 3', powerInverterInputPower - powerInverterOutputPower],
-          ['DC Power at Inverter Input', 'AC Power to Grid', powerInverterOutputPower],
-        ],
-        type: 'sankey',
-        nodeWidth: 30,
-        nodePadding: 120,
-        minLinkWidth: 1,  // Warning - may generate a misleading plot!
-        nodeAlignment: 2,
-        borderRadius: 0,
-        nodes: [
+      series: [
         {
-          id: 'Unattenuated Solar Power',
-          column: 0,
-          name: 'Unattenuated Solar Power',
-        }, {
-          id: 'Atmosphere Loss',
-          column: 1,
-          name: 'Atmosphere Loss',
-        }, {
-          id: 'Solar Power Near Panel',
-          column: 1,
-          name: 'Solar Power Near Panel',
-        }, {
-          id: 'Dirt and Debris Loss',
-          column: 2,
-          name: 'Dirt and Debris Loss',
-        }, {
-          id: 'Incident Solar Power',
-          column: 2,
-          name: 'Incident Solar Power',
-        }, {
-          id: 'Reflected Energy',
-          column: 3,
-          name: 'Reflected Energy',
-        }, {
-          id: 'Lost as Heat 1',
-          column: 3,
-          name: 'Lost as Heat',
-        }, {
-          id: 'DC Electrical Power',
-          column: 3,
-          name: 'DC From Panel',
-        }, {
-          id: 'Lost as Heat 2',
-          column: 4,
-          name: 'Lost as Heat',
-        }, {
-          id: 'Energy Storage Recharge',
-          column: 4,
-          name: 'Energy Storage Recharge',
-        }, {
-          id: 'DC Power at Inverter Input',
-          column: 4,
-          name: 'To Inverter',
-        }, {
-          id: 'Lost as Heat 3',
-          column: 5,
-          name: 'Lost as Heat',
-        }, {
-          id: 'AC Power to Grid',
-          column: 5,
-          name: 'AC to Grid',
-        }]
-      }]
+          keys: ["from", "to", "weight"],
+          data: [
+            ["Unattenuated Solar Power", "Atmosphere Loss", solarPowerLostToAtmosphere],
+            ["Unattenuated Solar Power", "Solar Power Near Panel", solarPowerNearPanel],
+            ["Solar Power Near Panel", "Dirt and Debris Loss", solarPowerLostToDirtAndDebris],
+            ["Solar Power Near Panel", "Incident Solar Power", incidentSolarPower],
+            ["Incident Solar Power", "Reflected Energy", reflectedSolarPower],
+            ["Incident Solar Power", "Lost as Heat 1", incidentSolarPower - reflectedSolarPower - dcElectricalPower],
+            ["Incident Solar Power", "DC Electrical Power", dcElectricalPower],
+            [
+              "DC Electrical Power",
+              "Lost as Heat 2",
+              energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor),
+            ],
+            ["DC Electrical Power", "Energy Storage Recharge", energyStorageRechargePower],
+            ["DC Electrical Power", "DC Power at Inverter Input", powerInverterInputPower],
+            ["DC Power at Inverter Input", "Lost as Heat 3", powerInverterInputPower - powerInverterOutputPower],
+            ["DC Power at Inverter Input", "AC Power to Grid", powerInverterOutputPower],
+          ],
+          type: "sankey",
+          nodeWidth: 30,
+          nodePadding: 120,
+          minLinkWidth: 1, // Warning - may generate a misleading plot!
+          nodeAlignment: 2,
+          borderRadius: 0,
+          nodes: [
+            {
+              id: "Unattenuated Solar Power",
+              column: 0,
+              name: "Unattenuated Solar Power",
+            },
+            {
+              id: "Atmosphere Loss",
+              column: 1,
+              name: "Atmosphere Loss",
+            },
+            {
+              id: "Solar Power Near Panel",
+              column: 1,
+              name: "Solar Power Near Panel",
+            },
+            {
+              id: "Dirt and Debris Loss",
+              column: 2,
+              name: "Dirt and Debris Loss",
+            },
+            {
+              id: "Incident Solar Power",
+              column: 2,
+              name: "Incident Solar Power",
+            },
+            {
+              id: "Reflected Energy",
+              column: 3,
+              name: "Reflected Energy",
+            },
+            {
+              id: "Lost as Heat 1",
+              column: 3,
+              name: "Lost as Heat",
+            },
+            {
+              id: "DC Electrical Power",
+              column: 3,
+              name: "DC From Panel",
+            },
+            {
+              id: "Lost as Heat 2",
+              column: 4,
+              name: "Lost as Heat",
+            },
+            {
+              id: "Energy Storage Recharge",
+              column: 4,
+              name: "Energy Storage Recharge",
+            },
+            {
+              id: "DC Power at Inverter Input",
+              column: 4,
+              name: "To Inverter",
+            },
+            {
+              id: "Lost as Heat 3",
+              column: 5,
+              name: "Lost as Heat",
+            },
+            {
+              id: "AC Power to Grid",
+              column: 5,
+              name: "AC to Grid",
+            },
+          ],
+        },
+      ],
     };
 
     // Create the chart
@@ -578,17 +607,20 @@ function initilizePage() {
     var satelliteCapitalCost = totalSatelliteComponentsCost;
     var totalCapitalCost = totalComponentsCost; // etc.
 
-    var yearlyCapitalCost = totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject / ((1 + costOfCapital) ** lifeofProject - 1)
+    var yearlyCapitalCost =
+      (totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject) /
+      ((1 + costOfCapital) ** lifeofProject - 1);
     //console.log(totalSatelliteComponentsCost/1e9, costOfEnergyStorage/1e9, yearlyCapitalCost/1e9);
     // Other Costs not accounted for yet...
     // var costOfOperations = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfInsurance = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfMaintenance = parseFloat(tableData.getValue(row, 2)); row++;
 
-    var yearlyCosts = yearlyCapitalCost // etc.
-    var energyDeliveredToGridEachYearInGJ = lossesOutputData['baseloadPowerDeliveredToGrid'] * hoursInYear * secondsInHour // GJoules
-    var energyDeliveredToGridEachYearInKiloWattHours = energyDeliveredToGridEachYearInGJ * 1000000 / secondsInHour
-    var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours
+    var yearlyCosts = yearlyCapitalCost; // etc.
+    var energyDeliveredToGridEachYearInGJ =
+      lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
+    var energyDeliveredToGridEachYearInKiloWattHours = (energyDeliveredToGridEachYearInGJ * 1000000) / secondsInHour;
+    var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours;
     //console.log('capitalCost', Math.round(totalCapitalCost / 1e9), 'B USD')
     //console.log('costOfEnergy', costOfEnergy, 'USD/kWh')
     //console.log('Relative Cost', Math.round(costOfEnergy / 0.05 * 100) / 100, 'times the current wholesale price of electricity in the US ($0.05/kWh)')

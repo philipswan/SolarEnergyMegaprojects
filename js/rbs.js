@@ -9,8 +9,8 @@ const RBSlossesTableRowData = [
     aspirationalValue: 2,
     unit: "GW",
     percentImprovement: 0,
-    popoverText: "sample test a;sldkjf",
-    sources: ["site.site", "assadf.com"],
+    popoverText: "tes test asdf",
+    sources: ["source.com", "course.com"],
   },
   {
     label: "Average Solar Irradiance",
@@ -34,7 +34,7 @@ const RBSlossesTableRowData = [
     label: "Reference Temperature",
     stateOfTheArtValue: 25,
     aspirationalValue: 25,
-    unit: "°C",
+    unit: "B0C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -43,7 +43,7 @@ const RBSlossesTableRowData = [
     label: "Solar Panel Temperature Efficiency Factor",
     stateOfTheArtValue: 0.0045,
     aspirationalValue: 0.0045,
-    unit: "1/°C",
+    unit: "1/B0C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -52,7 +52,7 @@ const RBSlossesTableRowData = [
     label: "Solar Panel Operating Temperature",
     stateOfTheArtValue: -40,
     aspirationalValue: -40,
-    unit: "°C",
+    unit: "B0C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -121,16 +121,34 @@ const RBSlossesTableRowData = [
     sources: [""],
   },
   {
-    label: "Energy Storage Round Trip Efficiency",
-    stateOfTheArtValue: 0.8,
-    aspirationalValue: 0.8,
+    label: "Linear Motor Efficiency",
+    stateOfTheArtValue: 0.95,
+    aspirationalValue: 0.95,
     unit: "",
     percentImprovement: 0,
-    popoverText: "Made up",
+    popoverText: "Needs more investigation",
     sources: [""],
   },
   {
-    label: "Energy Storage Voltage Management Factor",
+    label: "Energy Storage Self-Discharge",
+    stateOfTheArtValue: 0.96,
+    aspirationalValue: 0.96,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "Needs more investigation",
+    sources: [""],
+  },
+  {
+    label: "Linear Generator Efficiency",
+    stateOfTheArtValue: 0.93,
+    aspirationalValue: 0.93,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "Needs more investigation",
+    sources: [""],
+  },
+  {
+    label: "Step Up Transformer Efficiency",
     stateOfTheArtValue: 0.95,
     aspirationalValue: 0.95,
     unit: "",
@@ -139,28 +157,10 @@ const RBSlossesTableRowData = [
     sources: [""],
   },
   {
-    label: "Vertical Power Transmisison Factor",
+    label: "Vertical Power Transmisison Efficiency",
     stateOfTheArtValue: 0.9,
     aspirationalValue: 0.9,
     unit: "USD/m",
-    percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
-  },
-  {
-    label: "Horizontal Power Transmisison Factor",
-    stateOfTheArtValue: 1,
-    aspirationalValue: 1,
-    unit: "USD/m",
-    percentImprovement: 0,
-    popoverText: "Default to zero loss",
-    sources: [""],
-  },
-  {
-    label: "DC to AC (Power Inverter Efficiency)",
-    stateOfTheArtValue: 0.9,
-    aspirationalValue: 0.9,
-    unit: "",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -280,6 +280,14 @@ function formatRowData(data) {
         item.unit,
         item.percentImprovement,
       ];
+    } else if (item.popoverText != "") {
+      return [
+        `${item.label} <div class="popover"><div class="popover-inner">${item.popoverText}</div></div>`,
+        item.stateOfTheArtValue,
+        item.aspirationalValue,
+        item.unit,
+        item.percentImprovement,
+      ];
     } else {
       return [item.label, item.stateOfTheArtValue, item.aspirationalValue, item.unit, item.percentImprovement];
     }
@@ -298,27 +306,7 @@ function initilizePage() {
     lossesTableData.addColumn("number", "Aspirational Value");
     lossesTableData.addColumn("string", "Unit");
     lossesTableData.addColumn("number", "% Improvement");
-    lossesTableData.addRows([
-      ['Baseload Power Delivered To Grid', 2, 2, 'GW', 0],
-      ['Average Solar Irradiance', 1361, 1361, "W/m2", 0],  // Ranges from 1321 to 1414 throughout the year
-      ['Solar Panel Cell Efficiency At Ref Temp', 0.2, 0.2, '', 0],
-      ['Reference Temperature', 25, 25, 'B0C', 0],
-      ['Solar Panel Temperature Efficiency Factor', 0.0045, 0.0045, '1/B0C', 0],
-      ['Solar Panel Operating Temperature', -40, -40, 'B0C', 0],
-      ['Solar Absorptivity', 0.96, 0.96, '', 0],
-      ['Latitude of Ring', 0, 0, 'degrees', 0], // defaults to equator
-      ['Ring Altitude', 32000, 32000, 'meters', 0],
-      ['Average Coefficient of Drag', 0.25, 0.25, '', 0],
-      ['Average Wind Speed', 28, 28, 'm/s', 0],
-      ['Atmospheric Attenuation', 0.01, 0.01, '', 0],
-      ['Dirt and Debris Attenuation', 0.01, 0.01, '', 0],
-      ['Linear Motor Efficiency', 0.95, 0.95, '', 0], // Needs more investigation
-      ['Energy Storage Self-Discharge', 0.96, 0.96, '', 0], // Needs more investigation
-      ['Linear Generator Efficiency', 0.93, 0.93, '', 0], // Needs more investigation
-      ['Step Up Transformer Efficiency', 0.95, 0.95, '', 0],
-      ['Vertical Power Transmisison Efficiency', .9, .9, 'USD/m', 0],
-      //['Horizontal Power Transmisison Efficiency', 1, 1, 'USD/m', 0], // default to zero loss
-    ]);
+    lossesTableData.addRows(formatRowData(RBSlossesTableRowData));
 
     initTable("RBSlossesTable", lossesTableData);
   }
@@ -407,25 +395,43 @@ function initilizePage() {
   // Create a function to draw the Sankey diagram
   function drawLossesSankey(tableData, lossesOutputData) {
     // Get the values from the editable table
-    let row = 0
-    var baseloadPowerDeliveredToGrid = parseFloat(tableData.getValue(row, 2)); row++;
-    var averageSolarIrradiance = parseFloat(tableData.getValue(row, 2)); row++;
-    var solarPanelEfficiencyAtRefTemp = parseFloat(tableData.getValue(row, 2)); row++;
-    var referenceTemperature = parseFloat(tableData.getValue(row, 2)); row++;
-    var solarPanelTemperatureEfficiencyFactor = parseFloat(tableData.getValue(row, 2)); row++;
-    var operatingTemperature = parseFloat(tableData.getValue(row, 2)); row++;
-    var solarPanelAbsorptivity = parseFloat(tableData.getValue(row, 2)); row++;
-    var siteLatitudeInDegrees = parseFloat(tableData.getValue(row, 2)); row++;
-    var siteAltitudeInMeters = parseFloat(tableData.getValue(row, 2)); row++;
-    var avgCoefficientOfDrag = parseFloat(tableData.getValue(row, 2)); row++;
-    var avgWindSpeedInMps = parseFloat(tableData.getValue(row, 2)); row++;
-    var atmosphereAttenuation = parseFloat(tableData.getValue(row, 2)); row++;
-    var dirtAndDebrisAttenuation = parseFloat(tableData.getValue(row, 2)); row++;
-    var linearMotorEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
-    var energyStorageSelfDischarge = parseFloat(tableData.getValue(row, 2)); row++;
-    var linearGeneratorEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
-    var stepUpTransformerEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
-    var verticalPowerTransmissionEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
+    let row = 0;
+    var baseloadPowerDeliveredToGrid = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var averageSolarIrradiance = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var solarPanelEfficiencyAtRefTemp = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var referenceTemperature = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var solarPanelTemperatureEfficiencyFactor = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var operatingTemperature = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var solarPanelAbsorptivity = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var siteLatitudeInDegrees = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var siteAltitudeInMeters = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var avgCoefficientOfDrag = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var avgWindSpeedInMps = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var atmosphereAttenuation = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var dirtAndDebrisAttenuation = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var linearMotorEfficiency = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var energyStorageSelfDischarge = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var linearGeneratorEfficiency = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var stepUpTransformerEfficiency = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var verticalPowerTransmissionEfficiency = parseFloat(tableData.getValue(row, 2));
+    row++;
     //var horizontalPowerTransmissionEfficiency = parseFloat(tableData.getValue(row, 2)); row++;
 
     // Vertical Transmission Lines
@@ -441,8 +447,8 @@ function initilizePage() {
     var linearGeneratorLoss = powerFromRing - linearGeneratorOutputPower;
 
     // Ring Storage/Transmission
-    var powerFromRingBeforeSelfDischargeLosses = powerFromRing / energyStorageSelfDischarge
-    var selfDischargeLoss = powerFromRingBeforeSelfDischargeLosses - powerFromRing
+    var powerFromRingBeforeSelfDischargeLosses = powerFromRing / energyStorageSelfDischarge;
+    var selfDischargeLoss = powerFromRingBeforeSelfDischargeLosses - powerFromRing;
 
     function h2hAngle(altitude) {
       const R = 6378137; // Earth's radius in meters
@@ -456,12 +462,14 @@ function initilizePage() {
 
     function getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees) {
       // Convert latitude to radians
-      const latitude = siteLatitudeInDegrees * Math.PI / 180;
-      const sunHalfAngle = 0.5 / 2 * Math.PI / 180;
-      const nightDayBoundryAngle = (90 - horizonToHorizonAngleDegrees / 2) * Math.PI / 180;
-      const earthsTiltAnglePlus90Degrees = -(90 + 23.44) * Math.PI / 180;
-      const xOverR = (Math.sin(latitude) * Math.cos(earthsTiltAnglePlus90Degrees) - Math.sin(nightDayBoundryAngle - sunHalfAngle)) / (Math.sin(earthsTiltAnglePlus90Degrees) * Math.cos(latitude))
-      const lengthOfDay = 24 * Math.acos(xOverR) / Math.PI;
+      const latitude = (siteLatitudeInDegrees * Math.PI) / 180;
+      const sunHalfAngle = ((0.5 / 2) * Math.PI) / 180;
+      const nightDayBoundryAngle = ((90 - horizonToHorizonAngleDegrees / 2) * Math.PI) / 180;
+      const earthsTiltAnglePlus90Degrees = (-(90 + 23.44) * Math.PI) / 180;
+      const xOverR =
+        (Math.sin(latitude) * Math.cos(earthsTiltAnglePlus90Degrees) - Math.sin(nightDayBoundryAngle - sunHalfAngle)) /
+        (Math.sin(earthsTiltAnglePlus90Degrees) * Math.cos(latitude));
+      const lengthOfDay = (24 * Math.acos(xOverR)) / Math.PI;
       return lengthOfDay;
     }
 
@@ -469,22 +477,22 @@ function initilizePage() {
     var daylightFactor = minDaylightHours / 24;
 
     // Energy Needed Due To Limited Daylight Hours
-    var powerToRing = powerFromRingBeforeSelfDischargeLosses / (1-daylightFactor)
-    var energyForUseLater = powerToRing - powerFromRingBeforeSelfDischargeLosses
+    var powerToRing = powerFromRingBeforeSelfDischargeLosses / (1 - daylightFactor);
+    var energyForUseLater = powerToRing - powerFromRingBeforeSelfDischargeLosses;
 
     // Linear Motors
-    var powerToLinearMotor = powerToRing / linearMotorEfficiency
-    var linearMotorLosses = powerToLinearMotor - powerToRing
+    var powerToLinearMotor = powerToRing / linearMotorEfficiency;
+    var linearMotorLosses = powerToLinearMotor - powerToRing;
 
     var timeInDarknessInSeconds = (24 - minDaylightHours) * secondsInHour;
-    var energyStorageCapacityNeeded = powerToLinearMotor * timeInDarknessInSeconds * linearMotorEfficiency
+    var energyStorageCapacityNeeded = powerToLinearMotor * timeInDarknessInSeconds * linearMotorEfficiency;
     // var energyStorageRechargeTime = 24 * 3600 - timeInDarknessInSeconds; // s
     // var energyStorageRechargePower = energyStorageCapacityNeeded / energyStorageRechargeTime / (1 - (1 - energyStorageRoundTripEfficiency)/2); // GJ
     // var energyLostThroughStorage = energyStorageRechargePower - (powerInverterInputPower * timeInDarknessInSeconds)  // ToDo: All energy goes through the ring, so it all needs to be affected by electric-to-kinetic energy conversions
     // var dcElectricalPower = (powerInverterInputPower + energyStorageRechargePower + energyLostThroughStorage);
 
-    var windSpeed = avgWindSpeedInMps // m/s
-    var ringAltitude = siteAltitudeInMeters // m
+    var windSpeed = avgWindSpeedInMps; // m/s
+    var ringAltitude = siteAltitudeInMeters; // m
     //var airDensity = 0.0132 // kg/m3
     var airDensity = airDensityAtAltitude(ringAltitude); // kg/m3
 
@@ -498,17 +506,22 @@ function initilizePage() {
       return airDensityAtAltitude;
     }
 
-    var Cd = avgCoefficientOfDrag  // Average Coefficient of Drag (assumes solar panels are actively oriented to maximize powerToLinearMotor for given wind conditions)
-    var solarPanelEfficiency = solarPanelEfficiencyAtRefTemp * (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
+    var Cd = avgCoefficientOfDrag; // Average Coefficient of Drag (assumes solar panels are actively oriented to maximize powerToLinearMotor for given wind conditions)
+    var solarPanelEfficiency =
+      solarPanelEfficiencyAtRefTemp *
+      (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
 
-    var solarPanelArrayArea = powerToLinearMotor * 1e9 / (solarPanelEfficiency * (1 - atmosphereAttenuation) * (1 - dirtAndDebrisAttenuation) * averageSolarIrradiance - 0.5 * Cd * windSpeed ** 3 * airDensity)
-    var solarPanelArrayDiameter = Math.sqrt(solarPanelArrayArea / Math.PI) * 2
-    dcStationKeepingPower = 0.5 * Cd * windSpeed ** 3 * airDensity * solarPanelArrayArea / 1e9
+    var solarPanelArrayArea =
+      (powerToLinearMotor * 1e9) /
+      (solarPanelEfficiency * (1 - atmosphereAttenuation) * (1 - dirtAndDebrisAttenuation) * averageSolarIrradiance -
+        0.5 * Cd * windSpeed ** 3 * airDensity);
+    var solarPanelArrayDiameter = Math.sqrt(solarPanelArrayArea / Math.PI) * 2;
+    dcStationKeepingPower = (0.5 * Cd * windSpeed ** 3 * airDensity * solarPanelArrayArea) / 1e9;
 
     // Station Keeping
-    var dcPowerFromPanel = powerToLinearMotor + dcStationKeepingPower
+    var dcPowerFromPanel = powerToLinearMotor + dcStationKeepingPower;
 
-    // Solar Panels    
+    // Solar Panels
     var absorbedSolarPower = dcPowerFromPanel / solarPanelEfficiency;
     var incidentSolarPower = absorbedSolarPower / solarPanelAbsorptivity;
     var reflectedSolarPower = incidentSolarPower * (1 - solarPanelAbsorptivity);
@@ -569,136 +582,162 @@ function initilizePage() {
         spacingBottom: 30,
         zoomType: "y",
       },
-      series: [{
-        keys: ['from', 'to', 'weight', 'outgoing', 'color'],
-        data: [
-          ['Unattenuated Solar Power', 'Atmosphere Loss', solarPowerLostToAtmosphere],
-          ['Unattenuated Solar Power', 'Solar Power Near Panel', solarPowerNearPanel],
-          ['Solar Power Near Panel', 'Dirt and Debris Loss', solarPowerLostToDirtAndDebris],
-          ['Solar Power Near Panel', 'Incident Solar Power', incidentSolarPower],
-          ['Incident Solar Power', 'Reflected Energy', reflectedSolarPower],
-          ['Incident Solar Power', 'Lost as Heat 1', incidentSolarPower - reflectedSolarPower - dcPowerFromPanel],
-          ['Incident Solar Power', 'DC Power From Panel', dcPowerFromPanel],
-          ['DC Power From Panel', 'Station-Keeping Power', dcStationKeepingPower],
-          ['DC Power From Panel', 'Power To Linear Motor', powerToLinearMotor],
-          ['Power To Linear Motor', 'Lost as Heat 2', linearMotorLosses],
-          ['Power To Linear Motor', 'Power To Ring', powerToRing],
-          ['Power To Ring', 'Energy for Use Later', energyForUseLater],
-          ['Power To Ring', 'Energy for Use Now', powerFromRingBeforeSelfDischargeLosses],
-          ['Energy for Use Now', 'Self Discharge Loss', selfDischargeLoss],
-          ['Energy for Use Now', 'Power Before Self-Discharge', powerFromRing],
-          ['Power Before Self-Discharge', 'Lost as Heat 3', selfDischargeLoss],
-          ['Power Before Self-Discharge', 'Power From Ring', powerFromRing],
-          ['Power From Ring', 'Lost as Heat 4', linearGeneratorLoss],
-          ['Power From Ring', 'Linear Generator Output Power', linearGeneratorOutputPower],
-          ['Linear Generator Output Power', 'Lost as Heat 5', stepUpTransformerLoss],
-          ['Linear Generator Output Power', 'Step-Up Transformer Output Power', stepUpTransformerOutputPower],
-          ['Step-Up Transformer Output Power', 'Lost as Heat 6', verticalPowerTransmissionLoss],
-          ['Step-Up Transformer Output Power', 'Delivered to Grid', baseloadPowerDeliveredToGrid]
-        ],
-        type: 'sankey',
-        nodeWidth: 30,
-        nodePadding: 100,
-        minLinkWidth: 2,  // Warning - may generate a misleading plot!
-        nodeAlignment: 2,
-        borderRadius: 0,
-        nodes: [
-          {
-            id: 'Unattenuated Solar Power',
-            column: 0,
-            name: 'Unattenuated Solar Power',
-          }, {
-            id: 'Atmosphere Loss',
-            column: 1,
-            name: 'Atmosphere Loss',
-          }, {
-            id: 'Solar Power Near Panel',
-            column: 1,
-            name: 'Solar Power Near Panel',
-          }, {
-            id: 'Dirt and Debris Loss',
-            column: 2,
-            name: 'Dirt and Debris Loss',
-          }, {
-            id: 'Incident Solar Power',
-            column: 2,
-            name: 'Incident Solar Power',
-          }, {
-            id: 'Reflected Energy',
-            column: 3,
-          }, {
-            id: 'Lost as Heat 1',
-            column: 3,
-            name: 'Lost as Heat',
-          }, {
-            id: 'DC Power From Panel',
-            column: 3,
-            name: 'DC From Panel',
-          }, {
-            id: 'Station-Keeping Power',
-            column: 4,
-            name: 'Station-Keeping Power',
-          }, {
-            id: 'Power To Linear Motor',
-            column: 4,
-            name: 'Power To Linear Motor',
-          }, {
-            id: 'Lost as Heat 2',
-            column: 5,
-            name: 'Lost as Heat',
-          }, {
-            id: 'Power To Ring',
-            column: 5,
-          }, {
-            id: 'Energy for Use Later',
-            column: 6,
-            name: 'Energy for Use Later',
-          }, {
-            id: 'Energy for Use Now',
-            column: 6,
-            name: 'Energy for Use Now',
-          }, {
-            id: 'Self Discharge Loss',
-            column: 7,
-            name: 'Self Discharge Loss',
-          }, {
-            id: 'Power Before Self-Discharge',
-            column: 7,
-            name: 'Power Before Self-Discharge',
-          }, {
-            id: 'Lost as Heat 3',
-            column: 8,
-            name: 'Lost as Heat 3',
-          }, {
-            id: 'Power From Ring',
-            column: 8,
-            name: 'Power From Ring',
-          }, {
-            id: 'Lost as Heat 4',
-            column: 9,
-            name: 'Lost as Heat 4',
-          }, {
-            id: 'Linear Generator Output Power',
-            column: 9,
-            name: 'Linear Generator Out',
-          }, {
-            id: 'Lost as Heat 5',
-            column: 10,
-            name: 'Lost as Heat 5',
-          }, {
-            id: 'Step-Up Transformer Output Power',
-            column: 10,
-            name: 'Step-Up Transformer Output Power',
-          }, {
-            id: 'Lost as Heat 6',
-            column: 11,
-            name: 'Lost as Heat',
-          }, {
-            id: 'Delivered to Grid',
-            column: 11,
-            name: 'Delivered to Grid',
-          }]
-      }]
+      series: [
+        {
+          keys: ["from", "to", "weight", "outgoing", "color"],
+          data: [
+            ["Unattenuated Solar Power", "Atmosphere Loss", solarPowerLostToAtmosphere],
+            ["Unattenuated Solar Power", "Solar Power Near Panel", solarPowerNearPanel],
+            ["Solar Power Near Panel", "Dirt and Debris Loss", solarPowerLostToDirtAndDebris],
+            ["Solar Power Near Panel", "Incident Solar Power", incidentSolarPower],
+            ["Incident Solar Power", "Reflected Energy", reflectedSolarPower],
+            ["Incident Solar Power", "Lost as Heat 1", incidentSolarPower - reflectedSolarPower - dcPowerFromPanel],
+            ["Incident Solar Power", "DC Power From Panel", dcPowerFromPanel],
+            ["DC Power From Panel", "Station-Keeping Power", dcStationKeepingPower],
+            ["DC Power From Panel", "Power To Linear Motor", powerToLinearMotor],
+            ["Power To Linear Motor", "Lost as Heat 2", linearMotorLosses],
+            ["Power To Linear Motor", "Power To Ring", powerToRing],
+            ["Power To Ring", "Energy for Use Later", energyForUseLater],
+            ["Power To Ring", "Energy for Use Now", powerFromRingBeforeSelfDischargeLosses],
+            ["Energy for Use Now", "Self Discharge Loss", selfDischargeLoss],
+            ["Energy for Use Now", "Power Before Self-Discharge", powerFromRing],
+            ["Power Before Self-Discharge", "Lost as Heat 3", selfDischargeLoss],
+            ["Power Before Self-Discharge", "Power From Ring", powerFromRing],
+            ["Power From Ring", "Lost as Heat 4", linearGeneratorLoss],
+            ["Power From Ring", "Linear Generator Output Power", linearGeneratorOutputPower],
+            ["Linear Generator Output Power", "Lost as Heat 5", stepUpTransformerLoss],
+            ["Linear Generator Output Power", "Step-Up Transformer Output Power", stepUpTransformerOutputPower],
+            ["Step-Up Transformer Output Power", "Lost as Heat 6", verticalPowerTransmissionLoss],
+            ["Step-Up Transformer Output Power", "Delivered to Grid", baseloadPowerDeliveredToGrid],
+          ],
+          type: "sankey",
+          nodeWidth: 30,
+          nodePadding: 100,
+          minLinkWidth: 2, // Warning - may generate a misleading plot!
+          nodeAlignment: 2,
+          borderRadius: 0,
+          nodes: [
+            {
+              id: "Unattenuated Solar Power",
+              column: 0,
+              name: "Unattenuated Solar Power",
+            },
+            {
+              id: "Atmosphere Loss",
+              column: 1,
+              name: "Atmosphere Loss",
+            },
+            {
+              id: "Solar Power Near Panel",
+              column: 1,
+              name: "Solar Power Near Panel",
+            },
+            {
+              id: "Dirt and Debris Loss",
+              column: 2,
+              name: "Dirt and Debris Loss",
+            },
+            {
+              id: "Incident Solar Power",
+              column: 2,
+              name: "Incident Solar Power",
+            },
+            {
+              id: "Reflected Energy",
+              column: 3,
+            },
+            {
+              id: "Lost as Heat 1",
+              column: 3,
+              name: "Lost as Heat",
+            },
+            {
+              id: "DC Power From Panel",
+              column: 3,
+              name: "DC From Panel",
+            },
+            {
+              id: "Station-Keeping Power",
+              column: 4,
+              name: "Station-Keeping Power",
+            },
+            {
+              id: "Power To Linear Motor",
+              column: 4,
+              name: "Power To Linear Motor",
+            },
+            {
+              id: "Lost as Heat 2",
+              column: 5,
+              name: "Lost as Heat",
+            },
+            {
+              id: "Power To Ring",
+              column: 5,
+            },
+            {
+              id: "Energy for Use Later",
+              column: 6,
+              name: "Energy for Use Later",
+            },
+            {
+              id: "Energy for Use Now",
+              column: 6,
+              name: "Energy for Use Now",
+            },
+            {
+              id: "Self Discharge Loss",
+              column: 7,
+              name: "Self Discharge Loss",
+            },
+            {
+              id: "Power Before Self-Discharge",
+              column: 7,
+              name: "Power Before Self-Discharge",
+            },
+            {
+              id: "Lost as Heat 3",
+              column: 8,
+              name: "Lost as Heat 3",
+            },
+            {
+              id: "Power From Ring",
+              column: 8,
+              name: "Power From Ring",
+            },
+            {
+              id: "Lost as Heat 4",
+              column: 9,
+              name: "Lost as Heat 4",
+            },
+            {
+              id: "Linear Generator Output Power",
+              column: 9,
+              name: "Linear Generator Out",
+            },
+            {
+              id: "Lost as Heat 5",
+              column: 10,
+              name: "Lost as Heat 5",
+            },
+            {
+              id: "Step-Up Transformer Output Power",
+              column: 10,
+              name: "Step-Up Transformer Output Power",
+            },
+            {
+              id: "Lost as Heat 6",
+              column: 11,
+              name: "Lost as Heat",
+            },
+            {
+              id: "Delivered to Grid",
+              column: 11,
+              name: "Delivered to Grid",
+            },
+          ],
+        },
+      ],
     };
 
     // Create the chart
@@ -751,17 +790,20 @@ function initilizePage() {
     var satelliteCapitalCost = totalSatteliteComponentsCost;
     var totalCapitalCost = totalSatteliteComponentsCost + costOfEnergyStorage + costOfStaticLoad; // etc.
 
-    var yearlyCapitalCost = totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject / ((1 + costOfCapital) ** lifeofProject - 1)
+    var yearlyCapitalCost =
+      (totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject) /
+      ((1 + costOfCapital) ** lifeofProject - 1);
     //console.log(totalSatteliteComponentsCost / 1e9, costOfEnergyStorage / 1e9, yearlyCapitalCost / 1e9);
     // Other Costs not accounted for yet...
     // var costOfOperations = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfInsurance = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfMaintenance = parseFloat(tableData.getValue(row, 2)); row++;
 
-    var yearlyCosts = yearlyCapitalCost // etc.
-    var energyDeliveredToGridEachYearInGJ = lossesOutputData['baseloadPowerDeliveredToGrid'] * hoursInYear * secondsInHour // GJoules
-    var energyDeliveredToGridEachYearInKiloWattHours = energyDeliveredToGridEachYearInGJ * 1000000 / secondsInHour
-    var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours
+    var yearlyCosts = yearlyCapitalCost; // etc.
+    var energyDeliveredToGridEachYearInGJ =
+      lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
+    var energyDeliveredToGridEachYearInKiloWattHours = (energyDeliveredToGridEachYearInGJ * 1000000) / secondsInHour;
+    var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours;
     //console.log('capitalCost', Math.round(totalCapitalCost / 1e9), 'B USD')
     //console.log('costOfEnergy', costOfEnergy, 'USD/kWh')
     //console.log('Relative Cost', Math.round(costOfEnergy / 0.05 * 100) / 100, 'times the current wholesale price of electricity in the US ($0.05/kWh)')
