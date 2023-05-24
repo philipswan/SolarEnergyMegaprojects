@@ -2,7 +2,7 @@
 google.charts.load("current", { packages: ["table"] });
 google.charts.setOnLoadCallback(initilizePage);
 
-let lossesTableRowData = [
+const TSlossesTableRowData = [
   {
     label: "Baseload Power Delivered To Grid",
     stateOfTheArtValue: 2,
@@ -37,7 +37,7 @@ let lossesTableRowData = [
     label: "Reference Temperature",
     stateOfTheArtValue: 25,
     aspirationalValue: 25,
-    unit: "°C",
+    unit: "&deg;C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -46,7 +46,7 @@ let lossesTableRowData = [
     label: "Solar Panel Temperature Efficiency Factor",
     stateOfTheArtValue: 0.0045,
     aspirationalValue: 0.0045,
-    unit: "1/°C",
+    unit: "1/&deg;C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -55,7 +55,7 @@ let lossesTableRowData = [
     label: "Solar Panel Operating Temperature",
     stateOfTheArtValue: 30,
     aspirationalValue: 30,
-    unit: "°C",
+    unit: "&deg;C",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -155,38 +155,88 @@ let lossesTableRowData = [
   },
 ];
 
-lossesTableRowData = lossesTableRowData.map((item) => {
-  if (item.sources[0] != "") {
-    let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
-      return (acc += `<a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
-        idx + 1
-      }</a><br />`);
-    }, "");
+const TScostsTableRowData = [
+  {
+    label: "Cost of Solar Panels",
+    stateOfTheArtValue: 300,
+    aspirationalValue: 300,
+    unit: "USD/m2",
+    percentImprovement: 0,
+    popoverText: "Sample Sample Thank you",
+    sources: ["test.com", "welcome.net"],
+  },
+  {
+    label: "Cost of Supporting Structure",
+    stateOfTheArtValue: 15,
+    aspirationalValue: 15,
+    unit: "USD/m2",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Cost of Li-Ion Battery Storage",
+    stateOfTheArtValue: 217,
+    aspirationalValue: 217,
+    unit: "USD/kWh",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Cost Factor for Battery Management Systems",
+    stateOfTheArtValue: 0.2,
+    aspirationalValue: 0.2,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Cost of Capital",
+    stateOfTheArtValue: 0.05,
+    aspirationalValue: 0.05,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Life of Project",
+    stateOfTheArtValue: 30,
+    aspirationalValue: 30,
+    unit: "Years",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+];
 
-    let linksHTML = item.sources.reduce((acc, item, idx) => {
-      return (acc += `<a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a><br />`);
-    }, "");
+function formatRowData(data) {
+  return data.map((item) => {
+    if (item.sources[0] != "") {
+      let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
+        return (acc += `<a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
+          idx + 1
+        }</a><br />`);
+      }, "");
 
-    return [
-      `${item.label} ${mobileLinksHTML} <div class="popover"><div class="popover-inner">${item.popoverText} ${linksHTML}</div></div>`,
-      item.stateOfTheArtValue,
-      item.aspirationalValue,
-      item.unit,
-      item.percentImprovement,
-    ];
-  } else {
-    return [item.label, item.stateOfTheArtValue, item.aspirationalValue, item.unit, item.percentImprovement];
-  }
-});
+      let linksHTML = item.sources.reduce((acc, item, idx) => {
+        return (acc += `<a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a><br />`);
+      }, "");
 
-// console.log(lossesTableRowData);
-
-// <a href="https://www.eia.gov/tools/faqs/faq.php?id=427&t=3" class="mobile-link">View Source</a>
-// <div class="popover"><div class="popover-inner">
-// According to the Solarsat.org FAQ, the microwave power link needs to be above 5GW to be efficient.
-// The FAQ also estimates that a city of 1 million people needs approximately 2 GW of power. This number can be selected.
-// <a href="https://www.eia.gov/tools/faqs/faq.php?id=427&t=3" target="_blank" rel="noopener noreferrer">View Source</a>
-// </div></div>
+      return [
+        `${item.label} ${mobileLinksHTML} <div class="popover"><div class="popover-inner">${item.popoverText}<br>${linksHTML}</div></div>`,
+        item.stateOfTheArtValue,
+        item.aspirationalValue,
+        item.unit,
+        item.percentImprovement,
+      ];
+    } else {
+      return [item.label, item.stateOfTheArtValue, item.aspirationalValue, item.unit, item.percentImprovement];
+    }
+  });
+}
 
 function initilizePage() {
   // moved these to be 'global' vars
@@ -200,7 +250,7 @@ function initilizePage() {
     lossesTableData.addColumn("number", "Aspirational Value");
     lossesTableData.addColumn("string", "Unit");
     lossesTableData.addColumn("number", "% Improvement");
-    lossesTableData.addRows(lossesTableRowData);
+    lossesTableData.addRows(formatRowData(TSlossesTableRowData));
 
     initTable("TSlossesTable", lossesTableData);
   }
@@ -212,14 +262,7 @@ function initilizePage() {
     costsTableData.addColumn("number", "Aspirational Value");
     costsTableData.addColumn("string", "Unit");
     costsTableData.addColumn("number", "% Improvement");
-    costsTableData.addRows([
-      ["Cost of Solar Panels", 300, 300, "USD/m2", 0],
-      ["Cost of Supporting Structure", 15, 15, "USD/m2", 0],
-      ["Cost of Li-Ion Battery Storage", 217, 217, "USD/kWh", 0],
-      ["Cost Factor for Battery Management Systems", 0.2, 0.2, "", 0],
-      ["Cost of Capital", 0.05, 0.05, "", 0],
-      ["Life of Project", 30, 30, "Years", 0],
-    ]);
+    costsTableData.addRows(formatRowData(TScostsTableRowData));
     initTable("TScostsTable", costsTableData);
   }
 
