@@ -1,38 +1,59 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>Space-Based Solar Cost Analysis</title>
-  <!-- Load the Google Charts API-->
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <!-- load highcharts -->
-  <script src="js/highcharts.src.js"></script>
-  <script src="js/sankey.src.js"></script>
-  <!-- load our files -->
-  <script src="js/sbs.js"></script>
-  <link rel="stylesheet" href="css/solar-comparison-styles.css" />
-</head>
+  <head>
+    <title>Space-Based Solar Cost Analysis</title>
+    <!-- Load the Google Charts API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- load highcharts -->
+    <script src="js/highcharts.src.js"></script>
+    <script src="js/sankey.src.js"></script>
+    <!-- load our files -->
+    <script src="js/sbs.js"></script>
+    <link rel="stylesheet" href="css/solar-comparison-styles.css" />
+  </head>
 
   <body>
     <div class="solar-charts">
       <div class="outputs">Space-Based Solar Cost Analysis<br /></div>
-      <div class="outputs">
-        <div id="costsOutput">
-          Overall System Efficiency: <b id="overallSystemEfficiency" class="numOutput"></b>%<br />
-          Capital Cost: <b id="capitalCost" class="numOutput"></b> B USD<br />
-          Cost Of Energy: <b id="costOfEnergy" class="numOutput"></b> USD/kWh<br />
-          Relative Cost: <b id="relativeCost" class="numOutput"></b> times the current wholesale price of electricity in
-          the US ($0.05/kWh)<br />
+      <div class="outputs-new">
+        <div class="outputs-new-inner" id="SBScostsOutput">
+          <div class="output-item">
+            <div class="output-item-top">
+              <b id="SBSoverallSystemEfficiency" class="big-number"></b>
+              <span class="unit">%</span>
+            </div>
+            <div class="label">Overall System Efficiency</div>
+          </div>
+          <div class="output-item">
+            <div class="output-item-top">
+              <b id="SBScapitalCost" class="big-number"></b>
+              <span class="unit">B USD</span>
+            </div>
+            <div class="label">Capital Cost</div>
+          </div>
+          <div class="output-item">
+            <div class="output-item-top">
+              <b id="SBScostOfEnergy" class="big-number"></b>
+              <span class="unit">USD/kWh</span>
+            </div>
+            <div class="label">Cost Of Energy</div>
+          </div>
+          <div class="output-item">
+            <div class="output-item-top">
+              <b id="SBSrelativeCost" class="big-number"></b>
+            </div>
+            <div class="label">times wholesale price in the US ($0.05/kWh)</div>
+          </div>
         </div>
         <div id="output"></div>
       </div>
       <div class="row">
-        <div class="table" id="lossesTable"></div>
-        <div class="chart" id="lossesSankey"></div>
+        <div class="chart" id="SBSlossesSankey"></div>
+        <div class="table" id="SBSlossesTable"></div>
       </div>
       <div class="row">
-        <div class="table" id="costsTable"></div>
-        <div class="chart" id="costsSankey"></div>
+        <div class="chart" id="SBScostsSankey"></div>
+        <div class="table" id="SBScostsTable"></div>
       </div>
     </div>
   </body>
