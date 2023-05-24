@@ -18,32 +18,26 @@
   <body>
     <div class="solar-charts">
       <!-- TS section -->
+      <div class="outputs">Terrestrial Solar Cost Analysis<br /></div>
+      <div class="outputs">
+        <div id="TScostsOutput">
+          Overall System Efficiency: <b id="TSoverallSystemEfficiency" class="numOutput"></b>%<br />
+          Capital Cost: <b id="TScapitalCost" class="numOutput"></b> B USD<br />
+          Cost Of Energy: <b id="TScostOfEnergy" class="numOutput"></b> USD/kWh<br />
+          Relative Cost: <b id="TSrelativeCost" class="numOutput"></b> times wholesale price in the US ($0.05/kWh)<br />
+        </div>
+        <div id="output"></div>
+      </div>
       <div class="row">
         <div class="chart" id="TSlossesSankey"></div>
         <div class="table" id="TSlossesTable"></div>
-      </div>
-      <div class="outputs">
-        <div id="TScostsOutput">
-          Overall System Efficiency:
-          <b id="TSoverallSystemEfficiency" class="numOutput"></b>%<br />
-          Capital Cost: <b id="TScapitalCost" class="numOutput"></b> B USD<br />
-          Cost Of Energy:
-          <b id="TScostOfEnergy" class="numOutput"></b> USD/kWh<br />
-          Relative Cost: <b id="TSrelativeCost" class="numOutput"></b> times the current whsale price of electricity in
-          the US ($0.05/kWh)<br />
-        </div>
-        <div id="output"></div>
       </div>
       <div class="row">
         <div class="chart" id="TScostsSankey"></div>
         <div class="table" id="TScostsTable"></div>
       </div>
-
       <!-- SBS section -->
-      <div class="row">
-        <div class="chart" id="SBSlossesSankey"></div>
-        <div class="table" id="SBSlossesTable"></div>
-      </div>
+      <div class="outputs">Space-Based Solar Cost Analysis<br /></div>
       <div class="outputs">
         <div id="SBScostsOutput">
           Overall System Efficiency:
@@ -57,15 +51,16 @@
         <div id="output"></div>
       </div>
       <div class="row">
+        <div class="chart" id="SBSlossesSankey"></div>
+        <div class="table" id="SBSlossesTable"></div>
+      </div>
+      <div class="row">
         <div class="chart" id="SBScostsSankey"></div>
         <div class="table" id="SBScostsTable"></div>
       </div>
 
       <!-- rbs section -->
-      <div class="row">
-        <div class="chart" id="RBSlossesSankey"></div>
-        <div class="table" id="RBSlossesTable"></div>
-      </div>
+      <div class="outputs">Ring-Based Solar Cost Analysis<br /></div>
       <div class="outputs">
         <div id="RBScostsOutput">
           Overall System Efficiency:
@@ -77,6 +72,10 @@
           in the US ($0.05/kWh)<br />
         </div>
         <div id="output"></div>
+      </div>
+      <div class="row">
+        <div class="chart" id="RBSlossesSankey"></div>
+        <div class="table" id="RBSlossesTable"></div>
       </div>
       <div class="row">
         <div class="chart" id="RBScostsSankey"></div>
