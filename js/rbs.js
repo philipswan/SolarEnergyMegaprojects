@@ -37,7 +37,7 @@ function initilizePage() {
       ['DC to AC (Power Inverter Efficiency)', 0.9, 0.9, '', 0],
     ]);
 
-    initTable('lossesTable', lossesTableData);
+    initTable('RBSlossesTable', lossesTableData);
   }
 
   function initCostsTableData(costsTableData) {
@@ -59,7 +59,7 @@ function initilizePage() {
       ['Cost of Capital', 0.05, 0.05, 'interest rate', 0],
       ['Life of Project', 30, 30, 'Years', 0],
     ]);
-    initTable('costsTable', costsTableData);
+    initTable('RBScostsTable', costsTableData);
   }
 
   function initTable(tableID, tableData) {
@@ -390,7 +390,7 @@ function initilizePage() {
     };
 
     // Create the chart
-    Highcharts.chart('lossesSankey', options);
+    Highcharts.chart('RBSlossesSankey', options);
 
   }
 
@@ -496,7 +496,7 @@ function initilizePage() {
     };
 
     // Create the chart
-    Highcharts.chart('costsSankey', options);
+    Highcharts.chart('RBScostsSankey', options);
 
   }
 
@@ -512,10 +512,10 @@ function initilizePage() {
     drawCostsSankey(costsTableData, lossesOutputData);
 
     // quick and dirty display of the cost values you have in the console
-    document.getElementById('overallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
-    document.getElementById('capitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7) / 1e2;
-    document.getElementById('costOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy'] * 10000) / 10000;
-    document.getElementById('relativeCost').innerHTML = Math.round(costsOutput['relativeCost'] * 100) / 100;
+    document.getElementById('RBSoverallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
+    document.getElementById('RBScapitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7) / 1e2;
+    document.getElementById('RBScostOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy'] * 10000) / 10000;
+    document.getElementById('RBSrelativeCost').innerHTML = Math.round(costsOutput['relativeCost'] * 100) / 100;
   }
 
   // Create the editable losses table

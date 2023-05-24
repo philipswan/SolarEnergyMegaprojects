@@ -38,7 +38,7 @@ function initilizePage() {
       ['Horizontal Power Transmisison Factor', 1, 1, 'USD/m', 0], // default to zero loss
     ]);
 
-    initTable('lossesTable', lossesTableData);
+    initTable('SBSlossesTable', lossesTableData);
   }
 
   function initCostsTableData(costsTableData) {
@@ -66,7 +66,7 @@ function initilizePage() {
       //['Refilling Flights Factor', 6, 6, '', 0],
 
     ]);
-    initTable('costsTable', costsTableData);
+    initTable('SBScostsTable', costsTableData);
 
   }
 
@@ -388,7 +388,7 @@ function initilizePage() {
 
     // Create the chart
     console.log('options', options)
-    Highcharts.chart('lossesSankey', options);
+    Highcharts.chart('SBSlossesSankey', options);
 
   }
 
@@ -541,7 +541,7 @@ function initilizePage() {
     };
 
     // Create the chart
-    Highcharts.chart('costsSankey', options);
+    Highcharts.chart('SBScostsSankey', options);
 
 
   }
@@ -558,10 +558,10 @@ function initilizePage() {
     drawCostsSankey(costsTableData, lossesOutputData);
 
     // quick and dirty display of the cost values you have in the console
-    document.getElementById('overallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
-    document.getElementById('capitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7)/1e2;
-    document.getElementById('costOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy']*10000)/10000;
-    document.getElementById('relativeCost').innerHTML = Math.round(costsOutput['relativeCost']*100)/100;
+    document.getElementById('SBSoverallSystemEfficiency').innerHTML = (lossesOutputData['overallSystemEfficiency'] * 100).toFixed(2);
+    document.getElementById('SBScapitalCost').innerHTML = Math.round(costsOutput['capitalCost'] / 1e7)/1e2;
+    document.getElementById('SBScostOfEnergy').innerHTML = Math.round(costsOutput['costOfEnergy']*10000)/10000;
+    document.getElementById('SBSrelativeCost').innerHTML = Math.round(costsOutput['relativeCost']*100)/100;
   }
 
   // Create the editable losses table
