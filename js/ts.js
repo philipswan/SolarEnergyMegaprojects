@@ -10,8 +10,8 @@ const TSlossesTableRowData = [
     unit: "GW",
     percentImprovement: 0,
     popoverText:
-      "According to the Solarsat.org FAQ, the microwave power link needs to be above 5GW to be efficient. The FAQ also estimates that a city of 1 million people needs approximately 2 GW of power. This number can be selected.",
-    sources: ["https://solarsat.org/faq.htm", "https://google.com"],
+      "A city of 1 million people needs approximately 2 GW of power. The Office of Energy Efficiency & Renewable Energy published a fun article on what 1GW of power is.",
+    sources: ["https://www.energy.gov/eere/articles/how-much-power-1-gigawatt"],
   },
   {
     label: "Average Solar Irradiance",
@@ -20,7 +20,7 @@ const TSlossesTableRowData = [
     unit: "W/m2",
     percentImprovement: 0,
     popoverText:
-      "Ranges from 1321 to 1414 throughout the year. It might be more appropriate to use the min or max solar irradiance depending on what time of year the worst-case load/efficiency will occur (i.e. summer or winter).",
+      "This is the \"in-space\" value and it ranges from 1321 to 1414 throughout the year. The Earth is nearer the sun when it is summer in the southern hemisphere and winter in the northern hemisphere. If supplying energy is hardest in the summer, use the summer value for your hemisphere.",
     sources: ["https://en.wikipedia.org/wiki/Solar_irradiance"],
   },
   {
@@ -30,8 +30,8 @@ const TSlossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText:
-      "The National Renewable Energy Laboratory provides efficiencies of many research cells. This value is not intended to be the highest value on that chart. This value is the efficiency, at a “reference temperature”, of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).",
-    sources: ["https://www.nrel.gov/pv/cell-efficiency.html"],
+      "The National Renewable Energy Laboratory provides efficiencies of many research cells and \"champion\" modules. This value is not intended to be the highest value on either of these charts. This value is the efficiency, at a “reference temperature” (typically 25&deg;C), of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).",
+    sources: ["https://www.nrel.gov/pv/cell-efficiency.html", "https://www.nrel.gov/pv/module-efficiency.html"],
   },
   {
     label: "Reference Temperature",
@@ -39,7 +39,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 25,
     unit: "&deg;C",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "The reference temperature is the temperature that was used to determine the solar panel's efficiency. It is typically 25&deg;C, but if you have a specification sheet for a solar panel, you should confirm that this is the value that they are using.",
     sources: [""],
   },
   {
@@ -48,8 +48,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.0045,
     unit: "1/&deg;C",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "The temperature of a solar panel has a direct effect on its ability to generate electricity. This has to do with the laws of thermodynamics and how heat limits any electronics ability to produce power.",
+    sources: ["https://www.solar.com/learn/does-solar-panel-temperature-coefficient-matter/"],
   },
   {
     label: "Solar Panel Operating Temperature",
@@ -57,8 +57,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 30,
     unit: "&deg;C",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "This is the temperature that the panel is expected to operate at. This is several &deg;C above the average ambient temperature.  In practice, the operating temperature of a solar cell in outdoor conditions is typically 50&deg;C–55&deg;C or higher. This heating has significant adverse consequences for the performance and reliability of solar cells.",
+    sources: ["https://opg.optica.org/directpdfaccess/83c48e59-b7cc-40ca-bc6354fe7b0658e7_296235/optica-1-1-32.pdf?da=1&id=296235&seq=0&mobile=no"],
   },
   {
     label: "Solar Absorptivity",
@@ -75,7 +75,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 39.742043,
     unit: "degrees",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This value is used to estimate the amount of time that the panel will be exposed to sunlight on the shortest day of the year.",
     sources: [""],
   },
   {
@@ -84,7 +84,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 170,
     unit: "degrees",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This value is used to estimate the amount of time that the panel will be exposed to sunlight on the shortest day of the year. If you have a specific site in mind, you can measure the angle to the horizon where the sun rises and sets to determine the horizon to horizon angle. It will be 180&deg; for someone in a raft on the ocean. It will be less in a location with nearby trees or mountains.",
     sources: [""],
   },
   {
@@ -94,7 +94,7 @@ const TSlossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText:
-      '"Atmospheric conditions can reduce direct beam radiation by 10% on clear, dry days and by 100% during thick, cloudy days."',
+      "Atmospheric conditions can reduce direct beam radiation by 10% on clear, dry days and by 100% during thick, cloudy days.",
     sources: [
       "https://www.energy.gov/eere/solar/solar-radiation-basics#:~:text=The%20sum%20of%20the%20diffuse,%25%20during%20thick%2C%20cloudy%20days",
     ],
@@ -105,16 +105,16 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.1,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "This value represents how clean the panels are kept on average. If the panels perfectly clean, then enter a value of zero. Pollen, dust, leaves, snow, and grime cause the value to be higher.",
+    sources: ["https://www.sciencedirect.com/science/article/abs/pii/S0048969722011421"],
   },
   {
-    label: "Battery Voltage Management Factor",
+    label: "Voltage Management Factor",
     stateOfTheArtValue: 0.95,
     aspirationalValue: 0.95,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor",
     sources: [""],
   },
   {
@@ -123,7 +123,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.8,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "The analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
     sources: [""],
   },
   {
@@ -132,7 +132,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.8,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the portion of the energy that is stored in the batteries can be recovered. The rest is lost to heat.",
     sources: [""],
   },
   {
@@ -141,7 +141,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.9,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the efficeincy of the device that converts DC power from the battery or panels to AC power at the freqeuncy of the grid, typically 50Hz or 60Hz.",
     sources: [""],
   },
   {
@@ -150,10 +150,12 @@ const TSlossesTableRowData = [
     aspirationalValue: 1,
     unit: "USD/m",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "Power also needs to be transmitted from where it is collected to where it is needed. For example, by placing a solar farm in a far away desert, the cost of the land can be reduced, but the cost of transmission lines and the energy loss over those power lines will be greater. This value represents the efficiency of the power lines and will depend on site selection.",
     sources: [""],
   },
 ];
+// Should add "step-up transformer efficiency"
+// Should investigate if panel voltage management and DC->AC inverter electronics are generally combined into a single system with a single efficiency.
 
 const TScostsTableRowData = [
   {
@@ -166,9 +168,9 @@ const TScostsTableRowData = [
     sources: ["test.com", "welcome.net"],
   },
   {
-    label: "Cost of Supporting Structure",
-    stateOfTheArtValue: 15,
-    aspirationalValue: 15,
+    label: "Other Hardware, Installation, and Soft Costs",
+    stateOfTheArtValue: 300,
+    aspirationalValue: 300,
     unit: "USD/m2",
     percentImprovement: 0,
     popoverText: "",
@@ -206,6 +208,15 @@ const TScostsTableRowData = [
     stateOfTheArtValue: 30,
     aspirationalValue: 30,
     unit: "Years",
+    percentImprovement: 0,
+    popoverText: "",
+    sources: [""],
+  },
+  {
+    label: "Yearly Operating Costs",
+    stateOfTheArtValue: 10,
+    aspirationalValue: 10,
+    unit: "Million",
     percentImprovement: 0,
     popoverText: "",
     sources: [""],
@@ -584,7 +595,7 @@ function initilizePage() {
     let row = 0;
     var unitCostOfSolarPanels = parseFloat(tableData.getValue(row, 2));
     row++;
-    var unitCostOfSupportingStructure = parseFloat(tableData.getValue(row, 2));
+    var unitCostOfHardwareInstallEtc = parseFloat(tableData.getValue(row, 2));
     row++;
     var unitCostOfLiIonBatteryStorage = parseFloat(tableData.getValue(row, 2));
     row++;
@@ -594,16 +605,18 @@ function initilizePage() {
     row++;
     var lifeofProject = parseFloat(tableData.getValue(row, 2));
     row++;
+    var yearlyOperatingCosts = parseFloat(tableData.getValue(row, 2));
+    row++;
 
     // Tally up component costs
     var costOfSolarPanelArray = unitCostOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
-    var costOfSolarPanelSupportingStructure = unitCostOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
+    var costOfSolarPanelHardwareInstallEtc = unitCostOfHardwareInstallEtc * lossesOutputData["solarPanelArrayArea"];
     var unitCostOfLiIonBatteryStorageInUSDPerGJ = (unitCostOfLiIonBatteryStorage * 1000000) / 3600;
     var costOfEnergyStorage =
       unitCostOfLiIonBatteryStorageInUSDPerGJ *
       lossesOutputData["energyStorageCapacityNeeded"] *
       (1 + costFactorforBatteryManagementSystems);
-    var totalSatelliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelSupportingStructure;
+    var totalSatelliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelHardwareInstallEtc;
 
     var totalComponentsCost = totalSatelliteComponentsCost + costOfEnergyStorage;
     var satelliteCapitalCost = totalSatelliteComponentsCost;
@@ -659,11 +672,12 @@ function initilizePage() {
         {
           keys: ["from", "to", "weight"],
           data: [
-            ["Solar Panels", "Solar Assembly", costOfSolarPanelArray],
-            ["Support Structure", "Solar Assembly", costOfSolarPanelSupportingStructure],
-            ["Solar Assembly", "Installation Capital Cost", totalSatelliteComponentsCost],
-            ["Energy Storage", "Installation Capital Cost", costOfEnergyStorage],
-            ["Installation Capital Cost", "Total Capital Costs", satelliteCapitalCost + costOfEnergyStorage],
+            ["Solar Panels", "Solar Power Plant", costOfSolarPanelArray],
+            ["Hardware, Install, Etc.", "Solar Power Plant", costOfSolarPanelHardwareInstallEtc],
+            ["Solar Power Plant", "Capital Costs", totalSatelliteComponentsCost],
+            ["Energy Storage", "Capital Costs", costOfEnergyStorage],
+            ["Capital Costs", "Total Costs", satelliteCapitalCost + costOfEnergyStorage],
+            ["Operating Costs", "Total Costs", yearlyOperatingCosts*1e6*lifeofProject],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -672,8 +686,12 @@ function initilizePage() {
           borderRadius: 0,
           nodes: [
             {
-              id: "Solar Assembly",
-              offsetVertical: -70,
+              id: "Solar Power Plant",
+              offsetVertical: -40,
+            },
+            {
+              id: "Capital Costs",
+              offsetVertical: -10,
             },
           ],
         },

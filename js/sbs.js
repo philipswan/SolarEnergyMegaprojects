@@ -9,8 +9,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 2,
     unit: "GW",
     percentImprovement: 0,
-    popoverText: "Sample Text",
-    sources: ["sampleLink.com", "thanks.gov"],
+    popoverText: "A city of 1 million people needs approximately 2 GW of power. The Office of Energy Efficiency & Renewable Energy published a fun article on what 1GW of power is. A Solarsat FAQ explains that the efficiency if a space-based solar wireless link is fundamentally limited by physics. Proponents of space-based solar concepts will generally assert that the wireless link in a space-based solar concept must be GW scale to avoid having physics limit the wireless link's efficiency.",
+    sources: ["https://www.energy.gov/eere/articles/how-much-power-1-gigawatt", "https://solarsat.org/faq.htm"],
   },
   {
     label: "Average Solar Irradiance",
@@ -18,8 +18,9 @@ const SBSlossesTableRowData = [
     aspirationalValue: 1361,
     unit: "W/m2",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText:
+      "This is the \"in-space\" value and it ranges from 1321 to 1414 throughout the year. The Earth is nearer the sun when it is summer in the southern hemisphere and winter in the northern hemisphere. If supplying energy is hardest in the summer, use the summer value for your hemisphere.",
+    sources: ["https://en.wikipedia.org/wiki/Solar_irradiance"],
   },
   {
     label: "Solar Panel Cell Efficiency At Ref Temp",
@@ -27,8 +28,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.2,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "The National Renewable Energy Laboratory provides efficiencies of many research cells and \"champion\" modules. This value is not intended to be the highest value on either of these charts. This value is the efficiency, at a “reference temperature” (typically 25&deg;C), of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).",
+    sources: ["https://www.nrel.gov/pv/cell-efficiency.html", "https://www.nrel.gov/pv/module-efficiency.html"],
   },
   {
     label: "Reference Temperature",
@@ -36,7 +37,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 25,
     unit: "&deg;C",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "The reference temperature is the temperature that was used to determine the solar panel's efficiency. It is typically 25&deg;C, but if you have a specification sheet for a solar panel, you should confirm that this is the value that they are using.",
     sources: [""],
   },
   {
@@ -45,25 +46,35 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.0045,
     unit: "1/&deg;C",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "The temperature of a solar panel has a direct effect on its ability to generate electricity. This has to do with the laws of thermodynamics and how heat limits any electronics ability to produce power. Since the solar panels are locates in space, it is possible to directly calculate their operating temperature.",
+    sources: ["https://www.solar.com/learn/does-solar-panel-temperature-coefficient-matter/"],
   },
   {
-    label: "Solar Absorptivity",
+    label: "Solar Panel Absorptivity",
     stateOfTheArtValue: 0.96,
     aspirationalValue: 0.96,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the portion of the sun's energy that is absorbed by the panel as opposed to being reflected away. Some of the absorbed energy is converted to electricity and the rest is converted to heat.",
     sources: [""],
   },
+  {
+    label: "Solar Panel Emissivity",
+    stateOfTheArtValue: 0.82,
+    aspirationalValue: 0.82,
+    unit: "",
+    percentImprovement: 0,
+    popoverText: "A panel in space can only cool itself by radiating heat away. When this is the case, it becomes possible to estimate the panel's operating temperature with a formula. One of the terms in this formula is the emissivity of the panel.",
+    sources: [""],
+  },
+  // Add PMAC??
   {
     label: "DC to AC (RF Power Amplifier Conversion Efficiency)",
     stateOfTheArtValue: 0.5,
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "A power amplifier is part of the electronic circuit that converts DC to AC at microwave frequenies. To create the kind of high quality wave that will form a tight beam and not generate radio frequency interferance, a the power amplifier needs to be \"Type A\". There efficiency of these amplifiers is limited by physics to 50%. This is only one of the electronic components that will generate heat during this energy conversion.",
     sources: [""],
   },
   {
@@ -72,7 +83,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "After the radio frequency AC signal exits the electronic circuit that generated it, it must travel through wires to a specific antenna element in the phased-array antenna. The antenna element will emit a portion of this energy as microwave photons. This value represents the portion of RF AC electrical energy that is successfully conveted into microwave photon energy by the individual antenna elements.",
     sources: [""],
   },
   {
@@ -81,7 +92,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 2000,
     unit: "m",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This analyzer assumes that the microwave transmitter is a disk-shaped phased-array.",
     sources: [""],
   },
   {
@@ -90,7 +101,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 2000,
     unit: "m",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This analyzer assumes that the microwave receiver is disk-shaped.",
     sources: [""],
   },
   {
@@ -99,7 +110,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 35000000,
     unit: "m",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the distance between the microwave transmitter and the microwave receiver.",
     sources: [""],
   },
   {
@@ -108,7 +119,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.125,
     unit: "m",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the wavelength of the microwaves used for tranmitting power.",
     sources: [""],
   },
   {
@@ -117,7 +128,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.1,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the degree to which microwaves will be attenuated while travelling through the atmosphere on a worse-case day for weather. (On the Moon this value would be zero.) This value is dependant on site selection for the microwave receiver.",
     sources: [""],
   },
   {
@@ -126,7 +137,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 100,
     unit: "W/m2",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This value represents an upper energy flux limit for safety. For example, it could be set low enough to make it safe for a parachutist to accidentally fly into the beam or it could be set low enough to be safe for birds.",
     sources: [""],
   },
   {
@@ -135,19 +146,20 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This value represents the amount of microwave photon energy that is converted to electrical energy at radio frequencies by the receiving antennas.",
     sources: [""],
   },
   {
-    label: "AC to DC (Power Rectifier Efficiency)",
+    label: "RF AC to DC (Power Rectifier Efficiency)",
     stateOfTheArtValue: 0.5,
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "The value represents the amount of electrical energy at the RF AC frequency that is successfully converted into low voltage DC energy by the rectifier electronics. Recifier efficiency is related to the power of the voltage of the RF AC signal, which in turn is related to the RF Energy Flux at the antenna elements. At flux levels that are safe for living things, rectifier efficiencies tend to be much lower.",
     sources: [""],
   },
   {
+    // Repeat???
     label: "RF Energy Density Safety Limit",
     stateOfTheArtValue: 200,
     aspirationalValue: 200,
@@ -474,8 +486,9 @@ function initilizePage() {
     row++;
     var solarPanelTemperatureEfficiencyFactor = parseFloat(tableData.getValue(row, 2));
     row++;
-    //var operatingTemperature = parseFloat(tableData.getValue(row, 2)); row++;
     var solarPanelAbsorptivity = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var solarPanelEmissivity = parseFloat(tableData.getValue(row, 2));
     row++;
     var rfPowerAmplifierConversionEfficiency = parseFloat(tableData.getValue(row, 2));
     row++;
@@ -546,7 +559,6 @@ function initilizePage() {
     var dcElectricalPower = rfPowerIntoTxAntennas / rfPowerAmplifierConversionEfficiency;
 
     var stefanBoltzmannConstant = 5.67e-8; //	W/m2K4
-    var averageEmissivity = 0.82;
 
     let solarPanelEfficiency = solarPanelEfficiencyAtRefTemp; // * (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
     let panelTemperatureKelvin;
@@ -555,8 +567,7 @@ function initilizePage() {
     for (let itterations = 0; itterations < 5; itterations++) {
       panelTemperatureKelvin =
         ((averageSolarIrradiance * (solarPanelAbsorptivity - solarPanelEfficiency)) /
-          (stefanBoltzmannConstant * averageEmissivity * 2)) **
-        0.25;
+          (stefanBoltzmannConstant * solarPanelEmissivity * 2)) ** 0.25;
       panelTemperatureCelcius = panelTemperatureKelvin - 273.15;
       solarPanelEfficiency =
         solarPanelEfficiencyAtRefTemp *

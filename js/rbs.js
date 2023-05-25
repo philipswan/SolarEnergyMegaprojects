@@ -108,7 +108,7 @@ const RBSlossesTableRowData = [
     aspirationalValue: 0.01,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "Atmospheric conditions can reduce direct beam radiation of a solar panel on the Earth's surface by 10% on clear, dry days and by 100% during thick, cloudy days. At the high altitudes used for ring-based solar, the rarified atmosphere only minimally attenuates the sun's energy.",
     sources: [""],
   },
   {
@@ -117,7 +117,7 @@ const RBSlossesTableRowData = [
     aspirationalValue: 0.01,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This value represents how clean the panels are kept on average. If the panels perfectly clean, then enter a value of zero. Pollen, dust, leaves, snow, and grime cause the value to be higher. At high altitudes, the panels are more likely to remain clean, so the value is lower.",
     sources: [""],
   },
   {
@@ -126,7 +126,7 @@ const RBSlossesTableRowData = [
     aspirationalValue: 0.95,
     unit: "",
     percentImprovement: 0,
-    popoverText: "Needs more investigation",
+    popoverText: "A linear motor, like a typical rotating motor, is used to convert electrical energy into kinetic energy.",
     sources: [""],
   },
   {
@@ -135,8 +135,8 @@ const RBSlossesTableRowData = [
     aspirationalValue: 0.96,
     unit: "",
     percentImprovement: 0,
-    popoverText: "Needs more investigation",
-    sources: [""],
+    popoverText: "Some of the kinetic energy stored in the ring is lost to air friction, magnetic friction, or is consumed to power the magnetic levitation system. These losses are discussed in the paper \"The Techno-Economic Viability of Actively Supported Structures for Terrestrial Transit and Space Launch\"",
+    sources: ["https://ieeexplore.ieee.org/document/10115896/"],
   },
   {
     label: "Linear Generator Efficiency",
@@ -144,7 +144,7 @@ const RBSlossesTableRowData = [
     aspirationalValue: 0.93,
     unit: "",
     percentImprovement: 0,
-    popoverText: "Needs more investigation",
+    popoverText: "A linear generator, like a typical rotating generator, is used to convert the kinetic energy of the ring back into electrical energy.",
     sources: [""],
   },
   {
@@ -158,8 +158,8 @@ const RBSlossesTableRowData = [
   },
   {
     label: "Vertical Power Transmisison Efficiency",
-    stateOfTheArtValue: 0.9,
-    aspirationalValue: 0.9,
+    stateOfTheArtValue: 0.99,
+    aspirationalValue: 0.99,
     unit: "USD/m",
     percentImprovement: 0,
     popoverText: "",
@@ -445,12 +445,12 @@ function initilizePage() {
     var stepUpTransformerLoss = linearGeneratorOutputPower - stepUpTransformerOutputPower;
 
     // Linear Generators
-    var powerFromRing = linearGeneratorOutputPower / linearGeneratorEfficiency;
-    var linearGeneratorLoss = powerFromRing - linearGeneratorOutputPower;
+    var powerRemainingInRing = linearGeneratorOutputPower / linearGeneratorEfficiency;
+    var linearGeneratorLoss = powerRemainingInRing - linearGeneratorOutputPower;
 
     // Ring Storage/Transmission
-    var powerFromRingBeforeSelfDischargeLosses = powerFromRing / energyStorageSelfDischarge;
-    var selfDischargeLoss = powerFromRingBeforeSelfDischargeLosses - powerFromRing;
+    var energyForDaytime = powerRemainingInRing / energyStorageSelfDischarge;
+    var selfDischargeLoss = energyForDaytime - powerRemainingInRing;
 
     function h2hAngle(altitude) {
       const R = 6378137; // Earth's radius in meters
@@ -479,12 +479,12 @@ function initilizePage() {
     var daylightFactor = minDaylightHours / 24;
 
     // Energy Needed Due To Limited Daylight Hours
-    var powerToRing = powerFromRingBeforeSelfDischargeLosses / (1 - daylightFactor);
-    var energyForUseLater = powerToRing - powerFromRingBeforeSelfDischargeLosses;
+    var powerToRing = energyForDaytime / (1 - daylightFactor);
+    var energyForNightime = powerToRing - energyForDaytime;
 
     // Linear Motors
     var powerToLinearMotor = powerToRing / linearMotorEfficiency;
-    var linearMotorLosses = powerToLinearMotor - powerToRing;
+    var linearMotorLoss = powerToLinearMotor - powerToRing;
 
     var timeInDarknessInSeconds = (24 - minDaylightHours) * secondsInHour;
     var energyStorageCapacityNeeded = powerToLinearMotor * timeInDarknessInSeconds * linearMotorEfficiency;
@@ -597,20 +597,18 @@ function initilizePage() {
             ["Incident Solar Power", "DC Power From Panel", dcPowerFromPanel],
             ["DC Power From Panel", "Station-Keeping Power", dcStationKeepingPower],
             ["DC Power From Panel", "Power To Linear Motor", powerToLinearMotor],
-            ["Power To Linear Motor", "Lost as Heat 2", linearMotorLosses],
+            ["Power To Linear Motor", "Linear Motor Loss", linearMotorLoss],
             ["Power To Linear Motor", "Power To Ring", powerToRing],
-            ["Power To Ring", "Energy for Use Later", energyForUseLater],
-            ["Power To Ring", "Energy for Use Now", powerFromRingBeforeSelfDischargeLosses],
-            ["Energy for Use Now", "Self Discharge Loss", selfDischargeLoss],
-            ["Energy for Use Now", "Power Before Self-Discharge", powerFromRing],
-            ["Power Before Self-Discharge", "Lost as Heat 3", selfDischargeLoss],
-            ["Power Before Self-Discharge", "Power From Ring", powerFromRing],
-            ["Power From Ring", "Lost as Heat 4", linearGeneratorLoss],
-            ["Power From Ring", "Linear Generator Output Power", linearGeneratorOutputPower],
-            ["Linear Generator Output Power", "Lost as Heat 5", stepUpTransformerLoss],
-            ["Linear Generator Output Power", "Step-Up Transformer Output Power", stepUpTransformerOutputPower],
-            ["Step-Up Transformer Output Power", "Lost as Heat 6", verticalPowerTransmissionLoss],
-            ["Step-Up Transformer Output Power", "Delivered to Grid", baseloadPowerDeliveredToGrid],
+            ["Power To Ring", "Energy for Nightime Use", energyForNightime],
+            ["Power To Ring", "Energy for Daytime Use", energyForDaytime],
+            ["Energy for Daytime Use", "Self Discharge Loss", selfDischargeLoss],
+            ["Energy for Daytime Use", "Power To Linear Generators", powerRemainingInRing],
+            ["Power To Linear Generators", "Linear Generator Loss", linearGeneratorLoss],
+            ["Power To Linear Generators", "To Step-Up XFormer", linearGeneratorOutputPower],
+            ["To Step-Up XFormer", "Step-Up XFormer Loss", stepUpTransformerLoss],
+            ["To Step-Up XFormer", "To Vertical Trasmission Lines", stepUpTransformerOutputPower],
+            ["To Vertical Trasmission Lines", "Vertical Power Transmission Loss", verticalPowerTransmissionLoss],
+            ["To Vertical Trasmission Lines", "Delivered to Grid", baseloadPowerDeliveredToGrid],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -669,7 +667,7 @@ function initilizePage() {
               name: "Power To Linear Motor",
             },
             {
-              id: "Lost as Heat 2",
+              id: "Linear Motor Loss",
               column: 5,
               name: "Lost as Heat",
             },
@@ -678,14 +676,14 @@ function initilizePage() {
               column: 5,
             },
             {
-              id: "Energy for Use Later",
+              id: "Energy for Nightime Use",
               column: 6,
-              name: "Energy for Use Later",
+              name: "For Nightime Use",
             },
             {
-              id: "Energy for Use Now",
+              id: "Energy for Daytime Use",
               column: 6,
-              name: "Energy for Use Now",
+              name: "For Daytime Use",
             },
             {
               id: "Self Discharge Loss",
@@ -693,48 +691,38 @@ function initilizePage() {
               name: "Self Discharge Loss",
             },
             {
-              id: "Power Before Self-Discharge",
+              id: "Power To Linear Generators",
               column: 7,
-              name: "Power Before Self-Discharge",
+              name: "To Linear Generators",
             },
             {
-              id: "Lost as Heat 3",
+              id: "Linear Generator Loss",
               column: 8,
-              name: "Lost as Heat 3",
+              name: "Lost as Heat",
             },
             {
-              id: "Power From Ring",
+              id: "To Step-Up XFormer",
               column: 8,
-              name: "Power From Ring",
+              name: "To Step-Up XFormer",
             },
             {
-              id: "Lost as Heat 4",
+              id: "Step-Up XFormer Loss",
               column: 9,
-              name: "Lost as Heat 4",
+              name: "Lost as Heat",
             },
             {
-              id: "Linear Generator Output Power",
+              id: "To Vertical Trasmission Lines",
               column: 9,
-              name: "Linear Generator Out",
+              name: "To Vertical Trasmission Lines",
             },
             {
-              id: "Lost as Heat 5",
+              id: "Vertical Power Transmission Loss",
               column: 10,
-              name: "Lost as Heat 5",
-            },
-            {
-              id: "Step-Up Transformer Output Power",
-              column: 10,
-              name: "Step-Up Transformer Output Power",
-            },
-            {
-              id: "Lost as Heat 6",
-              column: 11,
               name: "Lost as Heat",
             },
             {
               id: "Delivered to Grid",
-              column: 11,
+              column: 10,
               name: "Delivered to Grid",
             },
           ],
