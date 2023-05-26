@@ -75,7 +75,7 @@ const SBSlossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "A power amplifier is part of the electronic circuit that converts DC to AC at microwave frequenies. To create the kind of high quality wave that will form a tight beam and not generate radio frequency interferance, a the power amplifier needs to be \"Type A\". There efficiency of these amplifiers is limited by physics to 50%. This is only one of the electronic components that will generate heat during this energy conversion.",
-    sources: [""],
+    sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
     label: "AC to RF (Transmission Antenna Efficiency)",
@@ -84,7 +84,7 @@ const SBSlossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "After the radio frequency AC signal exits the electronic circuit that generated it, it must travel through wires to a specific antenna element in the phased-array antenna. The antenna element will emit a portion of this energy as microwave photons. This value represents the portion of RF AC electrical energy that is successfully conveted into microwave photon energy by the individual antenna elements.",
-    sources: [""],
+    sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
     label: "Transmission Antenna Diameter",
@@ -119,7 +119,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.125,
     unit: "m",
     percentImprovement: 0,
-    popoverText: "This is the wavelength of the microwaves used for tranmitting power.",
+    popoverText: "This is the wavelength of the microwaves used for transmitting power.",
     sources: [""],
   },
   {
@@ -132,22 +132,13 @@ const SBSlossesTableRowData = [
     sources: [""],
   },
   {
-    label: "Maximum RF Energy Flux",
-    stateOfTheArtValue: 100,
-    aspirationalValue: 100,
-    unit: "W/m2",
-    percentImprovement: 0,
-    popoverText: "This value represents an upper energy flux limit for safety. For example, it could be set low enough to make it safe for a parachutist to accidentally fly into the beam or it could be set low enough to be safe for birds.",
-    sources: [""],
-  },
-  {
     label: "RF to AC (Receiver Antenna Efficiency)",
     stateOfTheArtValue: 0.5,
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
     popoverText: "This value represents the amount of microwave photon energy that is converted to electrical energy at radio frequencies by the receiving antennas.",
-    sources: [""],
+    sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
     label: "RF AC to DC (Power Rectifier Efficiency)",
@@ -156,16 +147,15 @@ const SBSlossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "The value represents the amount of electrical energy at the RF AC frequency that is successfully converted into low voltage DC energy by the rectifier electronics. Recifier efficiency is related to the power of the voltage of the RF AC signal, which in turn is related to the RF Energy Flux at the antenna elements. At flux levels that are safe for living things, rectifier efficiencies tend to be much lower.",
-    sources: [""],
+    sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
-    // Repeat???
     label: "RF Energy Density Safety Limit",
     stateOfTheArtValue: 200,
     aspirationalValue: 200,
     unit: "W/m2",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This value represents an upper energy flux limit for safety. For example, it could be set low enough to make it safe for a parachutist to accidentally fly into the beam or it could be set low enough to be safe for birds.",
     sources: [""],
   },
   {
@@ -174,7 +164,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.95,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor.",
     sources: [""],
   },
   {
@@ -183,7 +173,7 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.8,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "The analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
     sources: [""],
   },
   {
@@ -222,8 +212,9 @@ const SBScostsTableRowData = [
     aspirationalValue: 300,
     unit: "USD/m2",
     percentImprovement: 0,
-    popoverText: "testing a;sldkjfa",
-    sources: ["link.com", "hello.com"],
+    popoverText: "",
+    sources: ["https://ourworldindata.org/grapher/solar-pv-system-costs", "https://ourworldindata.org/grapher/solar-pv-prices"],
+
   },
   {
     label: "Mass of Solar Panels",
@@ -241,7 +232,7 @@ const SBScostsTableRowData = [
     unit: "USD/m2",
     percentImprovement: 0,
     popoverText: "",
-    sources: [""],
+    sources: ["https://ourworldindata.org/grapher/solar-pv-system-costs"],
   },
   {
     label: "Mass of Supporting Structure",
@@ -276,8 +267,8 @@ const SBScostsTableRowData = [
     aspirationalValue: 80000,
     unit: "USD/kg",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "This is the cost-per-kg to a LEO orbit of sufficient altitude for docking and refilling operations to occur.",
+    sources: ["https://ieeexplore.ieee.org/document/9900032/", "https://oig.nasa.gov/docs/IG-18-016.pdf", "https://www.nasa.gov/feature/nasa-awards-spacex-more-crew-flights-to-space-station"],
   },
   {
     label: "Vehicle Payload Mass",
@@ -285,7 +276,7 @@ const SBScostsTableRowData = [
     aspirationalValue: 100000,
     unit: "kg",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the mass that the launch system can place into a LEO orbit of sufficient altitude for docking and refilling operations to occur each time it launches.",
     sources: [""],
   },
   {
@@ -294,7 +285,7 @@ const SBScostsTableRowData = [
     aspirationalValue: 105000,
     unit: "kg",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the mass of the launch system after it has deployed its payload into LEO.",
     sources: [""],
   },
   {
@@ -307,7 +298,7 @@ const SBScostsTableRowData = [
     sources: [""],
   },
   {
-    label: "Cost of Li-Ion Battery Storage",
+    label: "Cost of Battery Storage",
     stateOfTheArtValue: 217,
     aspirationalValue: 217,
     unit: "USD/kWh",
@@ -330,7 +321,7 @@ const SBScostsTableRowData = [
     aspirationalValue: 0.05,
     unit: "",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the cost of borrowing money.",
     sources: [""],
   },
   {
@@ -339,7 +330,7 @@ const SBScostsTableRowData = [
     aspirationalValue: 30,
     unit: "Years",
     percentImprovement: 0,
-    popoverText: "",
+    popoverText: "This is the number of years that the project will be in operation.",
     sources: [""],
   },
 ];
@@ -504,8 +495,6 @@ function initilizePage() {
     row++;
     var atmosphericAttenuation = parseFloat(tableData.getValue(row, 2));
     row++;
-    var maximumRFEnergyFlux = parseFloat(tableData.getValue(row, 2));
-    row++;
     var rxAntennaEfficiency = parseFloat(tableData.getValue(row, 2));
     row++;
     var rxPowerRectifierEfficiency = parseFloat(tableData.getValue(row, 2));
@@ -574,11 +563,12 @@ function initilizePage() {
         (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - panelTemperatureCelcius));
       //console.log(panelTemperatureCelcius, solarPanelEfficiency)
     }
+    console.log('Space-Solar panelTemperatureCelcius', panelTemperatureCelcius)
+    console.log('Space-Solar solarPanelEfficiency', solarPanelEfficiency)
 
-    var absorbedSolarPower = dcElectricalPower / solarPanelEfficiency;
-    var incidentSolarPower = absorbedSolarPower / solarPanelAbsorptivity;
+    var incidentSolarPower = dcElectricalPower / solarPanelEfficiency;
+    var absorbedSolarPower = incidentSolarPower * solarPanelAbsorptivity;
     var reflectedSolarPower = incidentSolarPower * (1 - solarPanelAbsorptivity);
-
     var overallSystemEfficiency = baseloadPowerDeliveredToGrid / incidentSolarPower;
     var solarPanelArrayArea = (incidentSolarPower * 1e9) / averageSolarIrradiance;
     var solarPanelArrayDiameter = Math.sqrt(solarPanelArrayArea / Math.PI) * 2;
@@ -638,11 +628,7 @@ function initilizePage() {
           keys: ["from", "to", "weight", "outgoing"],
           data: [
             ["Incident Solar Power", "Reflected Energy", reflectedSolarPower],
-            [
-              "Incident Solar Power",
-              "Heating of Satellite 1",
-              incidentSolarPower - reflectedSolarPower - dcElectricalPower,
-            ],
+            ["Incident Solar Power", "Heating of Satellite 1", incidentSolarPower - reflectedSolarPower - dcElectricalPower],
             ["Incident Solar Power", "DC Electrical Power", dcElectricalPower],
             ["DC Electrical Power", "Heating of Satellite 2", dcElectricalPower - rfPowerIntoTxAntennas],
             ["DC Electrical Power", "RFAC Power To Tx Antennas", rfPowerIntoTxAntennas],
@@ -652,17 +638,9 @@ function initilizePage() {
             ["RF Power Emitted as Microwaves", "RF Power at Rx Antennas", incidentRfPower],
             ["RF Power at Rx Antennas", "Heating of Earth 2", incidentRfPower - rxAntennaOutputPower],
             ["RF Power at Rx Antennas", "RFAC Power at Rx Antenna Output", rxAntennaOutputPower],
-            [
-              "RFAC Power at Rx Antenna Output",
-              "Heating of Earth 3",
-              rxAntennaOutputPower - rxPowerRectifierOutputPower,
-            ],
+            ["RFAC Power at Rx Antenna Output", "Heating of Earth 3", rxAntennaOutputPower - rxPowerRectifierOutputPower],
             ["RFAC Power at Rx Antenna Output", "DC Power at Rectifier Output", rxPowerRectifierOutputPower],
-            [
-              "DC Power at Rectifier Output",
-              "Heating of Earth 4",
-              rxPowerRectifierOutputPower - rxPowerInverterOutputPower,
-            ],
+            ["DC Power at Rectifier Output", "Heating of Earth 4", rxPowerRectifierOutputPower - rxPowerInverterOutputPower],
             ["DC Power at Rectifier Output", "AC Power at Inverter Output", rxPowerInverterOutputPower],
             ["AC Power at Inverter Output", "Heating of Earth 5", energyLostInVoltageManagement],
             ["AC Power at Inverter Output", "Energy Storage Recharge", energyStorageRechargePower],
@@ -780,7 +758,6 @@ function initilizePage() {
     };
 
     // Create the chart
-    console.log("options", options);
     Highcharts.chart("SBSlossesSankey", options);
   }
 
@@ -944,11 +921,7 @@ function initilizePage() {
             ["Solar Panels (Launch)", "Launch Costs", massOfSolarPanelArray * costPerKgToGEO],
             ["Solar Panel Structure (Launch)", "Launch Costs", massOfSolarPanelSupportingStructure * costPerKgToGEO],
             ["RF Transmitter Components (Launch)", "Launch Costs", massOfRFTransmitterArray * costPerKgToGEO],
-            [
-              "RF Transmitter Structure (Launch)",
-              "Launch Costs",
-              massOfRFTransmitterSupportingStructure * costPerKgToGEO,
-            ],
+            ["RF Transmitter Structure (Launch)", "Launch Costs", massOfRFTransmitterSupportingStructure * costPerKgToGEO],
             ["Satellite Components", "Satellite Capital Cost", totalSatelliteComponentsCost],
             ["Launch Costs", "Satellite Capital Cost", totalMassToGEO * costPerKgToGEO],
             ["RF Receiver Components", "Receiver Capital Cost", costOfRFReceiverArray],

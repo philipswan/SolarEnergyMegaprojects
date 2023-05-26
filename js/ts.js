@@ -114,7 +114,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.95,
     unit: "",
     percentImprovement: 0,
-    popoverText: "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor",
+    popoverText: "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor.",
     sources: [""],
   },
   {
@@ -164,8 +164,8 @@ const TScostsTableRowData = [
     aspirationalValue: 300,
     unit: "USD/m2",
     percentImprovement: 0,
-    popoverText: "Sample Sample Thank you",
-    sources: ["test.com", "welcome.net"],
+    popoverText: "",
+    sources: ["https://ourworldindata.org/grapher/solar-pv-system-costs", "https://ourworldindata.org/grapher/solar-pv-prices"],
   },
   {
     label: "Other Hardware, Installation, and Soft Costs",
@@ -173,8 +173,8 @@ const TScostsTableRowData = [
     aspirationalValue: 300,
     unit: "USD/m2",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "Varies significantly by country. Includes soft costs such as margin and permitting, installation costs, and hardware costs (other than photovoltaic modules).",
+    sources: ["https://ourworldindata.org/grapher/solar-pv-system-costs", "https://www.irena.org/publications/2019/May/Renewable-power-generation-costs-in-2018#RestrictedModal"],
   },
   {
     label: "Cost of Li-Ion Battery Storage",
