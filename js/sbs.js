@@ -9,7 +9,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 2,
     unit: "GW",
     percentImprovement: 0,
-    popoverText: "A city of 1 million people needs approximately 2 GW of power. The Office of Energy Efficiency & Renewable Energy published a fun article on what 1GW of power is. A Solarsat FAQ explains that the efficiency if a space-based solar wireless link is fundamentally limited by physics. Proponents of space-based solar concepts will generally assert that the wireless link in a space-based solar concept must be GW scale to avoid having physics limit the wireless link's efficiency.",
+    popoverText:
+      "A city of 1 million people needs approximately 2 GW of power. The Office of Energy Efficiency & Renewable Energy published a fun article on what 1GW of power is. A Solarsat FAQ explains that the efficiency if a space-based solar wireless link is fundamentally limited by physics. Proponents of space-based solar concepts will generally assert that the wireless link in a space-based solar concept must be GW scale to avoid having physics limit the wireless link's efficiency.",
     sources: ["https://www.energy.gov/eere/articles/how-much-power-1-gigawatt", "https://solarsat.org/faq.htm"],
   },
   {
@@ -19,7 +20,7 @@ const SBSlossesTableRowData = [
     unit: "W/m2",
     percentImprovement: 0,
     popoverText:
-      "This is the \"in-space\" value and it ranges from 1321 to 1414 throughout the year. The Earth is nearer the sun when it is summer in the southern hemisphere and winter in the northern hemisphere. If supplying energy is hardest in the summer, use the summer value for your hemisphere.",
+      'This is the "in-space" value and it ranges from 1321 to 1414 throughout the year. The Earth is nearer the sun when it is summer in the southern hemisphere and winter in the northern hemisphere. If supplying energy is hardest in the summer, use the summer value for your hemisphere.',
     sources: ["https://en.wikipedia.org/wiki/Solar_irradiance"],
   },
   {
@@ -28,7 +29,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.2,
     unit: "",
     percentImprovement: 0,
-    popoverText: "The National Renewable Energy Laboratory provides efficiencies of many research cells and \"champion\" modules. This value is not intended to be the highest value on either of these charts. This value is the efficiency, at a “reference temperature” (typically 25&deg;C), of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).",
+    popoverText:
+      'The National Renewable Energy Laboratory provides efficiencies of many research cells and "champion" modules. This value is not intended to be the highest value on either of these charts. This value is the efficiency, at a “reference temperature” (typically 25&deg;C), of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).',
     sources: ["https://www.nrel.gov/pv/cell-efficiency.html", "https://www.nrel.gov/pv/module-efficiency.html"],
   },
   {
@@ -37,7 +39,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 25,
     unit: "&deg;C",
     percentImprovement: 0,
-    popoverText: "The reference temperature is the temperature that was used to determine the solar panel's efficiency. It is typically 25&deg;C, but if you have a specification sheet for a solar panel, you should confirm that this is the value that they are using.",
+    popoverText:
+      "The reference temperature is the temperature that was used to determine the solar panel's efficiency. It is typically 25&deg;C, but if you have a specification sheet for a solar panel, you should confirm that this is the value that they are using.",
     sources: [""],
   },
   {
@@ -46,7 +49,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.0045,
     unit: "1/&deg;C",
     percentImprovement: 0,
-    popoverText: "The temperature of a solar panel has a direct effect on its ability to generate electricity. This has to do with the laws of thermodynamics and how heat limits any electronics ability to produce power. Since the solar panels are locates in space, it is possible to directly calculate their operating temperature.",
+    popoverText:
+      "The temperature of a solar panel has a direct effect on its ability to generate electricity. This has to do with the laws of thermodynamics and how heat limits any electronics ability to produce power. Since the solar panels are locates in space, it is possible to directly calculate their operating temperature.",
     sources: ["https://www.solar.com/learn/does-solar-panel-temperature-coefficient-matter/"],
   },
   {
@@ -55,7 +59,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.96,
     unit: "",
     percentImprovement: 0,
-    popoverText: "This is the portion of the sun's energy that is absorbed by the panel as opposed to being reflected away. Some of the absorbed energy is converted to electricity and the rest is converted to heat.",
+    popoverText:
+      "This is the portion of the sun's energy that is absorbed by the panel as opposed to being reflected away. Some of the absorbed energy is converted to electricity and the rest is converted to heat.",
     sources: [""],
   },
   {
@@ -64,7 +69,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.82,
     unit: "",
     percentImprovement: 0,
-    popoverText: "A panel in space can only cool itself by radiating heat away. When this is the case, it becomes possible to estimate the panel's operating temperature with a formula. One of the terms in this formula is the emissivity of the panel.",
+    popoverText:
+      "A panel in space can only cool itself by radiating heat away. When this is the case, it becomes possible to estimate the panel's operating temperature with a formula. One of the terms in this formula is the emissivity of the panel.",
     sources: [""],
   },
   // Add PMAC??
@@ -74,7 +80,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "A power amplifier is part of the electronic circuit that converts DC to AC at microwave frequenies. To create the kind of high quality wave that will form a tight beam and not generate radio frequency interferance, a the power amplifier needs to be \"Type A\". There efficiency of these amplifiers is limited by physics to 50%. This is only one of the electronic components that will generate heat during this energy conversion.",
+    popoverText:
+      'A power amplifier is part of the electronic circuit that converts DC to AC at microwave frequenies. To create the kind of high quality wave that will form a tight beam and not generate radio frequency interferance, a the power amplifier needs to be "Type A". There efficiency of these amplifiers is limited by physics to 50%. This is only one of the electronic components that will generate heat during this energy conversion.',
     sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
@@ -83,7 +90,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "After the radio frequency AC signal exits the electronic circuit that generated it, it must travel through wires to a specific antenna element in the phased-array antenna. The antenna element will emit a portion of this energy as microwave photons. This value represents the portion of RF AC electrical energy that is successfully conveted into microwave photon energy by the individual antenna elements.",
+    popoverText:
+      "After the radio frequency AC signal exits the electronic circuit that generated it, it must travel through wires to a specific antenna element in the phased-array antenna. The antenna element will emit a portion of this energy as microwave photons. This value represents the portion of RF AC electrical energy that is successfully conveted into microwave photon energy by the individual antenna elements.",
     sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
@@ -128,7 +136,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.1,
     unit: "",
     percentImprovement: 0,
-    popoverText: "This is the degree to which microwaves will be attenuated while travelling through the atmosphere on a worse-case day for weather. (On the Moon this value would be zero.) This value is dependant on site selection for the microwave receiver.",
+    popoverText:
+      "This is the degree to which microwaves will be attenuated while travelling through the atmosphere on a worse-case day for weather. (On the Moon this value would be zero.) This value is dependant on site selection for the microwave receiver.",
     sources: [""],
   },
   {
@@ -137,7 +146,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "This value represents the amount of microwave photon energy that is converted to electrical energy at radio frequencies by the receiving antennas.",
+    popoverText:
+      "This value represents the amount of microwave photon energy that is converted to electrical energy at radio frequencies by the receiving antennas.",
     sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
@@ -146,7 +156,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "The value represents the amount of electrical energy at the RF AC frequency that is successfully converted into low voltage DC energy by the rectifier electronics. Recifier efficiency is related to the power of the voltage of the RF AC signal, which in turn is related to the RF Energy Flux at the antenna elements. At flux levels that are safe for living things, rectifier efficiencies tend to be much lower.",
+    popoverText:
+      "The value represents the amount of electrical energy at the RF AC frequency that is successfully converted into low voltage DC energy by the rectifier electronics. Recifier efficiency is related to the power of the voltage of the RF AC signal, which in turn is related to the RF Energy Flux at the antenna elements. At flux levels that are safe for living things, rectifier efficiencies tend to be much lower.",
     sources: ["https://ieeexplore.ieee.org/document/9030683/"],
   },
   {
@@ -155,7 +166,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 200,
     unit: "W/m2",
     percentImprovement: 0,
-    popoverText: "This value represents an upper energy flux limit for safety. For example, it could be set low enough to make it safe for a parachutist to accidentally fly into the beam or it could be set low enough to be safe for birds.",
+    popoverText:
+      "This value represents an upper energy flux limit for safety. For example, it could be set low enough to make it safe for a parachutist to accidentally fly into the beam or it could be set low enough to be safe for birds.",
     sources: [""],
   },
   {
@@ -164,7 +176,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.95,
     unit: "",
     percentImprovement: 0,
-    popoverText: "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor.",
+    popoverText:
+      "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor.",
     sources: [""],
   },
   {
@@ -173,7 +186,8 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.8,
     unit: "",
     percentImprovement: 0,
-    popoverText: "The analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
+    popoverText:
+      "The analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
     sources: [""],
   },
   {
@@ -214,7 +228,6 @@ const SBScostsTableRowData = [
     percentImprovement: 0,
     popoverText: "",
     sources: ["https://ourworldindata.org/grapher/solar-pv-system-costs", "https://ourworldindata.org/grapher/solar-pv-prices"],
-
   },
   {
     label: "Mass of Solar Panels",
@@ -268,7 +281,11 @@ const SBScostsTableRowData = [
     unit: "USD/kg",
     percentImprovement: 0,
     popoverText: "This is the cost-per-kg to a LEO orbit of sufficient altitude for docking and refilling operations to occur.",
-    sources: ["https://ieeexplore.ieee.org/document/9900032/", "https://oig.nasa.gov/docs/IG-18-016.pdf", "https://www.nasa.gov/feature/nasa-awards-spacex-more-crew-flights-to-space-station"],
+    sources: [
+      "https://ieeexplore.ieee.org/document/9900032/",
+      "https://oig.nasa.gov/docs/IG-18-016.pdf",
+      "https://www.nasa.gov/feature/nasa-awards-spacex-more-crew-flights-to-space-station",
+    ],
   },
   {
     label: "Vehicle Payload Mass",
@@ -276,7 +293,8 @@ const SBScostsTableRowData = [
     aspirationalValue: 100000,
     unit: "kg",
     percentImprovement: 0,
-    popoverText: "This is the mass that the launch system can place into a LEO orbit of sufficient altitude for docking and refilling operations to occur each time it launches.",
+    popoverText:
+      "This is the mass that the launch system can place into a LEO orbit of sufficient altitude for docking and refilling operations to occur each time it launches.",
     sources: [""],
   },
   {
@@ -339,15 +357,11 @@ function formatRowData(data) {
   return data.map((item) => {
     if (item.sources[0] != "") {
       let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
-        return (acc += `<div><a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
-          idx + 1
-        }</a></div>`);
+        return (acc += `<div><a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a></div>`);
       }, "");
 
       let linksHTML = item.sources.reduce((acc, item, idx) => {
-        return (acc += `<div><a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${
-          idx + 1
-        }</a></div>`);
+        return (acc += `<div><a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a></div>`);
       }, "");
 
       return [
@@ -519,8 +533,7 @@ function initilizePage() {
     var geoCircumference = 2 * Math.PI * earthsCenterToGeoAltitude;
     var earthsDiameter = 12742000; // m
     var timeInEarthsShadowInSeconds = (24 * 3600 * earthsDiameter) / geoCircumference;
-    var energyStorageCapacityNeeded =
-      (baseloadPowerDeliveredToGrid * timeInEarthsShadowInSeconds) / energyStorageDepthOfDischargeFactor; // GJ
+    var energyStorageCapacityNeeded = (baseloadPowerDeliveredToGrid * timeInEarthsShadowInSeconds) / energyStorageDepthOfDischargeFactor; // GJ
     var energyStorageRechargeTime = 24 * 3600 - timeInEarthsShadowInSeconds; // s
     var energyStorageRechargePower =
       (energyStorageCapacityNeeded * energyStorageDepthOfDischargeFactor) /
@@ -555,16 +568,14 @@ function initilizePage() {
 
     for (let itterations = 0; itterations < 5; itterations++) {
       panelTemperatureKelvin =
-        ((averageSolarIrradiance * (solarPanelAbsorptivity - solarPanelEfficiency)) /
-          (stefanBoltzmannConstant * solarPanelEmissivity * 2)) ** 0.25;
+        ((averageSolarIrradiance * (solarPanelAbsorptivity - solarPanelEfficiency)) / (stefanBoltzmannConstant * solarPanelEmissivity * 2)) ** 0.25;
       panelTemperatureCelcius = panelTemperatureKelvin - 273.15;
       solarPanelEfficiency =
-        solarPanelEfficiencyAtRefTemp *
-        (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - panelTemperatureCelcius));
+        solarPanelEfficiencyAtRefTemp * (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - panelTemperatureCelcius));
       //console.log(panelTemperatureCelcius, solarPanelEfficiency)
     }
-    console.log('Space-Solar panelTemperatureCelcius', panelTemperatureCelcius)
-    console.log('Space-Solar solarPanelEfficiency', solarPanelEfficiency)
+    console.log("Space-Solar panelTemperatureCelcius", panelTemperatureCelcius);
+    console.log("Space-Solar solarPanelEfficiency", solarPanelEfficiency);
 
     var incidentSolarPower = dcElectricalPower / solarPanelEfficiency;
     var absorbedSolarPower = incidentSolarPower * solarPanelAbsorptivity;
@@ -627,24 +638,24 @@ function initilizePage() {
         {
           keys: ["from", "to", "weight", "outgoing"],
           data: [
-            ["Incident Solar Power", "Reflected Energy", reflectedSolarPower],
-            ["Incident Solar Power", "Heating of Satellite 1", incidentSolarPower - reflectedSolarPower - dcElectricalPower],
-            ["Incident Solar Power", "DC Electrical Power", dcElectricalPower],
-            ["DC Electrical Power", "Heating of Satellite 2", dcElectricalPower - rfPowerIntoTxAntennas],
-            ["DC Electrical Power", "RFAC Power To Tx Antennas", rfPowerIntoTxAntennas],
-            ["RFAC Power To Tx Antennas", "Heating of Satellite 3", rfPowerIntoTxAntennas - rfPowerEmitted],
-            ["RFAC Power To Tx Antennas", "RF Power Emitted as Microwaves", rfPowerEmitted],
-            ["RF Power Emitted as Microwaves", "Heating of Earth 1", rfPowerEmitted - incidentRfPower],
-            ["RF Power Emitted as Microwaves", "RF Power at Rx Antennas", incidentRfPower],
-            ["RF Power at Rx Antennas", "Heating of Earth 2", incidentRfPower - rxAntennaOutputPower],
-            ["RF Power at Rx Antennas", "RFAC Power at Rx Antenna Output", rxAntennaOutputPower],
-            ["RFAC Power at Rx Antenna Output", "Heating of Earth 3", rxAntennaOutputPower - rxPowerRectifierOutputPower],
-            ["RFAC Power at Rx Antenna Output", "DC Power at Rectifier Output", rxPowerRectifierOutputPower],
-            ["DC Power at Rectifier Output", "Heating of Earth 4", rxPowerRectifierOutputPower - rxPowerInverterOutputPower],
-            ["DC Power at Rectifier Output", "AC Power at Inverter Output", rxPowerInverterOutputPower],
-            ["AC Power at Inverter Output", "Heating of Earth 5", energyLostInVoltageManagement],
-            ["AC Power at Inverter Output", "Energy Storage Recharge", energyStorageRechargePower],
-            ["AC Power at Inverter Output", "AC Power to Grid", baseloadPowerDeliveredToGrid],
+            ["Incident Solar Power", "Reflected Energy", Math.round(reflectedSolarPower * 100) / 100],
+            ["Incident Solar Power", "Heating of Satellite 1", Math.round((incidentSolarPower - reflectedSolarPower - dcElectricalPower) * 100) / 100],
+            ["Incident Solar Power", "DC Electrical Power", Math.round(dcElectricalPower * 100) / 100],
+            ["DC Electrical Power", "Heating of Satellite 2", Math.round((dcElectricalPower - rfPowerIntoTxAntennas) * 100) / 100],
+            ["DC Electrical Power", "RFAC Power To Tx Antennas", Math.round(rfPowerIntoTxAntennas * 100) / 100],
+            ["RFAC Power To Tx Antennas", "Heating of Satellite 3", Math.round((rfPowerIntoTxAntennas - rfPowerEmitted) * 100) / 100],
+            ["RFAC Power To Tx Antennas", "RF Power Emitted as Microwaves", Math.round(rfPowerEmitted * 100) / 100],
+            ["RF Power Emitted as Microwaves", "Heating of Earth 1", Math.round((rfPowerEmitted - incidentRfPower) * 100) / 100],
+            ["RF Power Emitted as Microwaves", "RF Power at Rx Antennas", Math.round(incidentRfPower * 100) / 100],
+            ["RF Power at Rx Antennas", "Heating of Earth 2", Math.round((incidentRfPower - rxAntennaOutputPower) * 100) / 100],
+            ["RF Power at Rx Antennas", "RFAC Power at Rx Antenna Output", Math.round(rxAntennaOutputPower * 100) / 100],
+            ["RFAC Power at Rx Antenna Output", "Heating of Earth 3", Math.round((rxAntennaOutputPower - rxPowerRectifierOutputPower) * 100) / 100],
+            ["RFAC Power at Rx Antenna Output", "DC Power at Rectifier Output", Math.round(rxPowerRectifierOutputPower * 100) / 100],
+            ["DC Power at Rectifier Output", "Heating of Earth 4", Math.round((rxPowerRectifierOutputPower - rxPowerInverterOutputPower) * 100) / 100],
+            ["DC Power at Rectifier Output", "AC Power at Inverter Output", Math.round(rxPowerInverterOutputPower * 100) / 100],
+            ["AC Power at Inverter Output", "Heating of Earth 5", Math.round(energyLostInVoltageManagement * 100) / 100],
+            ["AC Power at Inverter Output", "Energy Storage Recharge", Math.round(energyStorageRechargePower * 100) / 100],
+            ["AC Power at Inverter Output", "AC Power to Grid", Math.round(baseloadPowerDeliveredToGrid * 100) / 100],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -797,32 +808,22 @@ function initilizePage() {
     var costOfSolarPanelArray = unitCostOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
     var costOfSolarPanelSupportingStructure = unitCostOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
     var costOfRFTransmitterArray = unitCostOfRFTransmitter * lossesOutputData["rfTransmitterArrayArea"];
-    var costOfRFTransmitterSupportingStructure =
-      unitCostOfSupportingStructure * lossesOutputData["rfTransmitterArrayArea"];
+    var costOfRFTransmitterSupportingStructure = unitCostOfSupportingStructure * lossesOutputData["rfTransmitterArrayArea"];
     var costOfRFReceiverArray = unitCostOfRFReceiver * lossesOutputData["rfReceiverArrayArea"];
     var costOfRFReceiverSupportingStructure = unitCostOfSupportingStructure * lossesOutputData["rfReceiverArrayArea"];
     var costOfEnergyStorage =
-      unitCostOfLiIonBatteryStorage *
-      lossesOutputData["energyStorageCapacityNeeded"] *
-      (1 + costFactorforBatteryManagementSystems);
+      unitCostOfLiIonBatteryStorage * lossesOutputData["energyStorageCapacityNeeded"] * (1 + costFactorforBatteryManagementSystems);
     var totalSatelliteComponentsCost =
-      costOfSolarPanelArray +
-      costOfSolarPanelSupportingStructure +
-      costOfRFTransmitterArray +
-      costOfRFTransmitterSupportingStructure;
+      costOfSolarPanelArray + costOfSolarPanelSupportingStructure + costOfRFTransmitterArray + costOfRFTransmitterSupportingStructure;
 
     // Tally up the mass of the components that must be placed in GEO
     var massOfSolarPanelArray = unitMassOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
     var massOfSolarPanelSupportingStructure = unitMassOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
     var massOfRFTransmitterArray = unitMassOfRFTransmitter * lossesOutputData["rfTransmitterArrayArea"];
-    var massOfRFTransmitterSupportingStructure =
-      unitMassOfSupportingStructure * lossesOutputData["rfTransmitterArrayArea"];
+    var massOfRFTransmitterSupportingStructure = unitMassOfSupportingStructure * lossesOutputData["rfTransmitterArrayArea"];
 
     var totalMassToGEO =
-      massOfSolarPanelArray +
-      massOfRFTransmitterArray +
-      massOfSolarPanelSupportingStructure +
-      massOfRFTransmitterSupportingStructure;
+      massOfSolarPanelArray + massOfRFTransmitterArray + massOfSolarPanelSupportingStructure + massOfRFTransmitterSupportingStructure;
 
     // Refilling Factor
     var deltaVLEOtoGTO = 2440; // m/s
@@ -832,20 +833,16 @@ function initilizePage() {
     // Working backwards...
     // Return trip, one burn: Deceleration from GEO to GTO
     // Note: the following assumes that the vehicle can reenter directly from the perigee of an eliptical GTO orbit.
-    var vehicleMassAfterGEOPayloadDeploy =
-      vehicleMassAfterLEOPayloadDeploy * Math.exp(deltaVGTOtoGEO / vacuumEngineExhaustVelocity); // kg
+    var vehicleMassAfterGEOPayloadDeploy = vehicleMassAfterLEOPayloadDeploy * Math.exp(deltaVGTOtoGEO / vacuumEngineExhaustVelocity); // kg
 
     // Add the mass of the payload back in...
     var vehicleMassBeforePayloadDeploy = vehicleMassAfterGEOPayloadDeploy + vehiclePayloadToLEO; // kg
 
     // Outbound trip, two burns: one from LEO to GTO and the other from GTO to GEO
-    var vehicleMassAfterRefilling =
-      vehicleMassBeforePayloadDeploy * Math.exp((deltaVGTOtoGEO + deltaVLEOtoGTO) / vacuumEngineExhaustVelocity); // kg
+    var vehicleMassAfterRefilling = vehicleMassBeforePayloadDeploy * Math.exp((deltaVGTOtoGEO + deltaVLEOtoGTO) / vacuumEngineExhaustVelocity); // kg
 
     var propellantNeededToRefillOrbiter =
-      vehicleMassAfterRefilling -
-      vehicleMassBeforePayloadDeploy +
-      (vehicleMassAfterGEOPayloadDeploy - vehicleMassAfterLEOPayloadDeploy); // kg
+      vehicleMassAfterRefilling - vehicleMassBeforePayloadDeploy + (vehicleMassAfterGEOPayloadDeploy - vehicleMassAfterLEOPayloadDeploy); // kg
     var numberOfRefillingLaunchesToLEO = propellantNeededToRefillOrbiter / vehiclePayloadToLEO;
 
     var costPerKgToGEO = costPerKgToLEO * (1 + numberOfRefillingLaunchesToLEO);
@@ -863,9 +860,7 @@ function initilizePage() {
     var receiverCapitalCost = costOfRFReceiverArray + costOfRFReceiverSupportingStructure + costOfEnergyStorage;
     var totalCapitalCost = totalComponentsCost + launchCosts; // etc.
 
-    var yearlyCapitalCost =
-      (totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject) /
-      ((1 + costOfCapital) ** lifeofProject - 1);
+    var yearlyCapitalCost = (totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject) / ((1 + costOfCapital) ** lifeofProject - 1);
     // Other Costs not accounted for yet...
     // var costOfOperations = parseFloat(tableData.getValue(row, 2)); row++;
     // var costOfInsurance = parseFloat(tableData.getValue(row, 2)); row++;
@@ -874,8 +869,7 @@ function initilizePage() {
     var yearlyCosts = yearlyCapitalCost; // etc.
     var hoursInYear = 8760;
     var secondsInHour = 3600;
-    var energyDeliveredToGridEachYearInGJ =
-      lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
+    var energyDeliveredToGridEachYearInGJ = lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
     var energyDeliveredToGridEachYearInKiloWattsHours = (energyDeliveredToGridEachYearInGJ * 1000000) / secondsInHour;
     var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattsHours;
     //console.log('capitalCost', Math.round(totalCapitalCost / 1e9), 'B USD')
@@ -914,21 +908,21 @@ function initilizePage() {
         {
           keys: ["from", "to", "weight"],
           data: [
-            ["Solar Panels", "Satellite Components", costOfSolarPanelArray],
-            ["Solar Panel Structure", "Satellite Components", costOfSolarPanelSupportingStructure],
-            ["RF Transmitter Components", "Satellite Components", costOfRFTransmitterArray],
-            ["RF Transmitter Structure", "Satellite Components", costOfRFTransmitterSupportingStructure],
-            ["Solar Panels (Launch)", "Launch Costs", massOfSolarPanelArray * costPerKgToGEO],
-            ["Solar Panel Structure (Launch)", "Launch Costs", massOfSolarPanelSupportingStructure * costPerKgToGEO],
-            ["RF Transmitter Components (Launch)", "Launch Costs", massOfRFTransmitterArray * costPerKgToGEO],
-            ["RF Transmitter Structure (Launch)", "Launch Costs", massOfRFTransmitterSupportingStructure * costPerKgToGEO],
-            ["Satellite Components", "Satellite Capital Cost", totalSatelliteComponentsCost],
-            ["Launch Costs", "Satellite Capital Cost", totalMassToGEO * costPerKgToGEO],
-            ["RF Receiver Components", "Receiver Capital Cost", costOfRFReceiverArray],
-            ["RF Receiver Structure", "Receiver Capital Cost", costOfRFReceiverSupportingStructure],
-            ["Energy Storage", "Receiver Capital Cost", costOfEnergyStorage],
-            ["Satellite Capital Cost", "Total Capital Costs", satelliteCapitalCost],
-            ["Receiver Capital Cost", "Total Capital Costs", receiverCapitalCost],
+            ["Solar Panels", "Satellite Components", Math.round(costOfSolarPanelArray * 100) / 100],
+            ["Solar Panel Structure", "Satellite Components", Math.round(costOfSolarPanelSupportingStructure * 100) / 100],
+            ["RF Transmitter Components", "Satellite Components", Math.round(costOfRFTransmitterArray * 100) / 100],
+            ["RF Transmitter Structure", "Satellite Components", Math.round(costOfRFTransmitterSupportingStructure * 100) / 100],
+            ["Solar Panels (Launch)", "Launch Costs", Math.round(massOfSolarPanelArray * costPerKgToGEO * 100) / 100],
+            ["Solar Panel Structure (Launch)", "Launch Costs", Math.round(massOfSolarPanelSupportingStructure * costPerKgToGEO * 100) / 100],
+            ["RF Transmitter Components (Launch)", "Launch Costs", Math.round(massOfRFTransmitterArray * costPerKgToGEO * 100) / 100],
+            ["RF Transmitter Structure (Launch)", "Launch Costs", Math.round(massOfRFTransmitterSupportingStructure * costPerKgToGEO * 100) / 100],
+            ["Satellite Components", "Satellite Capital Cost", Math.round(totalSatelliteComponentsCost * 100) / 100],
+            ["Launch Costs", "Satellite Capital Cost", Math.round(totalMassToGEO * costPerKgToGEO * 100) / 100],
+            ["RF Receiver Components", "Receiver Capital Cost", Math.round(costOfRFReceiverArray * 100) / 100],
+            ["RF Receiver Structure", "Receiver Capital Cost", Math.round(costOfRFReceiverSupportingStructure * 100) / 100],
+            ["Energy Storage", "Receiver Capital Cost", Math.round(costOfEnergyStorage * 100) / 100],
+            ["Satellite Capital Cost", "Total Capital Costs", Math.round(satelliteCapitalCost * 100) / 100],
+            ["Receiver Capital Cost", "Total Capital Costs", Math.round(receiverCapitalCost * 100) / 100],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -961,9 +955,7 @@ function initilizePage() {
     drawCostsSankey(costsTableData, lossesOutputData);
 
     // quick and dirty display of the cost values you have in the console
-    document.getElementById("SBSoverallSystemEfficiency").innerHTML = (
-      lossesOutputData["overallSystemEfficiency"] * 100
-    ).toFixed(2);
+    document.getElementById("SBSoverallSystemEfficiency").innerHTML = (lossesOutputData["overallSystemEfficiency"] * 100).toFixed(2);
     document.getElementById("SBScapitalCost").innerHTML = Math.round(costsOutput["capitalCost"] / 1e7) / 1e2;
     document.getElementById("SBScostOfEnergy").innerHTML = Math.round(costsOutput["costOfEnergy"] * 10000) / 10000;
     document.getElementById("SBSrelativeCost").innerHTML = Math.round(costsOutput["relativeCost"] * 100) / 100;

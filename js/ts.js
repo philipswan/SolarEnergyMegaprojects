@@ -1,5 +1,7 @@
 // Load the Google Charts API
-google.charts.load("current", { packages: ["table"] });
+google.charts.load("current", {
+  packages: ["table"],
+});
 google.charts.setOnLoadCallback(initilizePage);
 
 const TSlossesTableRowData = [
@@ -20,7 +22,7 @@ const TSlossesTableRowData = [
     unit: "W/m2",
     percentImprovement: 0,
     popoverText:
-      "This is the \"in-space\" value and it ranges from 1321 to 1414 throughout the year. The Earth is nearer the sun when it is summer in the southern hemisphere and winter in the northern hemisphere. If supplying energy is hardest in the summer, use the summer value for your hemisphere.",
+      'This is the "in-space" value and it ranges from 1321 to 1414 throughout the year. The Earth is nearer the sun when it is summer in the southern hemisphere and winter in the northern hemisphere. If supplying energy is hardest in the summer, use the summer value for your hemisphere.',
     sources: ["https://en.wikipedia.org/wiki/Solar_irradiance"],
   },
   {
@@ -30,7 +32,7 @@ const TSlossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText:
-      "The National Renewable Energy Laboratory provides efficiencies of many research cells and \"champion\" modules. This value is not intended to be the highest value on either of these charts. This value is the efficiency, at a “reference temperature” (typically 25&deg;C), of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).",
+      'The National Renewable Energy Laboratory provides efficiencies of many research cells and "champion" modules. This value is not intended to be the highest value on either of these charts. This value is the efficiency, at a “reference temperature” (typically 25&deg;C), of the photovoltaic technology that achieves the highest Levelized Cost of Energy (LCoE).',
     sources: ["https://www.nrel.gov/pv/cell-efficiency.html", "https://www.nrel.gov/pv/module-efficiency.html"],
   },
   {
@@ -39,7 +41,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 25,
     unit: "&deg;C",
     percentImprovement: 0,
-    popoverText: "The reference temperature is the temperature that was used to determine the solar panel's efficiency. It is typically 25&deg;C, but if you have a specification sheet for a solar panel, you should confirm that this is the value that they are using.",
+    popoverText:
+      "The reference temperature is the temperature that was used to determine the solar panel's efficiency. It is typically 25&deg;C, but if you have a specification sheet for a solar panel, you should confirm that this is the value that they are using.",
     sources: [""],
   },
   {
@@ -48,7 +51,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.0045,
     unit: "1/&deg;C",
     percentImprovement: 0,
-    popoverText: "The temperature of a solar panel has a direct effect on its ability to generate electricity. This has to do with the laws of thermodynamics and how heat limits any electronics ability to produce power.",
+    popoverText:
+      "The temperature of a solar panel has a direct effect on its ability to generate electricity. This has to do with the laws of thermodynamics and how heat limits any electronics ability to produce power.",
     sources: ["https://www.solar.com/learn/does-solar-panel-temperature-coefficient-matter/"],
   },
   {
@@ -57,7 +61,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 30,
     unit: "&deg;C",
     percentImprovement: 0,
-    popoverText: "This is the temperature that the panel is expected to operate at. This is several &deg;C above the average ambient temperature.  In practice, the operating temperature of a solar cell in outdoor conditions is typically 50&deg;C–55&deg;C or higher. This heating has significant adverse consequences for the performance and reliability of solar cells.",
+    popoverText:
+      "This is the temperature that the panel is expected to operate at. This is several &deg;C above the average ambient temperature.  In practice, the operating temperature of a solar cell in outdoor conditions is typically 50&deg;C–55&deg;C or higher. This heating has significant adverse consequences for the performance and reliability of solar cells.",
     sources: ["https://opg.optica.org/directpdfaccess/83c48e59-b7cc-40ca-bc6354fe7b0658e7_296235/optica-1-1-32.pdf?da=1&id=296235&seq=0&mobile=no"],
   },
   {
@@ -84,7 +89,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 170,
     unit: "degrees",
     percentImprovement: 0,
-    popoverText: "This value is used to estimate the amount of time that the panel will be exposed to sunlight on the shortest day of the year. If you have a specific site in mind, you can measure the angle to the horizon where the sun rises and sets to determine the horizon to horizon angle. It will be 180&deg; for someone in a raft on the ocean. It will be less in a location with nearby trees or mountains.",
+    popoverText:
+      "This value is used to estimate the amount of time that the panel will be exposed to sunlight on the shortest day of the year. If you have a specific site in mind, you can measure the angle to the horizon where the sun rises and sets to determine the horizon to horizon angle. It will be 180&deg; for someone in a raft on the ocean. It will be less in a location with nearby trees or mountains.",
     sources: [""],
   },
   {
@@ -93,8 +99,7 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.2,
     unit: "",
     percentImprovement: 0,
-    popoverText:
-      "Atmospheric conditions can reduce direct beam radiation by 10% on clear, dry days and by 100% during thick, cloudy days.",
+    popoverText: "Atmospheric conditions can reduce direct beam radiation by 10% on clear, dry days and by 100% during thick, cloudy days.",
     sources: [
       "https://www.energy.gov/eere/solar/solar-radiation-basics#:~:text=The%20sum%20of%20the%20diffuse,%25%20during%20thick%2C%20cloudy%20days",
     ],
@@ -105,7 +110,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.1,
     unit: "",
     percentImprovement: 0,
-    popoverText: "This value represents how clean the panels are kept on average. If the panels perfectly clean, then enter a value of zero. Pollen, dust, leaves, snow, and grime cause the value to be higher.",
+    popoverText:
+      "This value represents how clean the panels are kept on average. If the panels perfectly clean, then enter a value of zero. Pollen, dust, leaves, snow, and grime cause the value to be higher.",
     sources: ["https://www.sciencedirect.com/science/article/abs/pii/S0048969722011421"],
   },
   {
@@ -114,7 +120,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.95,
     unit: "",
     percentImprovement: 0,
-    popoverText: "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor.",
+    popoverText:
+      "Panel power is maximized when the current and voltage are optimized, and this is done by a device that converts the DC power from the panel from the optimal panel voltage to a different voltage (either AC or DC) more suitable for energy storage or transmission. This value represents the efficiency of that convertor.",
     sources: [""],
   },
   {
@@ -123,7 +130,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.8,
     unit: "",
     percentImprovement: 0,
-    popoverText: "The analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
+    popoverText:
+      "The analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
     sources: [""],
   },
   {
@@ -141,7 +149,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 0.9,
     unit: "",
     percentImprovement: 0,
-    popoverText: "This is the efficeincy of the device that converts DC power from the battery or panels to AC power at the freqeuncy of the grid, typically 50Hz or 60Hz.",
+    popoverText:
+      "This is the efficeincy of the device that converts DC power from the battery or panels to AC power at the freqeuncy of the grid, typically 50Hz or 60Hz.",
     sources: [""],
   },
   {
@@ -150,7 +159,8 @@ const TSlossesTableRowData = [
     aspirationalValue: 1,
     unit: "USD/m",
     percentImprovement: 0,
-    popoverText: "Power also needs to be transmitted from where it is collected to where it is needed. For example, by placing a solar farm in a far away desert, the cost of the land can be reduced, but the cost of transmission lines and the energy loss over those power lines will be greater. This value represents the efficiency of the power lines and will depend on site selection.",
+    popoverText:
+      "Power also needs to be transmitted from where it is collected to where it is needed. For example, by placing a solar farm in a far away desert, the cost of the land can be reduced, but the cost of transmission lines and the energy loss over those power lines will be greater. This value represents the efficiency of the power lines and will depend on site selection.",
     sources: [""],
   },
 ];
@@ -173,8 +183,12 @@ const TScostsTableRowData = [
     aspirationalValue: 300,
     unit: "USD/m2",
     percentImprovement: 0,
-    popoverText: "Varies significantly by country. Includes soft costs such as margin and permitting, installation costs, and hardware costs (other than photovoltaic modules).",
-    sources: ["https://ourworldindata.org/grapher/solar-pv-system-costs", "https://www.irena.org/publications/2019/May/Renewable-power-generation-costs-in-2018#RestrictedModal"],
+    popoverText:
+      "Varies significantly by country. Includes soft costs such as margin and permitting, installation costs, and hardware costs (other than photovoltaic modules).",
+    sources: [
+      "https://ourworldindata.org/grapher/solar-pv-system-costs",
+      "https://www.irena.org/publications/2019/May/Renewable-power-generation-costs-in-2018#RestrictedModal",
+    ],
   },
   {
     label: "Cost of Li-Ion Battery Storage",
@@ -227,15 +241,11 @@ function formatRowData(data) {
   return data.map((item) => {
     if (item.sources[0] != "") {
       let mobileLinksHTML = item.sources.reduce((acc, item, idx) => {
-        return (acc += `<div><a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${
-          idx + 1
-        }</a></div>`);
+        return (acc += `<div><a href="${item}" class="mobile-link" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a></div>`);
       }, "");
 
       let linksHTML = item.sources.reduce((acc, item, idx) => {
-        return (acc += `<div><a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${
-          idx + 1
-        }</a></div>`);
+        return (acc += `<div><a href="${item}" target="_blank" rel="noopener noreferrer">View Source ${idx + 1}</a></div>`);
       }, "");
 
       return [
@@ -413,8 +423,7 @@ function initilizePage() {
     var minDaylightHours = getMinimumDaylightHours(siteLatitudeInDegrees, horizonToHorizonAngleDegrees);
 
     var timeInDarknessInSeconds = (24 - minDaylightHours) * secondsInHour;
-    var energyStorageCapacityNeeded =
-      (baseloadPowerDeliveredToGrid * timeInDarknessInSeconds) / energyStorageDepthOfDischargeFactor; // GJ
+    var energyStorageCapacityNeeded = (baseloadPowerDeliveredToGrid * timeInDarknessInSeconds) / energyStorageDepthOfDischargeFactor; // GJ
     var energyStorageRechargeTime = 24 * 3600 - timeInDarknessInSeconds; // s
     var energyStorageRechargePower =
       (energyStorageCapacityNeeded * energyStorageDepthOfDischargeFactor) /
@@ -425,8 +434,7 @@ function initilizePage() {
 
     var dcElectricalPower = powerInverterInputPower + energyStorageRechargePower + energyLostInVoltageManagement;
     var solarPanelEfficiency =
-      solarPanelEfficiencyAtRefTemp *
-      (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
+      solarPanelEfficiencyAtRefTemp * (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
     var absorbedSolarPower = dcElectricalPower / solarPanelEfficiency;
     var incidentSolarPower = absorbedSolarPower / solarPanelAbsorptivity;
     var reflectedSolarPower = incidentSolarPower * (1 - solarPanelAbsorptivity);
@@ -492,22 +500,22 @@ function initilizePage() {
         {
           keys: ["from", "to", "weight"],
           data: [
-            ["Unattenuated Solar Power", "Atmosphere Loss", solarPowerLostToAtmosphere],
-            ["Unattenuated Solar Power", "Solar Power Near Panel", solarPowerNearPanel],
-            ["Solar Power Near Panel", "Dirt and Debris Loss", solarPowerLostToDirtAndDebris],
-            ["Solar Power Near Panel", "Incident Solar Power", incidentSolarPower],
-            ["Incident Solar Power", "Reflected Energy", reflectedSolarPower],
-            ["Incident Solar Power", "Lost as Heat 1", incidentSolarPower - reflectedSolarPower - dcElectricalPower],
-            ["Incident Solar Power", "DC Electrical Power", dcElectricalPower],
+            ["Unattenuated Solar Power", "Atmosphere Loss", Math.round(solarPowerLostToAtmosphere * 100) / 100],
+            ["Unattenuated Solar Power", "Solar Power Near Panel", Math.round(solarPowerNearPanel * 100) / 100],
+            ["Solar Power Near Panel", "Dirt and Debris Loss", Math.round(solarPowerLostToDirtAndDebris * 100) / 100],
+            ["Solar Power Near Panel", "Incident Solar Power", Math.round(incidentSolarPower * 100) / 100],
+            ["Incident Solar Power", "Reflected Energy", Math.round(reflectedSolarPower * 100) / 100],
+            ["Incident Solar Power", "Lost as Heat 1", Math.round((incidentSolarPower - reflectedSolarPower - dcElectricalPower) * 100) / 100],
+            ["Incident Solar Power", "DC Electrical Power", Math.round(dcElectricalPower * 100) / 100],
             [
               "DC Electrical Power",
               "Lost as Heat 2",
-              energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor),
+              Math.round(energyStorageRechargePower * (1 - energyStorageVoltageManagementFactor) * 100) / 100,
             ],
-            ["DC Electrical Power", "Energy Storage Recharge", energyStorageRechargePower],
-            ["DC Electrical Power", "DC Power at Inverter Input", powerInverterInputPower],
-            ["DC Power at Inverter Input", "Lost as Heat 3", powerInverterInputPower - powerInverterOutputPower],
-            ["DC Power at Inverter Input", "AC Power to Grid", powerInverterOutputPower],
+            ["DC Electrical Power", "Energy Storage Recharge", Math.round(energyStorageRechargePower * 100) / 100],
+            ["DC Electrical Power", "DC Power at Inverter Input", Math.round(powerInverterInputPower * 100) / 100],
+            ["DC Power at Inverter Input", "Lost as Heat 3", Math.round((powerInverterInputPower - powerInverterOutputPower) * 100) / 100],
+            ["DC Power at Inverter Input", "AC Power to Grid", Math.round(powerInverterOutputPower * 100) / 100],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -613,18 +621,14 @@ function initilizePage() {
     var costOfSolarPanelHardwareInstallEtc = unitCostOfHardwareInstallEtc * lossesOutputData["solarPanelArrayArea"];
     var unitCostOfLiIonBatteryStorageInUSDPerGJ = (unitCostOfLiIonBatteryStorage * 1000000) / 3600;
     var costOfEnergyStorage =
-      unitCostOfLiIonBatteryStorageInUSDPerGJ *
-      lossesOutputData["energyStorageCapacityNeeded"] *
-      (1 + costFactorforBatteryManagementSystems);
+      unitCostOfLiIonBatteryStorageInUSDPerGJ * lossesOutputData["energyStorageCapacityNeeded"] * (1 + costFactorforBatteryManagementSystems);
     var totalSatelliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelHardwareInstallEtc;
 
     var totalComponentsCost = totalSatelliteComponentsCost + costOfEnergyStorage;
     var satelliteCapitalCost = totalSatelliteComponentsCost;
     var totalCapitalCost = totalComponentsCost; // etc.
 
-    var yearlyCapitalCost =
-      (totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject) /
-      ((1 + costOfCapital) ** lifeofProject - 1);
+    var yearlyCapitalCost = (totalCapitalCost * costOfCapital * (1 + costOfCapital) ** lifeofProject) / ((1 + costOfCapital) ** lifeofProject - 1);
     //console.log(totalSatelliteComponentsCost/1e9, costOfEnergyStorage/1e9, yearlyCapitalCost/1e9);
     // Other Costs not accounted for yet...
     // var costOfOperations = parseFloat(tableData.getValue(row, 2)); row++;
@@ -632,8 +636,7 @@ function initilizePage() {
     // var costOfMaintenance = parseFloat(tableData.getValue(row, 2)); row++;
 
     var yearlyCosts = yearlyCapitalCost; // etc.
-    var energyDeliveredToGridEachYearInGJ =
-      lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
+    var energyDeliveredToGridEachYearInGJ = lossesOutputData["baseloadPowerDeliveredToGrid"] * hoursInYear * secondsInHour; // GJoules
     var energyDeliveredToGridEachYearInKiloWattHours = (energyDeliveredToGridEachYearInGJ * 1000000) / secondsInHour;
     var costOfEnergy = yearlyCosts / energyDeliveredToGridEachYearInKiloWattHours;
     //console.log('capitalCost', Math.round(totalCapitalCost / 1e9), 'B USD')
@@ -672,12 +675,12 @@ function initilizePage() {
         {
           keys: ["from", "to", "weight"],
           data: [
-            ["Solar Panels", "Solar Power Plant", costOfSolarPanelArray],
-            ["Hardware, Install, Etc.", "Solar Power Plant", costOfSolarPanelHardwareInstallEtc],
-            ["Solar Power Plant", "Capital Costs", totalSatelliteComponentsCost],
-            ["Energy Storage", "Capital Costs", costOfEnergyStorage],
-            ["Capital Costs", "Total Costs", satelliteCapitalCost + costOfEnergyStorage],
-            ["Operating Costs", "Total Costs", yearlyOperatingCosts*1e6*lifeofProject],
+            ["Solar Panels", "Solar Power Plant", Math.round(costOfSolarPanelArray * 100) / 100],
+            ["Hardware, Install, Etc.", "Solar Power Plant", Math.round(costOfSolarPanelHardwareInstallEtc * 100) / 100],
+            ["Solar Power Plant", "Capital Costs", Math.round(totalSatelliteComponentsCost * 100) / 100],
+            ["Energy Storage", "Capital Costs", Math.round(costOfEnergyStorage * 100) / 100],
+            ["Capital Costs", "Total Costs", Math.round((satelliteCapitalCost + costOfEnergyStorage) * 100) / 100],
+            ["Operating Costs", "Total Costs", Math.round(yearlyOperatingCosts * 1e6 * lifeofProject * 100) / 100],
           ],
           type: "sankey",
           nodeWidth: 30,
@@ -713,9 +716,7 @@ function initilizePage() {
     drawCostsSankey(costsTableData, lossesOutputData);
 
     // quick and dirty display of the cost values you have in the console
-    document.getElementById("TSoverallSystemEfficiency").innerHTML = (
-      lossesOutputData["overallSystemEfficiency"] * 100
-    ).toFixed(2);
+    document.getElementById("TSoverallSystemEfficiency").innerHTML = (lossesOutputData["overallSystemEfficiency"] * 100).toFixed(2);
     document.getElementById("TScapitalCost").innerHTML = Math.round(costsOutput["capitalCost"] / 1e7) / 1e2;
     document.getElementById("TScostOfEnergy").innerHTML = Math.round(costsOutput["costOfEnergy"] * 10000) / 10000;
     document.getElementById("TSrelativeCost").innerHTML = Math.round(costsOutput["relativeCost"] * 100) / 100;
