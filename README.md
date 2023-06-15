@@ -29,7 +29,7 @@ This project is available on Github. You can report a bug, request a feature the
 *	Photovoltaic,
 *	Microwave Power Transmission (MPT),
 *	The panels track the sun while the transmitter tracks the Earth,
-•	Power Link is greater than 5GW,
+*	Power Link is greater than 5GW,
 *	The system is engineered to deliver 24/7/365 reliable power,
 *	Intermittency is firmed,
 *	Launched by Starship to GEO, with refills in LEO (i.e. fully reusable launch hardware),
