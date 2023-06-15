@@ -37,7 +37,7 @@ This project is available on Github. You can report a bug, request a feature the
 *	Panels radiate their excess heat into space,
 *	Other assumptions and formulas can be found in the tables and by examining the code.
 
-## Near-Space Solar Assumptions
+## Tethered-Ring-Mounted Solar Assumptions
 *	Panels are mounted on actuators and oriented to optimize the trade-off between facing sun and facing the wind stream,
 *	Panels are air cooled,
 *	All of the generated energy is stored in the Tethered Ring’s moving rings,
