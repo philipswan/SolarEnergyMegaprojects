@@ -211,7 +211,7 @@ const RBScostsTableRowData = [
     aspirationalValue: 0.5,
     unit: "percent of panel cost",
     percentImprovement: 0,
-    popoverText: "Made up",
+    popoverText: "",
     sources: [""],
   },
   {
@@ -220,13 +220,13 @@ const RBScostsTableRowData = [
     aspirationalValue: 0.05,
     unit: "kg/m2",
     percentImprovement: 0,
-    popoverText: "Made up",
+    popoverText: "",
     sources: [""],
   },
   {
     label: "Cost of Static Load",
-    stateOfTheArtValue: 113,
-    aspirationalValue: 113,
+    stateOfTheArtValue: 74,
+    aspirationalValue: 74,
     unit: "USD/kg",
     percentImprovement: 0,
     popoverText: "",
@@ -238,7 +238,7 @@ const RBScostsTableRowData = [
     aspirationalValue: 100,
     unit: "USD/kWh",
     percentImprovement: 0,
-    popoverText: "Made up",
+    popoverText: "",
     sources: [""],
   },
   {
@@ -513,7 +513,8 @@ function initilizePage() {
     var solarPanelEfficiency =
       solarPanelEfficiencyAtRefTemp *
       (1 + solarPanelTemperatureEfficiencyFactor * (referenceTemperature - operatingTemperature));
-
+    console.log('solarPanelEfficiency', solarPanelEfficiency);
+    
     var solarPanelArrayArea =
       (powerToLinearMotor * 1e9) /
       (solarPanelEfficiency * (1 - atmosphereAttenuation) * (1 - dirtAndDebrisAttenuation) * averageSolarIrradiance -
@@ -776,6 +777,7 @@ function initilizePage() {
     var massOfSolarPanelSupportingStructure = unitMassOfSupportingStructure * lossesOutputData["solarPanelArrayArea"];
     var totalMassSupported = massOfSolarPanelArray + massOfSolarPanelSupportingStructure + massOfSolarActuators;
     var costOfStaticLoad = totalMassSupported * unitCostOfStaticLoad;
+    console.log('totalMassSupported', Math.round(totalMassSupported), 'kg')
 
     // var totalComponentsCost = totalSatteliteComponentsCost + costOfEnergyStorage + costOfStaticLoad;
     var satelliteCapitalCost = totalSatteliteComponentsCost;

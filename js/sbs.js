@@ -83,9 +83,11 @@ const SBSlossesTableRowData = [
     aspirationalValue: 0.5,
     unit: "",
     percentImprovement: 0,
-    popoverText: "After the radio frequency AC signal exits the electronic circuit that generated it, it must travel through wires to a specific antenna element in the phased-array antenna. The antenna element will emit a portion of this energy as microwave photons. This value represents the portion of RF AC electrical energy that is successfully conveted into microwave photon energy by the individual antenna elements.",
-    sources: ["https://ieeexplore.ieee.org/document/9030683/"],
+    popoverText: "After the radio frequency AC signal exits the electronic circuit that generated it, it must travel through wires to a specific antenna element in the phased-array antenna. The antenna element will emit a portion of this energy as microwave photons. This value represents the portion of RF AC electrical energy that is successfully conveted into microwave photon energy by the individual antenna elements. The efficiency of an antenna is a ratio of the power delivered to the antenna relative to the power radiated from the antenna. A high efficiency antenna has most of the power present at the antenna's input radiated away. A low efficiency antenna has most of the power absorbed as losses within the antenna, or reflected away due to impedance mismatch.",
+    sources: ["https://ieeexplore.ieee.org/document/9030683/", "https://antenna-theory.com/basics/efficiency.php"],
   },
+  // Need to capture this info from Wikipedia as a formula...
+  // Inability to constrain power transmission inside tiny beam angles. For example, a beam of 0.002 degrees (7.2 arc seconds) is required to stay within a one kilometer receiving antenna target from geostationary altitude. The most advanced directional wireless power transfer systems as of 2019 spread their half power beam width across at least 0.9 arc degrees.[46][47][48][49]
   {
     label: "Transmission Antenna Diameter",
     stateOfTheArtValue: 2000,
@@ -93,7 +95,7 @@ const SBSlossesTableRowData = [
     unit: "m",
     percentImprovement: 0,
     popoverText: "This analyzer assumes that the microwave transmitter is a disk-shaped phased-array.",
-    sources: [""],
+    sources: ["https://ieeexplore.ieee.org/document/1427746"],
   },
   {
     label: "Receiver Antenna Diameter",
@@ -138,7 +140,7 @@ const SBSlossesTableRowData = [
     unit: "",
     percentImprovement: 0,
     popoverText: "This value represents the amount of microwave photon energy that is converted to electrical energy at radio frequencies by the receiving antennas.",
-    sources: ["https://ieeexplore.ieee.org/document/9030683/"],
+    sources: ["https://ieeexplore.ieee.org/document/9030683/", "https://ieeexplore.ieee.org/document/10091717"],
   },
   {
     label: "RF AC to DC (Power Rectifier Efficiency)",
@@ -178,8 +180,8 @@ const SBSlossesTableRowData = [
   },
   {
     label: "Battery Round Trip Efficiency",
-    stateOfTheArtValue: 0.8,
-    aspirationalValue: 0.8,
+    stateOfTheArtValue: 0.86,
+    aspirationalValue: 0.86,
     unit: "",
     percentImprovement: 0,
     popoverText: "",
@@ -267,7 +269,7 @@ const SBScostsTableRowData = [
     aspirationalValue: 80000,
     unit: "USD/kg",
     percentImprovement: 0,
-    popoverText: "This is the cost-per-kg to a LEO orbit of sufficient altitude for docking and refilling operations to occur.",
+    popoverText: "This is the cost-per-kg to a LEO orbit of sufficient altitude for docking and refilling operations to occur. The assumption used here is that a fully and rapidly reusable heavy-lift launch system, with the ability to refill in orbit, is used to deploy the solar power satellite. The number of refill launches needed to prep the orbiting spacecraft so that it can travel from LEO o GEO and back is calculated, by using orbital mechanics math, from the user-provided parameters.",
     sources: ["https://ieeexplore.ieee.org/document/9900032/", "https://oig.nasa.gov/docs/IG-18-016.pdf", "https://www.nasa.gov/feature/nasa-awards-spacex-more-crew-flights-to-space-station"],
   },
   {
@@ -285,7 +287,7 @@ const SBScostsTableRowData = [
     aspirationalValue: 105000,
     unit: "kg",
     percentImprovement: 0,
-    popoverText: "This is the mass of the launch system after it has deployed its payload into LEO.",
+    popoverText: "This is the dry mass of the orbiting vehicle (that is, not including propellant or payload) after it has deployed its payload into GEO.",
     sources: [""],
   },
   {
@@ -298,22 +300,31 @@ const SBScostsTableRowData = [
     sources: [""],
   },
   {
-    label: "Cost of Battery Storage",
-    stateOfTheArtValue: 217,
-    aspirationalValue: 217,
+    label: "Installed Cost of Energy Storage per kWh",
+    stateOfTheArtValue: 385,
+    aspirationalValue: 385,
     unit: "USD/kWh",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "The state-of-the art value is based on the best 2020 values for Li-Ion LFP battery based storage system, from Figure 2 of the report referenced below. The value does not include warranty, insurance, or decommissioning costs.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf"],
   },
   {
-    label: "Cost Factor for Battery Management Systems",
-    stateOfTheArtValue: 0.2,
-    aspirationalValue: 0.2,
-    unit: "",
+    label: "Installed Cost of Energy Storage per kW",
+    stateOfTheArtValue: 1541,
+    aspirationalValue: 1541,
+    unit: "USD/kW",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "The state-of-the art value is based on the best 2020 values for Li-Ion LFP battery based storage system, from Figure 2 of the report referenced below. The value does not include warranty, insurance, or decommissioning costs.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf"],
+  },
+  {
+    label: "Cycle Life of Energy Storage System",
+    stateOfTheArtValue: 2000,
+    aspirationalValue: 2000,
+    unit: "Cycles",
+    percentImprovement: 0,
+    popoverText: "The cycle life for an energy storage system is a function of depth of discharge (DOD) and measures the total number of cycles that the energy storage system can provide over its life.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf", "https://www.nrel.gov/docs/fy22osti/80688.pdf"],
   },
   {
     label: "Cost of Capital",
@@ -515,8 +526,8 @@ function initilizePage() {
     var rxPowerInverterOutputPower = baseloadPowerDeliveredToGrid;
     var rxPowerInverterInputPower = rxPowerInverterOutputPower / rxPowerInverterEfficiency;
 
-    var earthsCenterToGeoAltitude = 42164000; // m
-    var geoCircumference = 2 * Math.PI * earthsCenterToGeoAltitude;
+    var earthsCenterToGeoDistance = 42164000; // m
+    var geoCircumference = 2 * Math.PI * earthsCenterToGeoDistance;
     var earthsDiameter = 12742000; // m
     var timeInEarthsShadowInSeconds = (24 * 3600 * earthsDiameter) / geoCircumference;
     var energyStorageCapacityNeeded =
@@ -534,14 +545,37 @@ function initilizePage() {
     var incidentRfPower = rxAntennaOutputPower / rxAntennaEfficiency;
 
     // We need to make sure that the energy density is low enough to be considered safe, so lets assume that
-    //var rfTransmitterArrayArea = Math.PI * Math.pow(rfTransmitterArrayDiameter/2, 2);
-    var rfTransmitterArrayArea = (incidentRfPower * 1e9) / rfEnergyDensitySafetyLimit; // Using the same area as is calcualted for the receiver
 
-    //var rfReceiverArrayArea = Math.PI * Math.pow(rfReceiverArrayDiameter/2, 2);
+    
+    var rfTransmitterArrayArea = (incidentRfPower * 1e9) / rfEnergyDensitySafetyLimit; // Using the same area as is calcualted for the receiver
     var rfReceiverArrayArea = (incidentRfPower * 1e9) / rfEnergyDensitySafetyLimit;
-    // var areaOfTransmitter = Math.PI * Math.pow(rfTransmitterArrayDiameter/2, 2);
-    // var areaOfReceiver = Math.PI * Math.pow(rfReceiverArrayDiameter/2, 2);
-    var rfTransmissionEfficiency = 0.9; //areaOfTransmitter * areaOfReceiver * ((rfWavelength / 4 / Math.PI**2)**2) / (transmitterReceiverSeparation**2);
+
+    {
+      // Calculate zeta
+      var zeta = rfTransmitterArrayDiameter * rfReceiverArrayDiameter / rfWavelength / transmitterReceiverSeparation
+      console.log('DTx', rfTransmitterArrayDiameter)
+      console.log('DRx', rfReceiverArrayDiameter)
+      console.log('wavelength', rfWavelength)
+      console.log('separation', transmitterReceiverSeparation)
+      console.log('zeta', zeta)
+
+      var rfTransmitterArrayArea = Math.PI * Math.pow(rfTransmitterArrayDiameter/2, 2);
+      var rfReceiverArrayArea = Math.PI * Math.pow(rfReceiverArrayDiameter/2, 2);
+      var rfTransmissionEfficiencyTau = Math.sqrt(rfTransmitterArrayArea * rfReceiverArrayArea) / rfWavelength / transmitterReceiverSeparation;
+      var rfTransmissionEfficiency = impericalCurve(rfTransmissionEfficiencyTau);
+      console.log('rfTransmissionEfficiencyTau', rfTransmissionEfficiencyTau)
+    }
+
+    var allowableError = Math.sqrt(rfTransmitterArrayDiameter**2 + transmitterReceiverSeparation**2) - transmitterReceiverSeparation;
+    var allowableErrorInWavelengths = allowableError / rfWavelength;
+    console.log('allowableError', allowableError)
+    console.log('allowableErrorInWavelengths', allowableErrorInWavelengths)
+    
+    function impericalCurve() {
+      return 0.9;
+    }
+
+    var rfTransmissionEfficiency = 0.9; // Hack
 
     var rfPowerEmitted = incidentRfPower / (rfTransmissionEfficiency * (1 - atmosphericAttenuation));
     var rfPowerIntoTxAntennas = rfPowerEmitted / transmissionAntennaEfficiency;
@@ -784,9 +818,15 @@ function initilizePage() {
     row++;
     var unitCostOfRFReceiver = parseFloat(tableData.getValue(row, 2));
     row++;
-    var unitCostOfLiIonBatteryStorage = parseFloat(tableData.getValue(row, 2));
+    // var unitCostOfLiIonBatteryStorage = parseFloat(tableData.getValue(row, 2));
+    // row++;
+    // var costFactorforBatteryManagementSystems = parseFloat(tableData.getValue(row, 2));
+    // row++;
+    var installedCostOfEnergyStoragePerkWh = parseFloat(tableData.getValue(row, 2));
     row++;
-    var costFactorforBatteryManagementSystems = parseFloat(tableData.getValue(row, 2));
+    var installedCostOfEnergyStoragePerkW = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var cycleLifeOfEnergyStorage = parseFloat(tableData.getValue(row, 2));
     row++;
     var costOfCapital = parseFloat(tableData.getValue(row, 2));
     row++;
@@ -801,10 +841,17 @@ function initilizePage() {
       unitCostOfSupportingStructure * lossesOutputData["rfTransmitterArrayArea"];
     var costOfRFReceiverArray = unitCostOfRFReceiver * lossesOutputData["rfReceiverArrayArea"];
     var costOfRFReceiverSupportingStructure = unitCostOfSupportingStructure * lossesOutputData["rfReceiverArrayArea"];
-    var costOfEnergyStorage =
-      unitCostOfLiIonBatteryStorage *
-      lossesOutputData["energyStorageCapacityNeeded"] *
-      (1 + costFactorforBatteryManagementSystems);
+
+    var installedCostOfEnergyStoragePerkWhInUSDPerGJ = (installedCostOfEnergyStoragePerkWh * 1000000) / 3600;
+    var installedCostOfEnergyStoragePerkWInUSDPerGJ = (installedCostOfEnergyStoragePerkW * 1000000) / 3600;
+    var numberOfDaysStorageCycledEachYear = 30;
+    var numberOfTimesStorageSystemIsReplaced = Math.ceil(lifeofProject * numberOfDaysStorageCycledEachYear / cycleLifeOfEnergyStorage);
+    var costOfEnergyStorageBasedOnCapacity = installedCostOfEnergyStoragePerkWhInUSDPerGJ * lossesOutputData["energyStorageCapacityNeeded"];
+    var costOfEnergyStorageBasedOnPower = installedCostOfEnergyStoragePerkWInUSDPerGJ * lossesOutputData["baseloadPowerDeliveredToGrid"];
+    console.log(numberOfTimesStorageSystemIsReplaced, Math.round(costOfEnergyStorageBasedOnCapacity/1e6)/1e3, 'B', Math.round(costOfEnergyStorageBasedOnPower/1e6)/1e3, 'B')
+    var costOfEnergyStorageSystem = Math.max(costOfEnergyStorageBasedOnCapacity, costOfEnergyStorageBasedOnPower)
+    var costOfEnergyStorage = costOfEnergyStorageSystem  * numberOfTimesStorageSystemIsReplaced;
+
     var totalSatelliteComponentsCost =
       costOfSolarPanelArray +
       costOfSolarPanelSupportingStructure +

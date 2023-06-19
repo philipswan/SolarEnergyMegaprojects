@@ -118,22 +118,22 @@ const TSlossesTableRowData = [
     sources: [""],
   },
   {
-    label: "Battery Depth Of Discharge Factor",
+    label: "Energy Storage Depth of Discharge Factor",
     stateOfTheArtValue: 0.8,
     aspirationalValue: 0.8,
     unit: "",
     percentImprovement: 0,
-    popoverText: "The analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
-    sources: [""],
+    popoverText: "The default analysis currently assumes that energy storage uses a battery of some kind. The cycle-life of most batteries can be improved by not fully charging and discharging them every cycle. Depth-of-dischrge is the portion of full charge that will actually be used, in the interest of increasing the batteries cycle-life.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf"],
   },
   {
-    label: "Battery Round Trip Efficiency",
-    stateOfTheArtValue: 0.8,
-    aspirationalValue: 0.8,
+    label: "Energy Storage Round-Trip Efficiency",
+    stateOfTheArtValue: 0.86,
+    aspirationalValue: 0.86,
     unit: "",
     percentImprovement: 0,
-    popoverText: "This is the portion of the energy that is stored in the batteries can be recovered. The rest is lost to heat.",
-    sources: [""],
+    popoverText: "This is the portion of the energy that is stored that can be recovered. The rest is lost to heat.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf"],
   },
   {
     label: "DC to AC (Power Inverter Efficiency)",
@@ -177,22 +177,31 @@ const TScostsTableRowData = [
     sources: ["https://ourworldindata.org/grapher/solar-pv-system-costs", "https://www.irena.org/publications/2019/May/Renewable-power-generation-costs-in-2018#RestrictedModal"],
   },
   {
-    label: "Cost of Li-Ion Battery Storage",
-    stateOfTheArtValue: 217,
-    aspirationalValue: 217,
+    label: "Installed Cost of Energy Storage per kWh",
+    stateOfTheArtValue: 385,
+    aspirationalValue: 385,
     unit: "USD/kWh",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "The state-of-the art value is based on the best 2020 values for Li-Ion LFP battery based storage system, from Figure 2 of the report referenced below. The value does not include warranty, insurance, or decommissioning costs.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf"],
   },
   {
-    label: "Cost Factor for Battery Management Systems",
-    stateOfTheArtValue: 0.2,
-    aspirationalValue: 0.2,
-    unit: "",
+    label: "Installed Cost of Energy Storage per kW",
+    stateOfTheArtValue: 1541,
+    aspirationalValue: 1541,
+    unit: "USD/kW",
     percentImprovement: 0,
-    popoverText: "",
-    sources: [""],
+    popoverText: "The state-of-the art value is based on the best 2020 values for Li-Ion LFP battery based storage system, from Figure 2 of the report referenced below. The value does not include warranty, insurance, or decommissioning costs.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf"],
+  },
+  {
+    label: "Cycle Life of Energy Storage System",
+    stateOfTheArtValue: 2000,
+    aspirationalValue: 2000,
+    unit: "Cycles",
+    percentImprovement: 0,
+    popoverText: "The cycle life for an energy storage system is a function of depth of discharge (DOD) and measures the total number of cycles that the energy storage system can provide over its life.",
+    sources: ["https://www.pnnl.gov/sites/default/files/media/file/Final%20-%20ESGC%20Cost%20Performance%20Report%2012-11-2020.pdf", "https://www.nrel.gov/docs/fy22osti/80688.pdf"],
   },
   {
     label: "Cost of Capital",
@@ -597,9 +606,11 @@ function initilizePage() {
     row++;
     var unitCostOfHardwareInstallEtc = parseFloat(tableData.getValue(row, 2));
     row++;
-    var unitCostOfLiIonBatteryStorage = parseFloat(tableData.getValue(row, 2));
+    var installedCostOfEnergyStoragePerkWh = parseFloat(tableData.getValue(row, 2));
     row++;
-    var costFactorforBatteryManagementSystems = parseFloat(tableData.getValue(row, 2));
+    var installedCostOfEnergyStoragePerkW = parseFloat(tableData.getValue(row, 2));
+    row++;
+    var cycleLifeOfEnergyStorage = parseFloat(tableData.getValue(row, 2));
     row++;
     var costOfCapital = parseFloat(tableData.getValue(row, 2));
     row++;
@@ -611,11 +622,15 @@ function initilizePage() {
     // Tally up component costs
     var costOfSolarPanelArray = unitCostOfSolarPanels * lossesOutputData["solarPanelArrayArea"];
     var costOfSolarPanelHardwareInstallEtc = unitCostOfHardwareInstallEtc * lossesOutputData["solarPanelArrayArea"];
-    var unitCostOfLiIonBatteryStorageInUSDPerGJ = (unitCostOfLiIonBatteryStorage * 1000000) / 3600;
-    var costOfEnergyStorage =
-      unitCostOfLiIonBatteryStorageInUSDPerGJ *
-      lossesOutputData["energyStorageCapacityNeeded"] *
-      (1 + costFactorforBatteryManagementSystems);
+    var installedCostOfEnergyStoragePerkWhInUSDPerGJ = (installedCostOfEnergyStoragePerkWh * 1000000) / 3600;
+    var installedCostOfEnergyStoragePerkWInUSDPerGJ = (installedCostOfEnergyStoragePerkW * 1000000) / 3600;
+    var numberOfDaysInYear = 365.25;
+    var numberOfTimesStorageSystemIsReplaced = Math.ceil(lifeofProject * numberOfDaysInYear / cycleLifeOfEnergyStorage);
+    var costOfEnergyStorageBasedOnCapacity = installedCostOfEnergyStoragePerkWhInUSDPerGJ * lossesOutputData["energyStorageCapacityNeeded"];
+    var costOfEnergyStorageBasedOnPower = installedCostOfEnergyStoragePerkWInUSDPerGJ * lossesOutputData["baseloadPowerDeliveredToGrid"];
+    console.log(numberOfTimesStorageSystemIsReplaced, Math.round(costOfEnergyStorageBasedOnCapacity/1e6)/1e3, 'B', Math.round(costOfEnergyStorageBasedOnPower/1e6)/1e3, 'B')
+    var costOfEnergyStorageSystem = Math.max(costOfEnergyStorageBasedOnCapacity, costOfEnergyStorageBasedOnPower)
+    var costOfEnergyStorage = costOfEnergyStorageSystem  * numberOfTimesStorageSystemIsReplaced;
     var totalSatelliteComponentsCost = costOfSolarPanelArray + costOfSolarPanelHardwareInstallEtc;
 
     var totalComponentsCost = totalSatelliteComponentsCost + costOfEnergyStorage;
@@ -687,11 +702,11 @@ function initilizePage() {
           nodes: [
             {
               id: "Solar Power Plant",
-              offsetVertical: -40,
+              offsetVertical: -90,
             },
             {
               id: "Capital Costs",
-              offsetVertical: -10,
+              offsetVertical: -5,
             },
           ],
         },
